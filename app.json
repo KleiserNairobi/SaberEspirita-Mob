@@ -25,7 +25,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#070F1B"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -40,7 +40,7 @@
       "userInterfaceStyle": "dark",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#070F1B"
       },
       "edgeToEdgeEnabled": true,
       "edgeToEdge": {
