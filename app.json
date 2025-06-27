@@ -1,11 +1,8 @@
 {
   "expo": {
-    "name": "saber-espirita",
+    "name": "Saber Espírita",
     "slug": "saber-espirita",
     "version": "1.0.0",
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
     "experiments": {
       "tsconfigPaths": true
     },

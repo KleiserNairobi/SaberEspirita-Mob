@@ -3,7 +3,7 @@ import { ScreenContent } from '~/components/ScreenContent';
 
 import { StyleSheet, View } from 'react-native';
 
-import { RootStackParamList } from '../navigation';
+import { RootStackParamList } from '../routes';
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 

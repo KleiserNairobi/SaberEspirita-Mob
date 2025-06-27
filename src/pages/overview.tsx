@@ -5,7 +5,7 @@ import { ScreenContent } from '~/components/ScreenContent';
 import { StyleSheet, View } from 'react-native';
 
 import { Button } from '../components/Button';
-import { RootStackParamList } from '../navigation';
+import { RootStackParamList } from '../routes';
 
 type OverviewScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Overview'>;
 

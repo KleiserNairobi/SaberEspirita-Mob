@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Overview from '../screens/overview';
-import Details from '../screens/details';
+import Overview from '../pages/overview';
+import Details from '../pages/details';
 import { BackButton } from '../components/BackButton';
 
 export type RootStackParamList = {
