@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "280205524209",
+    "project_id": "saber-espirita",
+    "storage_bucket": "saber-espirita.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280205524209:android:0079615e231880839f3d50",
+        "android_client_info": {
+          "package_name": "app.saberespirita"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYUz9xXnsOcSuOw_pazeUYOX-wPaZ8jCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
