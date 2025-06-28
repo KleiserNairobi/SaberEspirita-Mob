@@ -43,13 +43,11 @@
     "ios": {
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./configs/firebase/GoogleService-Info.plist",
-      "supportsTablet": true,
-      "userInterfaceStyle": "dark"
+      "supportsTablet": true
     },
     "android": {
       "package": "app.saberespirita",
       "googleServicesFile": "./configs/firebase/google-services.json",
-      "userInterfaceStyle": "dark",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#070F1B"
