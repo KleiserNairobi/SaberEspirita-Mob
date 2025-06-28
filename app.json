@@ -11,6 +11,18 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#070F1B",
+          "image": "./assets/splash.png",
+          "dark": {
+            "image": "./assets/splash.png",
+            "backgroundColor": "#070F1B"
+          },
+          "imageWidth": 200
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "ios": {
