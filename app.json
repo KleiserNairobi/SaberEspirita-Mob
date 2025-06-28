@@ -21,7 +21,7 @@
       "googleServicesFile": "./configs/firebase/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#070F1B"
+        "backgroundColor": "#0C1624"
       },
       "edgeToEdgeEnabled": true,
       "edgeToEdge": {
@@ -33,7 +33,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#070F1B"
+      "backgroundColor": "#0C1624"
     },
 
     "plugins": [
@@ -43,12 +43,8 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#070F1B",
+          "backgroundColor": "#0C1624",
           "image": "./assets/splash.png",
-          "dark": {
-            "image": "./assets/splash.png",
-            "backgroundColor": "#070F1B"
-          },
           "imageWidth": 200
         }
       ],
