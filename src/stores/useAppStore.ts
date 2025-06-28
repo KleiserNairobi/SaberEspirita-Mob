@@ -1,10 +1,10 @@
-import {create} from 'zustand';
-import {persist, createJSONStorage} from 'zustand/middleware';
-import {load, save, remove} from '@utils/Storage';
-import lightTheme from '@themes/lightTheme';
-import darkTheme from '@themes/darkTheme';
-import {ThemeType} from '@models/Utils';
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { load, save, remove } from '@/utils/Storage';
+import lightTheme from '@/themes/lightTheme';
+import darkTheme from '@/themes/darkTheme';
+import { ThemeType } from '@/models/Utils';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 type Theme = 'light' | 'dark';
 
@@ -19,10 +19,7 @@ interface AppState {
   finishLoading: () => void;
 }
 
-type PersistAppState = Omit<
-  AppState,
-  'toggleTheme' | 'toggleSound' | 'setUser' | 'finishLoading'
->;
+type PersistAppState = Omit<AppState, 'toggleTheme' | 'toggleSound' | 'setUser' | 'finishLoading'>;
 
 // Configura o storage personalizado para o Zustand
 const storage = {
@@ -40,45 +37,45 @@ const storage = {
 
 export const useAppStore = create<AppState>()(
   persist(
-    set => ({
+    (set) => ({
       theme: ThemeType.dark,
       isSoundOn: true,
       user: null,
       isLoading: true,
       toggleTheme: () => {
-        set(state => ({
+        set((state) => ({
           theme: state.theme === 'light' ? 'dark' : 'light',
         }));
       },
       toggleSound: () => {
-        set(state => ({
+        set((state) => ({
           isSoundOn: !state.isSoundOn,
         }));
       },
-      setUser: user => {
-        set({user});
+      setUser: (user) => {
+        set({ user });
       },
       finishLoading: () => {
-        set({isLoading: false});
+        set({ isLoading: false });
       },
     }),
     {
       name: 'app-storage',
       storage: createJSONStorage(() => storage),
-      partialize: state =>
+      partialize: (state) =>
         ({
           theme: state.theme,
           isSoundOn: state.isSoundOn,
           user: state.user,
-        } as PersistAppState),
+        }) as PersistAppState,
       onRehydrateStorage: () => () => {
         // Rehydrated state logic here if needed
       },
-    },
-  ),
+    }
+  )
 );
 
 export const useTheme = () => {
-  const theme = useAppStore(state => state.theme);
+  const theme = useAppStore((state) => state.theme);
   return theme === 'light' ? lightTheme : darkTheme;
 };

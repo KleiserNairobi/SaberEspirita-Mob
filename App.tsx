@@ -1,7 +1,29 @@
-import 'react-native-gesture-handler';
+import React, { useEffect } from 'react';
+import { ThemeProvider } from 'styled-components/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Routes } from '@/routes';
+import { useTheme } from '@/stores/useAppStore';
+import * as SplashScreen from 'expo-splash-screen';
 
-import RootStack from './src/routes';
+export function App() {
+  const theme = useTheme();
 
-export default function App() {
-  return <RootStack />;
+  useEffect(() => {
+    async function hideSplash() {
+      try {
+        await SplashScreen.hideAsync();
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    hideSplash();
+  }, []);
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <Routes />
+      </ThemeProvider>
+    </GestureHandlerRootView>
+  );
 }

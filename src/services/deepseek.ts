@@ -1,5 +1,5 @@
-import axios, {AxiosInstance} from 'axios';
-import Config from 'react-native-config';
+import axios, { AxiosInstance } from 'axios';
+//import Config from 'react-native-config';
 
 const API_KEY = Config.DEEPSEAK_API_KEY;
 const API_URL = Config.DEEPSEAK_API_URL;
@@ -14,7 +14,7 @@ const api: AxiosInstance = axios.create({
 });
 
 // Interceptor para debug
-api.interceptors.request.use(request => {
+api.interceptors.request.use((request) => {
   console.log('Request Config:', {
     url: request.url,
     baseURL: request.baseURL,

@@ -1,8 +1,8 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 import firestore from '@react-native-firebase/firestore';
-import {ICategory} from '@models/Categories';
+import { ICategory } from '@/models/Categories';
 
-const imageMapping: {[key: string]: any} = {
+const imageMapping: { [key: string]: any } = {
   CONCEITOS: require('@assets/images/Categories/Concepts.png'),
   PERSONAGENS: require('@assets/images/Categories/Characters.png'),
   LIVROS: require('@assets/images/Categories/Books.png'),
@@ -16,13 +16,11 @@ interface CategoriesState {
   fetchCategories: () => Promise<void>;
 }
 
-const useCategoriesStore = create<CategoriesState>(set => ({
+const useCategoriesStore = create<CategoriesState>((set) => ({
   categories: [],
   fetchCategories: async () => {
     try {
-      const getSubcategoriesCount = async (
-        categoryId: string,
-      ): Promise<number> => {
+      const getSubcategoriesCount = async (categoryId: string): Promise<number> => {
         const snapshot = await firestore()
           .collection('subcategories')
           .where('idCategory', '==', categoryId)
@@ -30,11 +28,9 @@ const useCategoriesStore = create<CategoriesState>(set => ({
         return snapshot.size;
       };
 
-      const categoriesSnapshot = await firestore()
-        .collection('categories')
-        .get();
+      const categoriesSnapshot = await firestore().collection('categories').get();
       const categoriesData: ICategory[] = await Promise.all(
-        categoriesSnapshot.docs.map(async doc => {
+        categoriesSnapshot.docs.map(async (doc) => {
           const data = doc.data() as ICategory;
           const subcategoryCount = await getSubcategoriesCount(doc.id);
           return {
@@ -43,14 +39,14 @@ const useCategoriesStore = create<CategoriesState>(set => ({
             quizzes: subcategoryCount,
             imageBackground: imageMapping[doc.id] || null,
           };
-        }),
+        })
       );
 
-      set({categories: categoriesData});
+      set({ categories: categoriesData });
     } catch (error) {
       console.log('Ocorreu um erro ao obter os dados: ', error);
     }
   },
 }));
 
-export {useCategoriesStore};
+export { useCategoriesStore };

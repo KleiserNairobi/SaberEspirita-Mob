@@ -12,7 +12,7 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-export default function RootStack() {
+export function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Overview">

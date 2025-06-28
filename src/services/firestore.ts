@@ -1,12 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
-import {ICategory} from '@models/Categories';
-import {ISubcategory} from '@models/Subcategories';
-import {IQuizes} from '@models/Quizes';
-import {IUserProgress} from '@models/UsersProgress';
-import {IUserCompletedSubcategory} from '@models/UsersCompletedSubcategories';
-import {IUserCreatedQuiz} from '@models/UserCreatedQuiz';
+import { ICategory } from '@/models/Categories';
+import { ISubcategory } from '@/models/Subcategories';
+import { IQuizes } from '@/models/Quizes';
+import { IUserProgress } from '@/models/UsersProgress';
+import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
+import { IUserCreatedQuiz } from '@/models/UserCreatedQuiz';
 
-const imageMapping: {[key: string]: any} = {
+const imageMapping: { [key: string]: any } = {
   CONCEITOS: require('@assets/images/Categories/Concepts.png'),
   PERSONAGENS: require('@assets/images/Categories/Characters.png'),
   LIVROS: require('@assets/images/Categories/Books.png'),
@@ -18,7 +18,7 @@ const imageMapping: {[key: string]: any} = {
 export async function getCategories(): Promise<ICategory[]> {
   try {
     const categoriesSnapshot = await firestore().collection('categories').get();
-    const categoriesData: ICategory[] = categoriesSnapshot.docs.map(doc => {
+    const categoriesData: ICategory[] = categoriesSnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
@@ -37,26 +37,22 @@ export async function getCategories(): Promise<ICategory[]> {
   }
 }
 
-export async function getSubcategories(
-  idCategory: string,
-): Promise<ISubcategory[]> {
+export async function getSubcategories(idCategory: string): Promise<ISubcategory[]> {
   try {
     const subcategoriesSnapshot = await firestore()
       .collection('subcategories')
       .where('idCategory', '==', idCategory)
       .get();
-    const subcategoriesData: ISubcategory[] = subcategoriesSnapshot.docs.map(
-      doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          idCategory: data.idCategory,
-          title: data.title,
-          subtitle: data.subtitle,
-          quizCount: data.quizCount,
-        };
-      },
-    );
+    const subcategoriesData: ISubcategory[] = subcategoriesSnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        idCategory: data.idCategory,
+        title: data.title,
+        subtitle: data.subtitle,
+        quizCount: data.quizCount,
+      };
+    });
     return subcategoriesData;
   } catch (error) {
     console.log('Ocorreu um erro ao obter os dados:', error);
@@ -66,23 +62,18 @@ export async function getSubcategories(
 
 export async function getQuiz(idSubcategory: string): Promise<IQuizes | null> {
   try {
-    const quizDoc = await firestore()
-      .collection('quizes')
-      .doc(`QUIZ-${idSubcategory}`)
-      .get();
+    const quizDoc = await firestore().collection('quizes').doc(`QUIZ-${idSubcategory}`).get();
     if (quizDoc.exists) {
       const quizData = quizDoc.data() as IQuizes;
       return quizData;
     } else {
-      console.log(
-        `Quiz não encontrado para a subcategoria ID: ${idSubcategory}`,
-      );
+      console.log(`Quiz não encontrado para a subcategoria ID: ${idSubcategory}`);
       return null;
     }
   } catch (error) {
     console.log(
       `Ocorreu um erro ao obter os dados do quiz para a subcategoria ID: ${idSubcategory}`,
-      error,
+      error
     );
     return null;
   }
@@ -90,13 +81,10 @@ export async function getQuiz(idSubcategory: string): Promise<IQuizes | null> {
 
 export async function getUserCompletedSubcategories(
   userId: string,
-  categoryId?: string,
+  categoryId?: string
 ): Promise<IUserCompletedSubcategory | null> {
   try {
-    const userDoc = await firestore()
-      .collection('users_completed_subcategories')
-      .doc(userId)
-      .get();
+    const userDoc = await firestore().collection('users_completed_subcategories').doc(userId).get();
 
     if (!userDoc.exists) {
       return null;
@@ -114,7 +102,7 @@ export async function getUserCompletedSubcategories(
 
     return {
       userId,
-      completedSubcategories: {[categoryId]: subcategories},
+      completedSubcategories: { [categoryId]: subcategories },
     };
   } catch (error) {
     console.log('Ocorreu um erro ao obter o histórico do usuário:', error);
@@ -125,12 +113,10 @@ export async function getUserCompletedSubcategories(
 export async function saveUserCompletedSubcategories(
   userId: string,
   categoryId: string,
-  subcategoryId: string,
+  subcategoryId: string
 ): Promise<void> {
   try {
-    const userDocRef = firestore()
-      .collection('users_completed_subcategories')
-      .doc(userId);
+    const userDocRef = firestore().collection('users_completed_subcategories').doc(userId);
     const userDoc = await userDocRef.get();
     const data = userDoc.data();
 
@@ -138,8 +124,7 @@ export async function saveUserCompletedSubcategories(
       // Se a categoria já existir no 'completedSubcategories', adiciona a nova subcategoria
       if (data.completedSubcategories[categoryId]) {
         await userDocRef.update({
-          [`completedSubcategories.${categoryId}`]:
-            firestore.FieldValue.arrayUnion(subcategoryId),
+          [`completedSubcategories.${categoryId}`]: firestore.FieldValue.arrayUnion(subcategoryId),
         });
       } else {
         // Se a categoria não existir, cria um novo array de subcategorias
@@ -163,19 +148,17 @@ export async function saveUserCompletedSubcategories(
 export async function removeUserCompletedSubcategory(
   userId: string,
   categoryId: string,
-  subcategoryId: string,
+  subcategoryId: string
 ): Promise<void> {
   try {
-    const userDocRef = firestore()
-      .collection('users_completed_subcategories')
-      .doc(userId);
+    const userDocRef = firestore().collection('users_completed_subcategories').doc(userId);
     const userDoc = await userDocRef.get();
     const data = userDoc.data();
 
     if (data?.completedSubcategories?.[categoryId]) {
-      const updatedSubcategories = data.completedSubcategories[
-        categoryId
-      ].filter((id: string) => id !== subcategoryId);
+      const updatedSubcategories = data.completedSubcategories[categoryId].filter(
+        (id: string) => id !== subcategoryId
+      );
 
       if (updatedSubcategories.length > 0) {
         // Atualiza a categoria removendo a subcategoria
@@ -185,8 +168,7 @@ export async function removeUserCompletedSubcategory(
       } else {
         // Se a categoria ficar vazia, remove-a completamente
         await userDocRef.update({
-          [`completedSubcategories.${categoryId}`]:
-            firestore.FieldValue.delete(),
+          [`completedSubcategories.${categoryId}`]: firestore.FieldValue.delete(),
         });
       }
     }
@@ -195,9 +177,7 @@ export async function removeUserCompletedSubcategory(
   }
 }
 
-export async function getUserProgress(
-  userId: string,
-): Promise<IUserProgress[]> {
+export async function getUserProgress(userId: string): Promise<IUserProgress[]> {
   try {
     const progressSnapshot = await firestore()
       .collection('users_progress')
@@ -205,7 +185,7 @@ export async function getUserProgress(
       .collection('progress')
       .orderBy('completedAt', 'desc')
       .get();
-    const userProgress: IUserProgress[] = progressSnapshot.docs.map(doc => ({
+    const userProgress: IUserProgress[] = progressSnapshot.docs.map((doc) => ({
       userId,
       ...doc.data(),
     })) as IUserProgress[];
@@ -216,9 +196,7 @@ export async function getUserProgress(
   }
 }
 
-export async function addUserProgress(
-  userProgress: IUserProgress,
-): Promise<void> {
+export async function addUserProgress(userProgress: IUserProgress): Promise<void> {
   try {
     const userProgressRef = firestore()
       .collection('users_progress')
@@ -232,10 +210,7 @@ export async function addUserProgress(
   }
 }
 
-export async function removeUserProgress(
-  userId: string,
-  subcategoryId: string,
-): Promise<void> {
+export async function removeUserProgress(userId: string, subcategoryId: string): Promise<void> {
   try {
     const userProgressRef = firestore()
       .collection('users_progress')
@@ -249,9 +224,7 @@ export async function removeUserProgress(
   }
 }
 
-export async function addUserCreatedQuiz(
-  userCreatedQuiz: IUserCreatedQuiz,
-): Promise<void> {
+export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Promise<void> {
   try {
     const userCreatedQuizRef = firestore()
       .collection('users_created_quizzes')
@@ -261,9 +234,6 @@ export async function addUserCreatedQuiz(
     await userCreatedQuizRef.set(userCreatedQuiz);
     console.log('Quiz criado pelo usuário adicionado com sucesso!');
   } catch (error) {
-    console.log(
-      'Ocorreu um erro ao adicionar o quiz criado pelo usuário:',
-      error,
-    );
+    console.log('Ocorreu um erro ao adicionar o quiz criado pelo usuário:', error);
   }
 }
