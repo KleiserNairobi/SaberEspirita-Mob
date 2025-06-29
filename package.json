@@ -10,6 +10,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/courgette": "^0.4.0",
+    "@expo-google-fonts/nunito": "^0.4.1",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^5.1.6",
     "@react-native-firebase/analytics": "^22.2.1",
@@ -52,6 +54,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~19.0.10",
+    "@types/styled-components-react-native": "^5.2.5",
     "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^9.25.1",
     "eslint-config-expo": "^9.2.0",

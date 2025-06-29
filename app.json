@@ -5,17 +5,17 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "experiments": {
       "tsconfigPaths": true
     },
-
     "ios": {
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./configs/firebase/GoogleService-Info.plist",
       "supportsTablet": true
     },
-
     "android": {
       "package": "app.saberespirita",
       "googleServicesFile": "./configs/firebase/google-services.json",
@@ -29,13 +29,11 @@
         "navigationBarStyle": "dark"
       }
     },
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#0C1624"
     },
-
     "plugins": [
       "expo-mail-composer",
       "@react-native-firebase/app",
@@ -47,7 +45,8 @@
             "useFrameworks": "static"
           }
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }

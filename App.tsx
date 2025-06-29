@@ -1,29 +1,43 @@
-import { useEffect } from 'react';
-import { ThemeProvider } from 'styled-components/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Routes } from '@/routes';
-import { useTheme } from '@/stores/useAppStore';
 import * as SplashScreen from 'expo-splash-screen';
+import { Login } from '@/pages/Login';
+
+import { useFonts, Courgette_400Regular } from '@expo-google-fonts/courgette';
+import {
+  Nunito_400Regular,
+  Nunito_500Medium,
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+} from '@expo-google-fonts/nunito';
+import { useCallback } from 'react';
+
+// Impede que a splash desapareça automaticamente
+SplashScreen.preventAutoHideAsync();
 
 export function App() {
-  const theme = useTheme();
+  const [fontsLoaded] = useFonts({
+    Courgette_400Regular,
+    Nunito_400Regular,
+    Nunito_500Medium,
+    Nunito_600SemiBold,
+    Nunito_700Bold,
+  });
 
-  useEffect(() => {
-    async function hideSplash() {
-      try {
-        await SplashScreen.hideAsync();
-      } catch (e) {
-        console.warn(e);
-      }
+  // Esconde a splash quando as fontes estiverem carregadas
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
     }
-    hideSplash();
-  }, []);
+  }, [fontsLoaded]);
+
+  // Splash continua visível até carregar as fontes
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider theme={theme}>
-        <Routes />
-      </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <Login />
     </GestureHandlerRootView>
   );
 }
