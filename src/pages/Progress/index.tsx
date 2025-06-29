@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, FlatList, ScrollView, View} from 'react-native';
-import {format} from 'date-fns';
-import {useNavigation} from '@react-navigation/native';
-import {Header} from '@components/Header';
-import {GradientContainer} from '@components/GradientContainer';
-import {BottomNavigation} from '@components/BottomNavigation';
-import {ProgressListItem} from '@components/ProgressListItem';
-import {ButtonFilterProgress} from '@components/ButtonFilterProgress';
-import {ButtonAction} from '@components/ButtonAction';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, ScrollView, View } from 'react-native';
+import { format } from 'date-fns';
+import { useNavigation } from '@react-navigation/native';
+import { Header } from '@/components/Header';
+import { GradientContainer } from '@/components/GradientContainer';
+import { BottomNavigation } from '@/components/BottomNavigation';
+import { ProgressListItem } from '@/components/ProgressListItem';
+import { ButtonFilterProgress } from '@/components/ButtonFilterProgress';
+import { ButtonAction } from '@/components/ButtonAction';
 
 import {
   BoxFlatListEmpty,
@@ -19,28 +19,28 @@ import {
   TitleFlatListEmpty,
   Wrapper,
 } from './styles';
-import {verticalScale} from 'react-native-size-matters';
-import {IUserProgress} from '@models/UsersProgress';
-import {getUserProgress} from '@services/firestore';
-import {useAppStore} from '@stores/useAppStore';
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import { verticalScale } from 'react-native-size-matters';
+import { IUserProgress } from '@/models/UsersProgress';
+import { getUserProgress } from '@/services/firestore';
+import { useAppStore } from '@/stores/useAppStore';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export function Progress() {
   const navigation = useNavigation();
-  const {user} = useAppStore();
+  const { user } = useAppStore();
   const [userProgress, setUserProgress] = useState<IUserProgress[]>([]);
   const [filterData, setFilterData] = useState<IUserProgress[]>([]);
   const [filterTitle, setFilterTitle] = useState('Todos');
-  const {height} = Dimensions.get('window');
+  const { height } = Dimensions.get('window');
 
   const categories = [
-    {id: 0, title: 'Todos'},
-    {id: 1, title: 'Conceitos'},
-    {id: 2, title: 'Personagens'},
-    {id: 3, title: 'Livros'},
-    {id: 4, title: 'Filmes'},
-    {id: 5, title: 'Espíritos'},
-    {id: 6, title: 'Diversos'},
+    { id: 0, title: 'Todos' },
+    { id: 1, title: 'Conceitos' },
+    { id: 2, title: 'Personagens' },
+    { id: 3, title: 'Livros' },
+    { id: 4, title: 'Filmes' },
+    { id: 5, title: 'Espíritos' },
+    { id: 6, title: 'Diversos' },
   ];
 
   async function fetchUserProgress(userId: string) {
@@ -48,15 +48,13 @@ export function Progress() {
     setUserProgress(response);
   }
 
-  function getFormatedDateTime(
-    dateTime: FirebaseFirestoreTypes.Timestamp,
-  ): string {
+  function getFormatedDateTime(dateTime: FirebaseFirestoreTypes.Timestamp): string {
     const dataHora = dateTime.toDate();
     return format(dataHora, 'dd/MM/yyyy HH:mm');
   }
 
   function filterDataByTitle(title: string) {
-    const filtered = userProgress.filter(item => item.title === title);
+    const filtered = userProgress.filter((item) => item.title === title);
     setFilterData(filtered);
     setFilterTitle(title);
   }
@@ -70,13 +68,13 @@ export function Progress() {
   function flatListEmpty() {
     return (
       <BoxFlatListEmpty>
-        <ImageSearch source={require('@assets/images/Search/Search.png')} />
+        <ImageSearch source={require('@/assets/images/Search/Search.png')} />
         <TitleFlatListEmpty>
           Você ainda não testou seus conhecimentos nesta categoria!
         </TitleFlatListEmpty>
         <SubtitleFlatListEmpty>Que tal começar agora?</SubtitleFlatListEmpty>
         <ButtonAction
-          title='Acessar quizes'
+          title="Acessar quizes"
           onPress={() => navigation.navigate('categories')}
           disabled={false}
         />
@@ -88,18 +86,16 @@ export function Progress() {
     <GradientContainer>
       <Container>
         <Wrapper>
-          <Header onPress={() => navigation.goBack()} title='Progresso' />
+          <Header onPress={() => navigation.goBack()} title="Progresso" />
           {/* <Title>Progresso</Title> */}
-          <Subtitle>
-            Selecione uma categoria para conferir o seu progresso nos quizes
-          </Subtitle>
+          <Subtitle>Selecione uma categoria para conferir o seu progresso nos quizes</Subtitle>
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
             data={categories}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => (
-              <View style={{height: 40, marginBottom: 20}}>
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View style={{ height: 40, marginBottom: 20 }}>
                 <ButtonFilterProgress
                   active={filterTitle === item.title}
                   title={item.title}
@@ -113,8 +109,8 @@ export function Progress() {
               <CompletedQuizes>Quizes concluídos</CompletedQuizes>
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{height: height - verticalScale(320)}}>
-                {userProgress.map(item => (
+                style={{ height: height - verticalScale(320) }}>
+                {userProgress.map((item) => (
                   <ProgressListItem
                     key={item.subcategoryId}
                     title={item.subtitle}
@@ -132,8 +128,8 @@ export function Progress() {
               <CompletedQuizes>Quizes concluídos</CompletedQuizes>
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{height: height - verticalScale(320)}}>
-                {filterData.map(item => (
+                style={{ height: height - verticalScale(320) }}>
+                {filterData.map((item) => (
                   <ProgressListItem
                     key={item.subcategoryId}
                     title={item.subtitle}

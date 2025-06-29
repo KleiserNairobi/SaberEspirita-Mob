@@ -1,22 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, Keyboard, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {GradientContainer} from '@components/GradientContainer';
-import {ButtonAction} from '@components/ButtonAction';
-import {Input} from '@components/Input';
-import {saveString} from '@utils/Storage';
-import {
-  BoxButtonAction,
-  Container,
-  Title,
-  ImageWelcome,
-  BoxImage,
-  Content,
-} from './styles';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Keyboard, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { GradientContainer } from '@/components/GradientContainer';
+import { ButtonAction } from '@/components/ButtonAction';
+import { Input } from '@/components/Input';
+import { saveString } from '@/utils/Storage';
+import { BoxButtonAction, Container, Title, ImageWelcome, BoxImage, Content } from './styles';
 
 export function Welcome() {
   const navigation = useNavigation();
-  const {width} = Dimensions.get('window');
+  const { width } = Dimensions.get('window');
   const [name, setName] = useState('');
   const [isImageVisible, setImageVisible] = useState(true);
 
@@ -36,14 +29,8 @@ export function Welcome() {
   }
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      handleKeyboardDidShow,
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      handleKeyboardDidHide,
-    );
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -55,32 +42,28 @@ export function Welcome() {
       <Container>
         <Content>
           <ScrollView
-            contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
-            keyboardShouldPersistTaps='handled'>
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+            keyboardShouldPersistTaps="handled">
             {isImageVisible && (
-              <BoxImage
-                imageWidth={100}
-                imageHeight={(width * 0.6 * 452) / 312}>
-                <ImageWelcome
-                  source={require('@assets/images/Welcome/Welcome.png')}
-                />
+              <BoxImage imageWidth={100} imageHeight={(width * 0.6 * 452) / 312}>
+                <ImageWelcome source={require('@/assets/images/Welcome/Welcome.png')} />
               </BoxImage>
             )}
             <Title>Como você se chama?</Title>
             <Input
-              label=''
-              error=''
+              label=""
+              error=""
               multiline={false}
-              placeholder='Nome'
+              placeholder="Nome"
               value={name}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 setName(text);
               }}
               onFocus={() => {}}
             />
             <BoxButtonAction>
               <ButtonAction
-                title='começar a jornada'
+                title="começar a jornada"
                 onPress={handleSubmit}
                 disabled={name.length < 3}
               />

@@ -1,28 +1,22 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {BackHandler, FlatList} from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {verticalScale} from 'react-native-size-matters';
-import {CardCategory} from '@components/CardCategory';
-import {GradientContainer} from '@components/GradientContainer';
-import {BottomNavigation} from '@components/BottomNavigation';
-import {Category, Container, GreetingBox, Greeting, Title} from './styles';
-import {useAppStore} from '@stores/useAppStore';
-import {ICategory} from '@models/Categories';
-import {IUserCompletedSubcategory} from '@models/UsersCompletedSubcategories';
-import {
-  getCategories,
-  getUserCompletedSubcategories,
-} from '@services/firestore';
+import React, { useCallback, useEffect, useState } from 'react';
+import { BackHandler, FlatList } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { verticalScale } from 'react-native-size-matters';
+import { CardCategory } from '@/components/CardCategory';
+import { GradientContainer } from '@/components/GradientContainer';
+import { BottomNavigation } from '@/components/BottomNavigation';
+import { Category, Container, GreetingBox, Greeting, Title } from './styles';
+import { useAppStore } from '@/stores/useAppStore';
+import { ICategory } from '@/models/Categories';
+import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
+import { getCategories, getUserCompletedSubcategories } from '@/services/firestore';
 
 export function Categories() {
   const navigation = useNavigation();
-  const {user} = useAppStore();
+  const { user } = useAppStore();
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [completed, setCompleted] =
-    useState<IUserCompletedSubcategory | null>();
-  const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<
-    ICategory[]
-  >([]);
+  const [completed, setCompleted] = useState<IUserCompletedSubcategory | null>();
+  const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
 
   function goToSubcategories(id: string, title: string, description: string) {
     navigation.navigate('subcategories', {
@@ -34,15 +28,12 @@ export function Categories() {
 
   // 1 - Adicionando subscrição
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        if (navigation.isFocused()) {
-          return true;
-        }
-        return false;
-      },
-    );
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (navigation.isFocused()) {
+        return true;
+      }
+      return false;
+    });
     return () => {
       backHandler.remove();
     };
@@ -67,20 +58,19 @@ export function Categories() {
         }
       };
       fetchCompletedSubcategories();
-    }, [user]),
+    }, [user])
   );
 
   // 4 - Atualizando porcentagem de subcategorias completadas
   useEffect(() => {
     if (categories.length > 0) {
-      const updatedCategories = categories.map(category => {
-        const completedCount =
-          completed?.completedSubcategories?.[category.id]?.length || 0;
+      const updatedCategories = categories.map((category) => {
+        const completedCount = completed?.completedSubcategories?.[category.id]?.length || 0;
         const percentage =
           category.subcategoryCount > 0
             ? Math.round((completedCount / category.subcategoryCount) * 100)
             : 0;
-        return {...category, percentage};
+        return { ...category, percentage };
       });
       setCategoriesWithCompletion(updatedCategories);
     }
@@ -97,20 +87,14 @@ export function Categories() {
         <FlatList
           data={categoriesWithCompletion}
           numColumns={2}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => (
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
             <CardCategory
               title={item.title}
               subtitle={`${item.quizCount.toString()} questões`}
               percentage={item.percentage}
               imageBackground={item.imageBackground}
-              onPress={() =>
-                goToSubcategories(
-                  item.id,
-                  item.title ?? '',
-                  item.description ?? '',
-                )
-              }
+              onPress={() => goToSubcategories(item.id, item.title ?? '', item.description ?? '')}
             />
           )}
           showsVerticalScrollIndicator={false}

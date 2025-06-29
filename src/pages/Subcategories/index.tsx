@@ -1,30 +1,26 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {FlatList} from 'react-native';
-import {useTheme} from 'styled-components/native';
-import {scale, verticalScale} from 'react-native-size-matters';
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FlatList } from 'react-native';
+import { useTheme } from 'styled-components/native';
+import { scale, verticalScale } from 'react-native-size-matters';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {Header} from '@components/Header';
-import {CardSubcategory} from '@components/CardSubcategory';
-import {BottomSheetMessage} from '@components/BottomSheetMessage';
-import {GradientContainer} from '@components/GradientContainer';
-import {ISubcategory} from '@models/Subcategories';
-import {IUserCompletedSubcategory} from '@models/UsersCompletedSubcategories';
-import {useAppStore} from '@stores/useAppStore';
-import {MessageType} from '@models/Utils';
-import {Container, ContainerModal, Description, Scroll} from './styles';
+import { Header } from '@/components/Header';
+import { CardSubcategory } from '@/components/CardSubcategory';
+import { BottomSheetMessage } from '@/components/BottomSheetMessage';
+import { GradientContainer } from '@/components/GradientContainer';
+import { ISubcategory } from '@/models/Subcategories';
+import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
+import { useAppStore } from '@/stores/useAppStore';
+import { MessageType } from '@/models/Utils';
+import { Container, ContainerModal, Description, Scroll } from './styles';
 
 import {
   getSubcategories,
   getUserCompletedSubcategories,
   removeUserCompletedSubcategory,
   removeUserProgress,
-} from '@services/firestore';
-import {SearchInput} from '@components/SearchInput';
+} from '@/services/firestore';
+import { SearchInput } from '@/components/SearchInput';
 
 type RouteParams = {
   idCategory: string;
@@ -38,17 +34,16 @@ export function Subcategories() {
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [1, '36%'], []);
-  const {user} = useAppStore();
+  const { user } = useAppStore();
   const [quizAnswered, setQuizAnswered] = useState(false);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [idSubcategoryState, setIdSubcategoryState] = useState('');
   const [titleSubcategoryState, setTitleSubcategoryState] = useState('');
-  const {idCategory, titleCategory, description} = route.params as RouteParams;
+  const { idCategory, titleCategory, description } = route.params as RouteParams;
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [completed, setCompleted] =
-    useState<IUserCompletedSubcategory | null>();
+  const [completed, setCompleted] = useState<IUserCompletedSubcategory | null>();
 
   function goToBack() {
     navigation.goBack();
@@ -65,9 +60,9 @@ export function Subcategories() {
 
   const filteredSubcategories = useMemo(() => {
     return subcategories.filter(
-      sub =>
+      (sub) =>
         sub.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        sub.subtitle.toLowerCase().includes(searchTerm.toLowerCase()),
+        sub.subtitle.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [subcategories, searchTerm]);
 
@@ -81,10 +76,7 @@ export function Subcategories() {
     bottomSheetRef.current?.close();
   }
 
-  function handleClickCardSubcategory(
-    idSubcategory: string,
-    titleSubcategory: string,
-  ) {
+  function handleClickCardSubcategory(idSubcategory: string, titleSubcategory: string) {
     if (isSubcategoryCompleted(idSubcategory)) {
       checkAnsweredQuiz(idSubcategory, titleSubcategory);
     } else {
@@ -133,15 +125,12 @@ export function Subcategories() {
     useCallback(() => {
       const fetchCompletedSubcategories = async () => {
         if (user?.uid) {
-          const data = await getUserCompletedSubcategories(
-            user.uid,
-            idCategory,
-          );
+          const data = await getUserCompletedSubcategories(user.uid, idCategory);
           setCompleted(data);
         }
       };
       fetchCompletedSubcategories();
-    }, [user?.uid, idCategory]),
+    }, [user?.uid, idCategory])
   );
 
   return (
@@ -161,17 +150,15 @@ export function Subcategories() {
                 data={filteredSubcategories}
                 scrollEnabled={false}
                 nestedScrollEnabled={true}
-                keyExtractor={item => item.id.toString()}
-                contentContainerStyle={{paddingBottom: verticalScale(10)}}
-                renderItem={({item}) => (
+                keyExtractor={(item) => item.id.toString()}
+                contentContainerStyle={{ paddingBottom: verticalScale(10) }}
+                renderItem={({ item }) => (
                   <CardSubcategory
                     title={item.title}
                     subtitle={item.subtitle}
                     quizCount={item.quizCount}
                     completed={isSubcategoryCompleted(item.id)}
-                    onPress={() =>
-                      handleClickCardSubcategory(item.id, item.title)
-                    }
+                    onPress={() => handleClickCardSubcategory(item.id, item.title)}
                   />
                 )}
               />
@@ -184,7 +171,7 @@ export function Subcategories() {
         ref={bottomSheetRef}
         index={0}
         snapPoints={snapPoints}
-        backgroundStyle={{backgroundColor: theme.colors.backGradientStart}}
+        backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
         handleIndicatorStyle={{
           backgroundColor: theme.colors.secondary,
           width: scale(80),
@@ -194,8 +181,8 @@ export function Subcategories() {
         {quizAnswered && (
           <BottomSheetMessage
             type={MessageType.question}
-            title='Deseja novamente responder o quiz?'
-            subtitle='A pontuação desse quiz será zerada e nova pontuação será contabilizada.'
+            title="Deseja novamente responder o quiz?"
+            subtitle="A pontuação desse quiz será zerada e nova pontuação será contabilizada."
             onPressSecondary={handleBottomSheetClose}
             onPressPrimary={handleQuizAnswered}
           />

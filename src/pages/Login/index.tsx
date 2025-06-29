@@ -1,21 +1,21 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {Keyboard} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useTheme} from 'styled-components/native';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { Keyboard } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme } from 'styled-components/native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {scale, verticalScale} from 'react-native-size-matters';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { scale, verticalScale } from 'react-native-size-matters';
 import auth from '@react-native-firebase/auth';
-import {GradientContainer} from '@components/GradientContainer';
-import {ButtonAction} from '@components/ButtonAction';
-import {Input} from '@components/Input';
-import {BottomSheetMessage} from '@components/BottomSheetMessage';
-import {MessageType} from '@models/Utils';
-import {getErrorFirebase} from '@utils/Firebase';
+import { GradientContainer } from '@/components/GradientContainer';
+import { ButtonAction } from '@/components/ButtonAction';
+import { Input } from '@/components/Input';
+import { BottomSheetMessage } from '@/components/BottomSheetMessage';
+import { MessageType } from '@/models/Utils';
+import { getErrorFirebase } from '@/utils/Firebase';
 // import firestore from '@react-native-firebase/firestore';
-import {Loading} from '@components/Loading';
+import { Loading } from '@/components/Loading';
 import Icon from 'react-native-remix-icon';
-import {useAppStore} from '@stores/useAppStore';
+import { useAppStore } from '@/stores/useAppStore';
 
 import {
   Button,
@@ -37,14 +37,14 @@ import {
 export function Login() {
   const theme = useTheme();
   const navigation = useNavigation();
-  const {setUser} = useAppStore();
+  const { setUser } = useAppStore();
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [modalError, setModalError] = useState(false);
   const [modalPassword, setModalPassword] = useState(false);
   const [errorAuth, setErrorAuth] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({email: '', password: ''});
-  const [inputs, setInputs] = useState({email: '', password: ''});
+  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [inputs, setInputs] = useState({ email: '', password: '' });
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [1, '36%'], []);
@@ -108,7 +108,7 @@ export function Login() {
           setBottomSheetOpen(true);
           bottomSheetRef.current?.expand();
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           setModalError(true);
           setBottomSheetOpen(true);
@@ -119,11 +119,11 @@ export function Login() {
   }
 
   function handleOnChange(text: string, input: string) {
-    setInputs(prevState => ({...prevState, [input]: text}));
+    setInputs((prevState) => ({ ...prevState, [input]: text }));
   }
 
   function handleError(errorMessage: string | null, input: string) {
-    setErrors(prevState => ({...prevState, [input]: errorMessage}));
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   }
 
   async function login() {
@@ -131,7 +131,7 @@ export function Login() {
       setLoading(true);
       const result = await auth().signInWithEmailAndPassword(
         inputs.email.toLowerCase(),
-        inputs.password,
+        inputs.password
       );
       if (result.user) {
         setUser(result.user);
@@ -140,9 +140,7 @@ export function Login() {
       setModalError(true);
       setBottomSheetOpen(true);
       if ((error as any).code === 'firestore/resource-exhausted') {
-        setErrorAuth(
-          'Serviço temporariamente indisponível. Tente novamente mais tarde.',
-        );
+        setErrorAuth('Serviço temporariamente indisponível. Tente novamente mais tarde.');
       } else {
         setErrorAuth(getErrorFirebase((error as any).code));
       }
@@ -171,60 +169,48 @@ export function Login() {
             enableAutomaticScroll={true}
             showsVerticalScrollIndicator={false}
             extraHeight={verticalScale(120)}
-            style={{elevation: 0, shadowOpacity: 0}}>
+            style={{ elevation: 0, shadowOpacity: 0 }}>
             <ContainerHeader>
               <SubtitleHeader>
-                Informe os dados abaixo e autentique-se para testar seus
-                conhecimentos em Doutrina Espírita.
+                Informe os dados abaixo e autentique-se para testar seus conhecimentos em Doutrina
+                Espírita.
               </SubtitleHeader>
             </ContainerHeader>
             <Input
-              label='E-Mail'
-              placeholder='nome@email.com'
-              iconName='mail-line'
+              label="E-Mail"
+              placeholder="nome@email.com"
+              iconName="mail-line"
               value={inputs.email}
               error={errors.email}
               onFocus={() => handleError(null, 'email')}
-              onChangeText={text => handleOnChange(text, 'email')}
+              onChangeText={(text) => handleOnChange(text, 'email')}
               autoCorrect={false}
-              keyboardType='email-address'
+              keyboardType="email-address"
             />
             <Input
-              label='Senha'
-              placeholder='******'
-              iconName='lock-password-line'
+              label="Senha"
+              placeholder="******"
+              iconName="lock-password-line"
               value={inputs.password}
               error={errors.password}
               onFocus={() => handleError(null, 'password')}
-              onChangeText={text => handleOnChange(text, 'password')}
+              onChangeText={(text) => handleOnChange(text, 'password')}
               autoCorrect={false}
               password={true}
             />
             <SpaceButton>
-              <ButtonAction
-                disabled={false}
-                title='Entrar'
-                onPress={validate}
-              />
+              <ButtonAction disabled={false} title="Entrar" onPress={validate} />
             </SpaceButton>
             <BoxLine>
               <Button onPress={handleRecoverPassword}>
                 <Line>
-                  <Icon
-                    name='lock-unlock-fill'
-                    color={theme.colors.accented}
-                    size={scale(20)}
-                  />
+                  <Icon name="lock-unlock-fill" color={theme.colors.accented} size={scale(20)} />
                   <LinkLogin>Recuperar senha</LinkLogin>
                 </Line>
               </Button>
               <Button onPress={handleRegister}>
                 <Line>
-                  <Icon
-                    name='account-box-fill'
-                    color={theme.colors.accented}
-                    size={scale(20)}
-                  />
+                  <Icon name="account-box-fill" color={theme.colors.accented} size={scale(20)} />
                   <LinkLogin>Criar minha conta</LinkLogin>
                 </Line>
               </Button>
@@ -237,7 +223,7 @@ export function Login() {
           ref={bottomSheetRef}
           index={0}
           snapPoints={snapPoints}
-          backgroundStyle={{backgroundColor: theme.colors.backGradientStart}}
+          backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
           handleIndicatorStyle={{
             backgroundColor: theme.colors.secondary,
             width: scale(80),
@@ -247,18 +233,18 @@ export function Login() {
           {modalError && (
             <BottomSheetMessage
               type={MessageType.error}
-              title='Houve um problema'
+              title="Houve um problema"
               subtitle={errorAuth}
-              titleButtonPrimary='OK'
+              titleButtonPrimary="OK"
               onPressPrimary={handleBottomSheetPressPrimary}
             />
           )}
           {modalPassword && (
             <BottomSheetMessage
               type={MessageType.success}
-              title='Redefinição de Senha'
-              subtitle='Verifique seu e-mail para redefinir sua senha com o link que enviamos.'
-              titleButtonPrimary='OK'
+              title="Redefinição de Senha"
+              subtitle="Verifique seu e-mail para redefinir sua senha com o link que enviamos."
+              titleButtonPrimary="OK"
               onPressPrimary={handleBottomSheetPressPrimary}
             />
           )}

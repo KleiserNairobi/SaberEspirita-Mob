@@ -1,19 +1,19 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {Keyboard} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useTheme} from 'styled-components/native';
-import {scale, verticalScale} from 'react-native-size-matters';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { Keyboard } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useTheme } from 'styled-components/native';
+import { scale, verticalScale } from 'react-native-size-matters';
 import auth from '@react-native-firebase/auth';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {BottomSheetMessage} from '@components/BottomSheetMessage';
-import {useNavigation} from '@react-navigation/native';
-import {GradientContainer} from '@components/GradientContainer';
-import {ButtonAction} from '@components/ButtonAction';
-import {Input} from '@components/Input';
-import {MessageType} from '@models/Utils';
-import {getErrorFirebase} from '@utils/Firebase';
-import {Loading} from '@components/Loading';
-import {useAppStore} from '@stores/useAppStore';
+import { BottomSheetMessage } from '@/components/BottomSheetMessage';
+import { useNavigation } from '@react-navigation/native';
+import { GradientContainer } from '@/components/GradientContainer';
+import { ButtonAction } from '@/components/ButtonAction';
+import { Input } from '@/components/Input';
+import { MessageType } from '@/models/Utils';
+import { getErrorFirebase } from '@/utils/Firebase';
+import { Loading } from '@/components/Loading';
+import { useAppStore } from '@/stores/useAppStore';
 
 import {
   Container,
@@ -34,13 +34,13 @@ import {
 export function Register() {
   const theme = useTheme();
   const navigation = useNavigation();
-  const {setUser} = useAppStore();
+  const { setUser } = useAppStore();
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [modalError, setModalError] = useState(false);
   const [errorAuth, setErrorAuth] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({fullname: '', email: '', password: ''});
-  const [inputs, setInputs] = useState({fullname: '', email: '', password: ''});
+  const [errors, setErrors] = useState({ fullname: '', email: '', password: '' });
+  const [inputs, setInputs] = useState({ fullname: '', email: '', password: '' });
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [1, '36%'], []);
@@ -89,11 +89,11 @@ export function Register() {
   }
 
   function handleOnChange(text: string, input: string) {
-    setInputs(prevState => ({...prevState, [input]: text}));
+    setInputs((prevState) => ({ ...prevState, [input]: text }));
   }
 
   function handleError(errorMessage: string | null, input: string) {
-    setErrors(prevState => ({...prevState, [input]: errorMessage}));
+    setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   }
 
   async function login() {
@@ -101,7 +101,7 @@ export function Register() {
       setLoading(true);
       const result = await auth().signInWithEmailAndPassword(
         inputs.email.toLowerCase(),
-        inputs.password,
+        inputs.password
       );
       if (result.user) {
         setUser(result.user);
@@ -110,9 +110,7 @@ export function Register() {
       setModalError(true);
       setBottomSheetOpen(true);
       if ((error as any).code === 'firestore/resource-exhausted') {
-        setErrorAuth(
-          'Serviço temporariamente indisponível. Tente novamente mais tarde.',
-        );
+        setErrorAuth('Serviço temporariamente indisponível. Tente novamente mais tarde.');
       } else {
         setErrorAuth(getErrorFirebase((error as any).code));
       }
@@ -127,7 +125,7 @@ export function Register() {
     try {
       const result = await auth().createUserWithEmailAndPassword(
         inputs.email.trim().toLowerCase(),
-        inputs.password.trim(),
+        inputs.password.trim()
       );
       if (result.user) {
         await result.user.updateProfile({
@@ -161,52 +159,47 @@ export function Register() {
             enableAutomaticScroll={true}
             showsVerticalScrollIndicator={false}
             extraHeight={verticalScale(120)}
-            style={{elevation: 0, shadowOpacity: 0}}>
+            style={{ elevation: 0, shadowOpacity: 0 }}>
             <ContainerHeader>
               <SubtitleHeader>
-                Registre-se e embarque em uma jornada divertida de estudo da
-                doutrina espírita.
+                Registre-se e embarque em uma jornada divertida de estudo da doutrina espírita.
               </SubtitleHeader>
             </ContainerHeader>
             <Input
-              label='Apelido ou Nome *'
-              placeholder='Seu apelido ou nome'
-              iconName='user-3-line'
+              label="Apelido ou Nome *"
+              placeholder="Seu apelido ou nome"
+              iconName="user-3-line"
               value={inputs.fullname}
               error={errors.fullname}
               onFocus={() => handleError(null, 'fullname')}
-              onChangeText={text => handleOnChange(text, 'fullname')}
+              onChangeText={(text) => handleOnChange(text, 'fullname')}
               autoCorrect={false}
-              autoCapitalize='words'
+              autoCapitalize="words"
             />
             <Input
-              label='E-Mail *'
-              placeholder='nome@email.com'
-              iconName='mail-line'
+              label="E-Mail *"
+              placeholder="nome@email.com"
+              iconName="mail-line"
               value={inputs.email}
               error={errors.email}
               onFocus={() => handleError(null, 'email')}
-              onChangeText={text => handleOnChange(text, 'email')}
+              onChangeText={(text) => handleOnChange(text, 'email')}
               autoCorrect={false}
-              keyboardType='email-address'
+              keyboardType="email-address"
             />
             <Input
-              label='Senha *'
-              placeholder='******'
-              iconName='lock-password-line'
+              label="Senha *"
+              placeholder="******"
+              iconName="lock-password-line"
               value={inputs.password}
               error={errors.password}
               onFocus={() => handleError(null, 'password')}
-              onChangeText={text => handleOnChange(text, 'password')}
+              onChangeText={(text) => handleOnChange(text, 'password')}
               autoCorrect={false}
               password={true}
             />
             <SpaceButton>
-              <ButtonAction
-                disabled={false}
-                title='Registrar'
-                onPress={validate}
-              />
+              <ButtonAction disabled={false} title="Registrar" onPress={validate} />
             </SpaceButton>
             <ButtonLogin onPress={handleLinkLogin}>
               <Login>
@@ -221,7 +214,7 @@ export function Register() {
           ref={bottomSheetRef}
           index={0}
           snapPoints={snapPoints}
-          backgroundStyle={{backgroundColor: theme.colors.backGradientStart}}
+          backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
           handleIndicatorStyle={{
             backgroundColor: theme.colors.secondary,
             width: scale(80),
@@ -231,9 +224,9 @@ export function Register() {
           {modalError && (
             <BottomSheetMessage
               type={MessageType.error}
-              title='Houve um problema'
+              title="Houve um problema"
               subtitle={errorAuth}
-              titleButtonPrimary='OK'
+              titleButtonPrimary="OK"
               onPressPrimary={handleBottomSheetPressPrimary}
             />
           )}

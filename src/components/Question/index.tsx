@@ -1,6 +1,6 @@
 import React from 'react';
-import {ButtonQuiz} from '@components/ButtonQuiz';
-import {Container} from './styles';
+import { ButtonQuiz } from '@/components/ButtonQuiz';
+import { Container } from './styles';
 
 type QuestionProps = {
   title: string;
@@ -29,9 +29,7 @@ export function Question({
           checked={alternativeSelected === index}
           success={success}
           disabled={alternativeSelected != null}
-          onPress={() =>
-            setAlternativeSelected && setAlternativeSelected(index)
-          }
+          onPress={() => setAlternativeSelected && setAlternativeSelected(index)}
         />
       ))}
     </Container>

@@ -7,12 +7,12 @@ import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories'
 import { IUserCreatedQuiz } from '@/models/UserCreatedQuiz';
 
 const imageMapping: { [key: string]: any } = {
-  CONCEITOS: require('@assets/images/Categories/Concepts.png'),
-  PERSONAGENS: require('@assets/images/Categories/Characters.png'),
-  LIVROS: require('@assets/images/Categories/Books.png'),
-  FILMES: require('@assets/images/Categories/Films.png'),
-  ESPÍRITOS: require('@assets/images/Categories/Spirits.png'),
-  DIVERSOS: require('@assets/images/Categories/Stories.png'),
+  CONCEITOS: require('@/assets/images/Categories/Concepts.png'),
+  PERSONAGENS: require('@/assets/images/Categories/Characters.png'),
+  LIVROS: require('@/assets/images/Categories/Books.png'),
+  FILMES: require('@/assets/images/Categories/Films.png'),
+  ESPÍRITOS: require('@/assets/images/Categories/Spirits.png'),
+  DIVERSOS: require('@/assets/images/Categories/Stories.png'),
 };
 
 export async function getCategories(): Promise<ICategory[]> {

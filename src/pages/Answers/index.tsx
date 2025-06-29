@@ -1,11 +1,11 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { ScrollView } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-remix-icon';
-import {useTheme} from 'styled-components/native';
-import {GradientContainer} from '@components/GradientContainer';
-import {IUserAnswer} from '@models/UserAnswer';
-import {Header} from '@components/Header';
+import { useTheme } from 'styled-components/native';
+import { GradientContainer } from '@/components/GradientContainer';
+import { IUserAnswer } from '@/models/UserAnswer';
+import { Header } from '@/components/Header';
 
 import {
   Container,
@@ -35,8 +35,8 @@ import {
   BoxTitleCorrect,
   BoxTitleIncorrect,
 } from './styles';
-import {verticalScale} from 'react-native-size-matters';
-import {ButtonAction} from '@components/ButtonAction';
+import { verticalScale } from 'react-native-size-matters';
+import { ButtonAction } from '@/components/ButtonAction';
 
 type RouteParams = {
   titleCategory: string;
@@ -90,9 +90,9 @@ export function Answers() {
         <Icon
           key={i}
           size={verticalScale(16)}
-          name='star-fill'
+          name="star-fill"
           color={filled ? theme.colors.accented : theme.colors.cardQuizBorder}
-        />,
+        />
       );
     }
     return stars;
@@ -101,10 +101,7 @@ export function Answers() {
   return (
     <GradientContainer>
       <Container>
-        <Header
-          title='Revisão das respostas'
-          onPress={() => navigation.goBack()}
-        />
+        <Header title="Revisão das respostas" onPress={() => navigation.goBack()} />
 
         <BoxRowHeader>
           <BoxColumnLeft>
@@ -121,10 +118,9 @@ export function Answers() {
 
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingTop: 20, paddingBottom: 30}}>
+          contentContainerStyle={{ paddingTop: 20, paddingBottom: 30 }}>
           {userAnswers.map((answer, index) => {
-            const isCorrect =
-              answer.selectedAnswerIndex === answer.correctAnswerIndex;
+            const isCorrect = answer.selectedAnswerIndex === answer.correctAnswerIndex;
             return (
               <QuestionBox key={index} isCorrect={isCorrect}>
                 <BoxRow>
@@ -133,7 +129,7 @@ export function Answers() {
                     {isCorrect ? (
                       <BoxTitleCorrect>
                         <Icon
-                          name='checkbox-circle-line'
+                          name="checkbox-circle-line"
                           color={theme.colors.titleNormal}
                           size={verticalScale(16)}
                         />
@@ -142,7 +138,7 @@ export function Answers() {
                     ) : (
                       <BoxTitleIncorrect>
                         <Icon
-                          name='close-circle-line'
+                          name="close-circle-line"
                           color={theme.colors.titleNormal}
                           size={verticalScale(16)}
                         />
@@ -178,7 +174,7 @@ export function Answers() {
             );
           })}
           <ButtonAction
-            title='Continuar'
+            title="Continuar"
             onPress={() => navigation.navigate('categories')}
             disabled={false}
           />

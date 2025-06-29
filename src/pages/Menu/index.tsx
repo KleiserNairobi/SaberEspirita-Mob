@@ -1,22 +1,22 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
-import {Platform} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useTheme} from 'styled-components/native';
+import { useState, useRef, useMemo, useCallback } from 'react';
+import { Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme } from 'styled-components/native';
 import Toggle from 'react-native-toggle-element';
 import Icon from 'react-native-remix-icon';
 import auth from '@react-native-firebase/auth';
 import BottomSheet from '@gorhom/bottom-sheet';
-import email from 'react-native-email';
-import {scale, verticalScale} from 'react-native-size-matters';
-import Share, {ShareSingleOptions, Social} from 'react-native-share';
-import {Header} from '@components/Header';
-import {GradientContainer} from '@components/GradientContainer';
-import {BottomNavigation} from '@components/BottomNavigation';
-import {MenuMore} from '@components/MenuMore';
-import {BottomSheetMessage} from '@components/BottomSheetMessage';
-import {useAppStore} from '@stores/useAppStore';
-import {AppInstaled, MessageType, ThemeType} from '@models/Utils';
-import files from '@assets/images/Base64/FilesBase64';
+// import email from 'react-native-email';
+import { scale, verticalScale } from 'react-native-size-matters';
+// import Share, {ShareSingleOptions, Social} from 'react-native-share';
+import { Header } from '@/components/Header';
+import { GradientContainer } from '@/components/GradientContainer';
+import { BottomNavigation } from '@/components/BottomNavigation';
+import { MenuMore } from '@/components/MenuMore';
+import { BottomSheetMessage } from '@/components/BottomSheetMessage';
+import { useAppStore } from '@/stores/useAppStore';
+import { AppInstaled, MessageType, ThemeType } from '@/models/Utils';
+import files from '@/assets/images/Base64/FilesBase64';
 
 import {
   Container,
@@ -50,13 +50,7 @@ export function Menu() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [1, '36%'], []);
 
-  const {
-    theme: themeContext,
-    toggleTheme,
-    isSoundOn,
-    toggleSound,
-    setUser,
-  } = useAppStore();
+  const { theme: themeContext, toggleTheme, isSoundOn, toggleSound, setUser } = useAppStore();
 
   const theme = useTheme();
   const isDarkTheme = themeContext === ThemeType.dark;
@@ -70,31 +64,21 @@ export function Menu() {
     switch (app) {
       case 'Facebook':
         packageNames =
-          Platform.OS === 'android'
-            ? ['com.facebook.katana']
-            : ['fb://', 'facebook://'];
+          Platform.OS === 'android' ? ['com.facebook.katana'] : ['fb://', 'facebook://'];
         break;
       case 'Whatsapp':
         packageNames =
-          Platform.OS === 'android'
-            ? ['com.whatsapp']
-            : ['whatsapp://', 'whatsapp-messenger://'];
+          Platform.OS === 'android' ? ['com.whatsapp'] : ['whatsapp://', 'whatsapp-messenger://'];
         break;
       case 'Twitter':
         packageNames =
-          Platform.OS === 'android'
-            ? ['com.twitter.android']
-            : ['twitter://', 'tweetbot://'];
+          Platform.OS === 'android' ? ['com.twitter.android'] : ['twitter://', 'tweetbot://'];
         break;
       case 'Instagram':
         packageNames =
           Platform.OS === 'android'
             ? ['com.instagram.android', 'com.instagram.lite']
-            : [
-                'instagram://',
-                'instagram-stories://',
-                'instagram://app?username=test',
-              ];
+            : ['instagram://', 'instagram-stories://', 'instagram://app?username=test'];
         break;
       default:
         return false;
@@ -102,10 +86,10 @@ export function Menu() {
     // Testa todos os esquemas/pacotes até encontrar um instalado
     for (const pkg of packageNames) {
       try {
-        const {isInstalled} = await Share.isPackageInstalled(pkg);
-        if (isInstalled) {
-          return true;
-        }
+        // const {isInstalled} = await Share.isPackageInstalled(pkg);
+        // if (isInstalled) {
+        // return true;
+        // }
       } catch {
         continue;
       }
@@ -114,130 +98,127 @@ export function Menu() {
   }
 
   async function handleShareFacebook() {
-    const shareOptions: ShareSingleOptions = {
-      title: TITLE,
-      message: MESSAGE,
-      social: Social.Facebook,
-      url: files.imgShareMedia,
-    };
-    try {
-      const isInstalled = await isAppInstalled(AppInstaled.facebook);
-      if (isInstalled) {
-        await Share.shareSingle(shareOptions);
-      } else {
-        setOnShare(false);
-        setOnError(true);
-        setError(
-          'Verifique se o Facebook está instalado e conceda permissão de compartilhamento.',
-        );
-      }
-    } catch {
-      setOnShare(false);
-      setOnError(true);
-      setError(
-        'Verifique se o Facebook está instalado e conceda permissão de compartilhamento.',
-      );
-    }
+    // const shareOptions: ShareSingleOptions = {
+    //   title: TITLE,
+    //   message: MESSAGE,
+    //   social: Social.Facebook,
+    //   url: files.imgShareMedia,
+    // };
+    // try {
+    //   const isInstalled = await isAppInstalled(AppInstaled.facebook);
+    //   if (isInstalled) {
+    //     await Share.shareSingle(shareOptions);
+    //   } else {
+    //     setOnShare(false);
+    //     setOnError(true);
+    //     setError(
+    //       'Verifique se o Facebook está instalado e conceda permissão de compartilhamento.',
+    //     );
+    //   }
+    // } catch {
+    //   setOnShare(false);
+    //   setOnError(true);
+    //   setError(
+    //     'Verifique se o Facebook está instalado e conceda permissão de compartilhamento.',
+    //   );
+    // }
   }
 
   async function handleShareWhatsapp() {
-    const shareOptions: ShareSingleOptions = {
-      title: TITLE,
-      message: MESSAGE,
-      social: Social.Whatsapp,
-      url: files.imgShareMedia,
-    };
-    try {
-      const isInstalled = await isAppInstalled(AppInstaled.whatsapp);
-      if (isInstalled) {
-        await Share.shareSingle(shareOptions);
-      } else {
-        setOnShare(false);
-        setOnError(true);
-        setError(
-          'Verifique se o Whatsapp está instalado e conceda permissão de compartilhamento.',
-        );
-      }
-    } catch {
-      setOnShare(false);
-      setOnError(true);
-      setError(
-        'Verifique se o Whatsapp está instalado e conceda permissão de compartilhamento.',
-      );
-    }
+    // const shareOptions: ShareSingleOptions = {
+    //   title: TITLE,
+    //   message: MESSAGE,
+    //   social: Social.Whatsapp,
+    //   url: files.imgShareMedia,
+    // };
+    // try {
+    //   const isInstalled = await isAppInstalled(AppInstaled.whatsapp);
+    //   if (isInstalled) {
+    //     await Share.shareSingle(shareOptions);
+    //   } else {
+    //     setOnShare(false);
+    //     setOnError(true);
+    //     setError(
+    //       'Verifique se o Whatsapp está instalado e conceda permissão de compartilhamento.',
+    //     );
+    //   }
+    // } catch {
+    //   setOnShare(false);
+    //   setOnError(true);
+    //   setError(
+    //     'Verifique se o Whatsapp está instalado e conceda permissão de compartilhamento.',
+    //   );
+    // }
   }
 
   async function handleShareTwitter() {
-    const shareOptions: ShareSingleOptions = {
-      title: TITLE,
-      message: MESSAGE,
-      social: Social.Twitter,
-      url: files.imgShareMedia,
-    };
-    try {
-      const isInstalled = await isAppInstalled(AppInstaled.twitter);
-      if (isInstalled) {
-        await Share.shareSingle(shareOptions);
-      } else {
-        setOnShare(false);
-        setOnError(true);
-        setError(
-          'Verifique se o Twitter está instalado e conceda permissão de compartilhamento.',
-        );
-      }
-    } catch {
-      setOnShare(false);
-      setOnError(true);
-      setError(
-        'Verifique se o Twitter está instalado e conceda permissão de compartilhamento.',
-      );
-    }
+    // const shareOptions: ShareSingleOptions = {
+    //   title: TITLE,
+    //   message: MESSAGE,
+    //   social: Social.Twitter,
+    //   url: files.imgShareMedia,
+    // };
+    // try {
+    //   const isInstalled = await isAppInstalled(AppInstaled.twitter);
+    //   if (isInstalled) {
+    //     await Share.shareSingle(shareOptions);
+    //   } else {
+    //     setOnShare(false);
+    //     setOnError(true);
+    //     setError(
+    //       'Verifique se o Twitter está instalado e conceda permissão de compartilhamento.',
+    //     );
+    //   }
+    // } catch {
+    //   setOnShare(false);
+    //   setOnError(true);
+    //   setError(
+    //     'Verifique se o Twitter está instalado e conceda permissão de compartilhamento.',
+    //   );
+    // }
   }
 
   async function handleShareInstagram() {
-    try {
-      const isInstalled = await isAppInstalled(AppInstaled.instagram);
-
-      if (!isInstalled) {
-        setOnShare(false);
-        setOnError(true);
-        setError('Instagram não encontrado. Instale o app e tente novamente.');
-        return;
-      }
-
-      const shareOptions: ShareSingleOptions = {
-        title: TITLE,
-        message: MESSAGE,
-        social: Social.InstagramStories,
-        filename: files.imgShareMedia,
-        appId: Platform.OS === 'ios' ? 'xxxx' : '',
-      };
-
-      await Share.shareSingle(shareOptions);
-    } catch {
-      setOnShare(false);
-      setOnError(true);
-      setError('Falha ao compartilhar. Tente novamente ou use outro método.');
-    }
+    // try {
+    //   const isInstalled = await isAppInstalled(AppInstaled.instagram);
+    //   if (!isInstalled) {
+    //     setOnShare(false);
+    //     setOnError(true);
+    //     setError('Instagram não encontrado. Instale o app e tente novamente.');
+    //     return;
+    //   }
+    //   const shareOptions: ShareSingleOptions = {
+    //     title: TITLE,
+    //     message: MESSAGE,
+    //     social: Social.InstagramStories,
+    //     filename: files.imgShareMedia,
+    //     appId: Platform.OS === 'ios' ? 'xxxx' : '',
+    //   };
+    //   await Share.shareSingle(shareOptions);
+    // } catch {
+    //   setOnShare(false);
+    //   setOnError(true);
+    //   setError('Falha ao compartilhar. Tente novamente ou use outro método.');
+    // }
   }
 
   async function handleShareEmail() {
-    const shareOptions: ShareSingleOptions = {
-      title: TITLE,
-      message: MESSAGE,
-      social: Social.Email,
-      subject: 'Saber Espírita',
-      url: files.imgShareMedia,
-    };
-    try {
-      await Share.shareSingle(shareOptions);
-    } catch {
-      setOnShare(false);
-      setOnError(true);
-      setError(
-        'Verifique se um Email está instalado e conceda permissão de compartilhamento.',
-      );
-    }
+    // const shareOptions: ShareSingleOptions = {
+    //   title: TITLE,
+    //   message: MESSAGE,
+    //   social: Social.Email,
+    //   subject: 'Saber Espírita',
+    //   url: files.imgShareMedia,
+    // };
+    // try {
+    //   await Share.shareSingle(shareOptions);
+    // } catch {
+    //   setOnShare(false);
+    //   setOnError(true);
+    //   setError(
+    //     'Verifique se um Email está instalado e conceda permissão de compartilhamento.',
+    //   );
+    // }
   }
 
   function handleBottomSheetPrimary() {
@@ -267,21 +248,20 @@ export function Menu() {
   }
 
   function sendEmail() {
-    const subject = 'Contato Saber Espírita';
-    const to = ['espirita.quiz@gmail.com'];
-
-    email(to, {subject: subject, checkCanOpen: false})
-      .then(() => {
-        setOnError(false);
-      })
-      .catch(error => {
-        console.error('Houve um erro ao enviar o e-mail:', error);
-        setError(
-          'Ocorreu um erro ao tentar enviar o e-mail. Por favor, tente novamente mais tarde.',
-        );
-        setOnError(true);
-        bottomSheetRef.current?.expand();
-      });
+    // const subject = 'Contato Saber Espírita';
+    // const to = ['espirita.quiz@gmail.com'];
+    // email(to, {subject: subject, checkCanOpen: false})
+    //   .then(() => {
+    //     setOnError(false);
+    //   })
+    //   .catch(error => {
+    //     console.error('Houve um erro ao enviar o e-mail:', error);
+    //     setError(
+    //       'Ocorreu um erro ao tentar enviar o e-mail. Por favor, tente novamente mais tarde.',
+    //     );
+    //     setOnError(true);
+    //     bottomSheetRef.current?.expand();
+    //   });
   }
 
   const renderToggle = (
@@ -290,7 +270,7 @@ export function Menu() {
     leftIconName: string,
     rightIconName: string,
     leftIconColor: string,
-    rightIconColor: string,
+    rightIconColor: string
   ) => (
     <Toggle
       value={value}
@@ -320,51 +300,35 @@ export function Menu() {
         activeBackgroundColor: theme.colors.primary,
         inActiveBackgroundColor: theme.colors.primary,
       }}
-      leftComponent={
-        <Icon
-          name={leftIconName}
-          size={verticalScale(18)}
-          color={leftIconColor}
-        />
-      }
-      rightComponent={
-        <Icon
-          name={rightIconName}
-          size={verticalScale(18)}
-          color={rightIconColor}
-        />
-      }
+      leftComponent={<Icon name={leftIconName} size={verticalScale(18)} color={leftIconColor} />}
+      rightComponent={<Icon name={rightIconName} size={verticalScale(18)} color={rightIconColor} />}
     />
   );
 
   return (
     <GradientContainer>
       <Container>
-        <Header onPress={() => navigation.goBack()} title='Mais opções' />
+        <Header onPress={() => navigation.goBack()} title="Mais opções" />
         <Wrapper>
+          <MenuMore iconName="mail-send-line" title="Fale conosco" onPress={sendEmail} />
           <MenuMore
-            iconName='mail-send-line'
-            title='Fale conosco'
-            onPress={sendEmail}
-          />
-          <MenuMore
-            iconName='question-line'
-            title='Perguntas frequentes'
+            iconName="question-line"
+            title="Perguntas frequentes"
             onPress={() => navigation.navigate('help')}
           />
           <MenuMore
-            iconName='file-paper-2-line'
-            title='Termo de uso'
+            iconName="file-paper-2-line"
+            title="Termo de uso"
             onPress={() => navigation.navigate('terms')}
           />
           <MenuMore
-            iconName='ri-lock-2-line'
-            title='Política de privacidade'
+            iconName="ri-lock-2-line"
+            title="Política de privacidade"
             onPress={() => navigation.navigate('privacy')}
           />
           <MenuMore
-            iconName='ri-survey-line'
-            title='Criar quiz'
+            iconName="ri-survey-line"
+            title="Criar quiz"
             onPress={() => navigation.navigate('create')}
           />
           {/* <MenuMore
@@ -372,11 +336,7 @@ export function Menu() {
             title='Compartilhar com amigos'
             onPress={handleShared}
           /> */}
-          <MenuMore
-            iconName='logout-box-r-line'
-            title='Sair'
-            onPress={handleLogout}
-          />
+          <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </Wrapper>
         <BoxItems>
           <Row>
@@ -389,17 +349,17 @@ export function Menu() {
               !isDarkTheme && !isSoundOn
                 ? theme.colors.secondary
                 : !isDarkTheme && isSoundOn
-                ? theme.colors.primary
-                : isDarkTheme && !isSoundOn
-                ? theme.colors.terciary
-                : theme.colors.titleNormal,
+                  ? theme.colors.primary
+                  : isDarkTheme && !isSoundOn
+                    ? theme.colors.terciary
+                    : theme.colors.titleNormal,
               !isDarkTheme && !isSoundOn
                 ? theme.colors.primary
                 : !isDarkTheme && isSoundOn
-                ? theme.colors.secondary
-                : isDarkTheme && !isSoundOn
-                ? theme.colors.titleNormal
-                : theme.colors.terciary,
+                  ? theme.colors.secondary
+                  : isDarkTheme && !isSoundOn
+                    ? theme.colors.titleNormal
+                    : theme.colors.terciary
             )}
           </Row>
           <Row>
@@ -410,7 +370,7 @@ export function Menu() {
               'sun-line',
               'contrast-2-fill',
               isDarkTheme ? theme.colors.titleBold : theme.colors.terciary,
-              isDarkTheme ? theme.colors.terciary : theme.colors.primary,
+              isDarkTheme ? theme.colors.terciary : theme.colors.primary
             )}
           </Row>
         </BoxItems>
@@ -426,7 +386,7 @@ export function Menu() {
         ref={bottomSheetRef}
         index={0}
         snapPoints={snapPoints}
-        backgroundStyle={{backgroundColor: theme.colors.backGradientStart}}
+        backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
         handleIndicatorStyle={{
           backgroundColor: theme.colors.secondary,
           width: scale(80),
@@ -439,39 +399,19 @@ export function Menu() {
             <SubtitleModal>Selecione a mídia desejada.</SubtitleModal>
             <RowModal>
               <ShareButton onPress={handleShareFacebook}>
-                <Icon
-                  name='facebook-fill'
-                  size={scale(26)}
-                  color={theme.colors.buttonBackTitle}
-                />
+                <Icon name="facebook-fill" size={scale(26)} color={theme.colors.buttonBackTitle} />
               </ShareButton>
               <ShareButton onPress={handleShareWhatsapp}>
-                <Icon
-                  name='whatsapp-fill'
-                  size={scale(26)}
-                  color={theme.colors.buttonBackTitle}
-                />
+                <Icon name="whatsapp-fill" size={scale(26)} color={theme.colors.buttonBackTitle} />
               </ShareButton>
               <ShareButton onPress={handleShareTwitter}>
-                <Icon
-                  name='twitter-fill'
-                  size={scale(26)}
-                  color={theme.colors.buttonBackTitle}
-                />
+                <Icon name="twitter-fill" size={scale(26)} color={theme.colors.buttonBackTitle} />
               </ShareButton>
               <ShareButton onPress={handleShareInstagram}>
-                <Icon
-                  name='instagram-fill'
-                  size={scale(26)}
-                  color={theme.colors.buttonBackTitle}
-                />
+                <Icon name="instagram-fill" size={scale(26)} color={theme.colors.buttonBackTitle} />
               </ShareButton>
               <ShareButton onPress={handleShareEmail}>
-                <Icon
-                  name='mail-send-fill'
-                  size={scale(26)}
-                  color={theme.colors.buttonBackTitle}
-                />
+                <Icon name="mail-send-fill" size={scale(26)} color={theme.colors.buttonBackTitle} />
               </ShareButton>
             </RowModal>
             <ViewButton>
@@ -484,9 +424,9 @@ export function Menu() {
         {onError && (
           <BottomSheetMessage
             type={MessageType.error}
-            title='Houve um problema'
+            title="Houve um problema"
             subtitle={error}
-            titleButtonPrimary='OK'
+            titleButtonPrimary="OK"
             onPressPrimary={handleShareError}
           />
         )}

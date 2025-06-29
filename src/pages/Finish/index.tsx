@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {GradientContainer} from '@components/GradientContainer';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {IUserAnswer} from '@models/UserAnswer';
+import React, { useEffect, useState } from 'react';
+import { GradientContainer } from '@/components/GradientContainer';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { IUserAnswer } from '@/models/UserAnswer';
 
 import {
   BoxButton,
@@ -21,10 +21,10 @@ import {
   TitlePoints,
 } from './styles';
 
-import FourStars from '@assets/images/Stars/FourStars.png';
-import ThreeStars from '@assets/images/Stars/ThreeStars.png';
-import TwoStars from '@assets/images/Stars/TwoStars.png';
-import OneStar from '@assets/images/Stars/OneStar.png';
+import FourStars from '@/assets/images/Stars/FourStars.png';
+import ThreeStars from '@/assets/images/Stars/ThreeStars.png';
+import TwoStars from '@/assets/images/Stars/TwoStars.png';
+import OneStar from '@/assets/images/Stars/OneStar.png';
 
 type RouteParams = {
   titleCategory: string;
@@ -96,7 +96,7 @@ export function Finish() {
   }
 
   useEffect(() => {
-    const {title, image, message} = getPerformanceMessage(percentage);
+    const { title, image, message } = getPerformanceMessage(percentage);
     setPathImage(image);
     setMessage(message);
     setTitle(title);
