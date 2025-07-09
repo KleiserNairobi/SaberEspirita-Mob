@@ -3,6 +3,7 @@
     "name": "Saber Espírita",
     "slug": "saber-espirita",
     "version": "1.0.0",
+    "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "assetBundlePatterns": [
@@ -11,14 +12,19 @@
     "experiments": {
       "tsconfigPaths": true
     },
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0C1624"
+    },
     "ios": {
+      "supportsTablet": true,
       "bundleIdentifier": "app.saberespirita",
-      "googleServicesFile": "./configs/firebase/GoogleService-Info.plist",
-      "supportsTablet": true
+      "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
     },
     "android": {
       "package": "app.saberespirita",
-      "googleServicesFile": "./configs/firebase/google-services.json",
+      "googleServicesFile": "./dev/configs/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0C1624"
@@ -29,13 +35,7 @@
         "navigationBarStyle": "dark"
       }
     },
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0C1624"
-    },
     "plugins": [
-      "expo-mail-composer",
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       [
@@ -46,7 +46,8 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-mail-composer"
     ]
   }
 }
