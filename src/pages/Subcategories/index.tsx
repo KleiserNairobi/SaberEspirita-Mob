@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, View, ScrollView, Text, SafeAreaView } from 'react-native';
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useTheme } from '@/hooks/useTheme';
 import { Header } from '@/components/Header';
@@ -29,8 +29,8 @@ type SubcategoriesRouteProp = RouteProp<PrivateStackParamList, 'subcategories'>;
 export function Subcategories() {
   const theme = useTheme();
   const route = useRoute<SubcategoriesRouteProp>();
-  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const styles = useThemedStyles(getSubcategoriesStyles);
+  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { user } = useAppStore();
   const { idCategory, titleCategory, description } = route.params;
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -177,13 +177,15 @@ export function Subcategories() {
         }}
         onChange={handleBottomSheetChanges}>
         {quizAnswered && (
-          <BottomSheetMessage
-            type={MessageType.question}
-            title="Deseja novamente responder o quiz?"
-            subtitle="A pontuação desse quiz será zerada e nova pontuação será contabilizada."
-            onPressSecondary={handleBottomSheetClose}
-            onPressPrimary={handleQuizAnswered}
-          />
+          <BottomSheetView>
+            <BottomSheetMessage
+              type={MessageType.question}
+              title="Deseja novamente responder o quiz?"
+              subtitle="A pontuação desse quiz será zerada e nova pontuação será contabilizada."
+              onPressSecondary={handleBottomSheetClose}
+              onPressPrimary={handleQuizAnswered}
+            />
+          </BottomSheetView>
         )}
       </BottomSheet>
     </GradientContainer>

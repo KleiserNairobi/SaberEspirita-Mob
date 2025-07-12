@@ -5,22 +5,23 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CardCategory } from '@/components/CardCategory';
 import { GradientContainer } from '@/components/GradientContainer';
 import { BottomNavigation } from '@/components/BottomNavigation';
-import { styles } from './styles';
-// import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { ICategory } from '@/models/Categories';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 import { getCategories, getUserCompletedSubcategories } from '@/services/firestore';
+import { getCategoriesStyles } from './styles';
+
+type RootStackParamList = {
+  subcategories: {
+    idCategory: string;
+    titleCategory: string;
+    description: string;
+  };
+};
 
 export function Categories() {
-  type RootStackParamList = {
-    subcategories: {
-      idCategory: string;
-      titleCategory: string;
-      description: string;
-    };
-  };
-
+  const styles = useThemedStyles(getCategoriesStyles);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { user } = useAppStore();
   const [categories, setCategories] = useState<ICategory[]>([]);

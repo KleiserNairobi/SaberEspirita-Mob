@@ -8,8 +8,8 @@ import { BottomNavigation } from '@/components/BottomNavigation';
 import { ProgressListItem } from '@/components/ProgressListItem';
 import { ButtonFilterProgress } from '@/components/ButtonFilterProgress';
 import { ButtonAction } from '@/components/ButtonAction';
-// import { useTheme } from '@/hooks/useTheme';
-import { styles } from './styles';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
+import { getProgressStyles } from './styles';
 import { IUserProgress } from '@/models/UsersProgress';
 import { getUserProgress } from '@/services/firestore';
 import { useAppStore } from '@/hooks/useAppStore';
@@ -17,7 +17,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export function Progress() {
   const navigation = useNavigation();
-  // const theme = useTheme();
+  const styles = useThemedStyles(getProgressStyles);
   const { user } = useAppStore();
   const [userProgress, setUserProgress] = useState<IUserProgress[]>([]);
   const [filterData, setFilterData] = useState<IUserProgress[]>([]);

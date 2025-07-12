@@ -10,13 +10,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
+
 import { Header } from '@/components/Header';
 import { GradientContainer } from '@/components/GradientContainer';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { MenuMore } from '@/components/MenuMore';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
 import { MessageType, ThemeType } from '@/models/Utils';
-import { styles } from './styles';
+import { getMenuStyles } from './styles';
 
 const TITLE = 'Saber Espírita';
 const MESSAGE =
@@ -31,6 +33,7 @@ type RootStackParamList = {
 };
 
 export function Menu() {
+  const styles = useThemedStyles(getMenuStyles);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [onError, setOnError] = useState(false);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);

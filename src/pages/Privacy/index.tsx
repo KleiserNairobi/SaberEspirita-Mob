@@ -2,12 +2,12 @@ import { ScrollView, View, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { GradientContainer } from '@/components/GradientContainer';
 import { Header } from '@/components/Header';
-// import { useTheme } from '@/hooks/useTheme';
-import { styles } from './styles';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
+import { getPrivacyStyles } from './styles';
 
 export function Privacy() {
   const navigation = useNavigation();
-  // const theme = useTheme();
+  const styles = useThemedStyles(getPrivacyStyles);
 
   return (
     <GradientContainer>

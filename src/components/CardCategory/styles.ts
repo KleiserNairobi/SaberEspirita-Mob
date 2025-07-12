@@ -36,12 +36,12 @@ export const getCardCategoryStyles = (theme: AppTheme) =>
     title: {
       paddingTop: scale(8),
       color: theme.colors.cardTitle,
-      fontSize: RFValue(theme.fontSizes.lg),
+      fontSize: RFValue(theme.fontSizes.md),
       fontFamily: theme.fontFamily.semibold,
     },
     subtitle: {
       color: theme.colors.cardSubtitle,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: RFValue(theme.fontSizes.xs),
       fontFamily: theme.fontFamily.regular,
     },
   });

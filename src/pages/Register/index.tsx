@@ -2,11 +2,13 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import auth from '@react-native-firebase/auth';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
+
 import { PublicStackParamList } from '@/routes/PublicStack';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -15,10 +17,11 @@ import { Input } from '@/components/Input';
 import { Loading } from '@/components/Loading';
 import { MessageType } from '@/models/Utils';
 import { getErrorFirebase } from '@/utils/Firebase';
-import { styles } from './styles';
+import { getRegisterStyles } from './styles';
 
 export function Register() {
   const theme = useTheme();
+  const styles = useThemedStyles(getRegisterStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PublicStackParamList>>();
 
   const { setUser } = useAppStore();
@@ -168,7 +171,7 @@ export function Register() {
             />
             <Input
               label="E-Mail *"
-              placeholder="nome@email.com"
+              placeholder="Seu e-mail"
               iconName="mail-line"
               value={inputs.email}
               error={errors.email}
@@ -179,7 +182,7 @@ export function Register() {
             />
             <Input
               label="Senha *"
-              placeholder="******"
+              placeholder="Sua senha"
               iconName="lock-password-line"
               value={inputs.password}
               error={errors.password}
@@ -212,13 +215,15 @@ export function Register() {
           }}
           onChange={handleSheetChanges}>
           {modalError && (
-            <BottomSheetMessage
-              type={MessageType.error}
-              title="Houve um problema"
-              subtitle={errorAuth}
-              titleButtonPrimary="OK"
-              onPressPrimary={handleBottomSheetPressPrimary}
-            />
+            <BottomSheetView>
+              <BottomSheetMessage
+                type={MessageType.error}
+                title="Houve um problema"
+                subtitle={errorAuth}
+                titleButtonPrimary="OK"
+                onPressPrimary={handleBottomSheetPressPrimary}
+              />
+            </BottomSheetView>
           )}
         </BottomSheet>
       </GradientContainer>

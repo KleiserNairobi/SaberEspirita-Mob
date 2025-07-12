@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Keyboard, View, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import firestore from '@react-native-firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTheme } from '@/hooks/useTheme';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { useAppStore } from '@/hooks/useAppStore';
 import { GradientContainer } from '@/components/GradientContainer';
 import { Header } from '@/components/Header';
@@ -16,7 +17,7 @@ import { Loading } from '@/components/Loading';
 import { IUserCreatedQuiz } from '@/models/UserCreatedQuiz';
 import { MessageType } from '@/models/Utils';
 import { addUserCreatedQuiz } from '@/services/firestore';
-import { styles } from './styles';
+import { getCreateStyles } from './styles';
 
 const categories = [
   { label: 'Conceitos', value: 'CONCEITOS' },
@@ -29,6 +30,7 @@ const categories = [
 
 export function CreateQuiz() {
   const theme = useTheme();
+  const styles = useThemedStyles(getCreateStyles);
   const navigation = useNavigation();
   const { user } = useAppStore();
   const [open, setOpen] = useState(false);
@@ -281,22 +283,26 @@ export function CreateQuiz() {
         }}
         onChange={handleSheetChanges}>
         {modalError && (
-          <BottomSheetMessage
-            type={MessageType.error}
-            title="Erro ao Enviar o Quiz"
-            subtitle="Ocorreu um problema ao enviar seu quiz. Por favor, verifique sua conexão com a internet e tente novamente."
-            titleButtonPrimary="OK"
-            onPressPrimary={handleBottomSheetPressPrimaryError}
-          />
+          <BottomSheetView>
+            <BottomSheetMessage
+              type={MessageType.error}
+              title="Erro ao Enviar o Quiz"
+              subtitle="Ocorreu um problema ao enviar seu quiz. Por favor, verifique sua conexão com a internet e tente novamente."
+              titleButtonPrimary="OK"
+              onPressPrimary={handleBottomSheetPressPrimaryError}
+            />
+          </BottomSheetView>
         )}
         {modalSuccess && (
-          <BottomSheetMessage
-            type={MessageType.success}
-            title="Quiz Enviado com Sucesso!"
-            subtitle="Obrigado por contribuir com o Saber Espírita! Sua pergunta será analisada e, se aprovada, estará disponível para a comunidade."
-            titleButtonPrimary="OK"
-            onPressPrimary={handleBottomSheetPressPrimarySuccess}
-          />
+          <BottomSheetView>
+            <BottomSheetMessage
+              type={MessageType.success}
+              title="Quiz Enviado com Sucesso!"
+              subtitle="Obrigado por contribuir com o Saber Espírita! Sua pergunta será analisada e, se aprovada, estará disponível para a comunidade."
+              titleButtonPrimary="OK"
+              onPressPrimary={handleBottomSheetPressPrimarySuccess}
+            />
+          </BottomSheetView>
         )}
       </BottomSheet>
     </GradientContainer>

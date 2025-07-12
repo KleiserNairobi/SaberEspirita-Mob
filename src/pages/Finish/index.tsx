@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { GradientContainer } from '@/components/GradientContainer';
-// import { useTheme } from '@/hooks/useTheme';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { IUserAnswer } from '@/models/UserAnswer';
-import { styles } from './styles';
+import { getFinishStyles } from './styles';
 
 import FourStars from '@/assets/images/Stars/FourStars.png';
 import ThreeStars from '@/assets/images/Stars/ThreeStars.png';
@@ -37,6 +37,7 @@ type RootStackParamList = {
 
 export function Finish() {
   const route = useRoute();
+  const styles = useThemedStyles(getFinishStyles);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [title, setTitle] = useState('');
   const [pathImage, setPathImage] = useState<any>(null);

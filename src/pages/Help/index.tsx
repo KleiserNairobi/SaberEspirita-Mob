@@ -2,12 +2,13 @@ import { ScrollView, View, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { GradientContainer } from '@/components/GradientContainer';
 import { Header } from '@/components/Header';
-// import { useTheme } from '@/hooks/useTheme';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { ExpandableItem } from '@/components/ExpandableItem';
-import { styles } from './styles';
+import { getHelpStyles } from './styles';
 
 export function Help() {
   const navigation = useNavigation();
+  const styles = useThemedStyles(getHelpStyles);
   // const theme = useTheme();
 
   return (

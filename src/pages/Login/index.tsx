@@ -2,24 +2,26 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { Keyboard, View, Text, TouchableOpacity } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-remix-icon';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useAppStore } from '@/hooks/useAppStore';
 import { useTheme } from '@/hooks/useTheme';
+import { useAppStore } from '@/hooks/useAppStore';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getErrorFirebase } from '@/utils/Firebase';
 import { MessageType } from '@/models/Utils';
 import { GradientContainer } from '@/components/GradientContainer';
 import { ButtonAction } from '@/components/ButtonAction';
 import { Input } from '@/components/Input';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
-// import { Loading } from '@/components/Loading';
+import { Loading } from '@/components/Loading';
 import { PublicStackParamList } from '@/routes/PublicStack';
-import { styles } from './styles';
+import { getLoginStyles } from './styles';
 
 export function Login() {
   const theme = useTheme();
+  const styles = useThemedStyles(getLoginStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PublicStackParamList>>();
   const { setUser } = useAppStore();
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -47,7 +49,6 @@ export function Login() {
   function validate() {
     let valid = true;
     Keyboard.dismiss();
-    setLoading(true);
     if (!inputs.email) {
       handleError('Por favor, informe o seu e-mail.', 'email');
       valid = false;
@@ -158,7 +159,7 @@ export function Login() {
             </View>
             <Input
               label="E-Mail"
-              placeholder="nome@email.com"
+              placeholder="seu e-mail"
               iconName="mail-line"
               value={inputs.email}
               error={errors.email}
@@ -169,7 +170,7 @@ export function Login() {
             />
             <Input
               label="Senha"
-              placeholder="******"
+              placeholder="sua senha"
               iconName="lock-password-line"
               value={inputs.password}
               error={errors.password}
@@ -211,22 +212,26 @@ export function Login() {
           }}
           onChange={handleSheetChanges}>
           {modalError && (
-            <BottomSheetMessage
-              type={MessageType.error}
-              title="Houve um problema"
-              subtitle={errorAuth}
-              titleButtonPrimary="OK"
-              onPressPrimary={handleBottomSheetPressPrimary}
-            />
+            <BottomSheetView>
+              <BottomSheetMessage
+                type={MessageType.error}
+                title="Houve um problema"
+                subtitle={errorAuth}
+                titleButtonPrimary="OK"
+                onPressPrimary={handleBottomSheetPressPrimary}
+              />
+            </BottomSheetView>
           )}
           {modalPassword && (
-            <BottomSheetMessage
-              type={MessageType.success}
-              title="Redefinição de Senha"
-              subtitle="Verifique seu e-mail para redefinir sua senha com o link que enviamos."
-              titleButtonPrimary="OK"
-              onPressPrimary={handleBottomSheetPressPrimary}
-            />
+            <BottomSheetView>
+              <BottomSheetMessage
+                type={MessageType.success}
+                title="Redefinição de Senha"
+                subtitle="Verifique seu e-mail para redefinir sua senha com o link que enviamos."
+                titleButtonPrimary="OK"
+                onPressPrimary={handleBottomSheetPressPrimary}
+              />
+            </BottomSheetView>
           )}
         </BottomSheet>
       </GradientContainer>

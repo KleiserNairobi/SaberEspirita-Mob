@@ -16,7 +16,6 @@ import {
   Nunito_700Bold,
 } from '@expo-google-fonts/nunito';
 
-// import { ThemeProvider } from 'styled-components/native';
 // import { useTheme } from '@/hooks/useAppStore';
 
 SplashScreen.preventAutoHideAsync();

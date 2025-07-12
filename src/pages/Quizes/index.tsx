@@ -3,11 +3,12 @@ import { View, ScrollView, Text, BackHandler, SafeAreaView } from 'react-native'
 import firestore from '@react-native-firebase/firestore';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { GradientContainer } from '@/components/GradientContainer';
 import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { Header } from '@/components/Header';
 import { ProgressBar } from '@/components/ProgressBar';
 import { ButtonAction } from '@/components/ButtonAction';
@@ -20,13 +21,14 @@ import { IUserProgress } from '@/models/UsersProgress';
 import { IUserAnswer } from '@/models/UserAnswer';
 import { MessageType } from '@/models/Utils';
 import { addUserProgress, getQuiz, saveUserCompletedSubcategories } from '@/services/firestore';
-import { styles } from './styles';
+import { getQuizesStyles } from './styles';
 
 type QuizesRouteProp = RouteProp<PrivateStackParamList, 'quizes'>;
 
 export function Quizes() {
   const theme = useTheme();
   const route = useRoute<QuizesRouteProp>();
+  const styles = useThemedStyles(getQuizesStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { user } = useAppStore();
   const { idSubcategory, titleCategory, titleSubcategory } = route.params;
@@ -284,22 +286,26 @@ export function Quizes() {
         }}
         onChange={handleSheetChanges}>
         {stop && (
-          <BottomSheetMessage
-            type={MessageType.question}
-            title="Deseja parar o quiz?"
-            subtitle="Seu progresso não será contabilizado e você poderá recomeçar quando quiser."
-            onPressPrimary={handleBottomSheetPressStop}
-            onPressSecondary={handleBottomSheetClose}
-          />
+          <BottomSheetView>
+            <BottomSheetMessage
+              type={MessageType.question}
+              title="Deseja parar o quiz?"
+              subtitle="Seu progresso não será contabilizado e você poderá recomeçar quando quiser."
+              onPressPrimary={handleBottomSheetPressStop}
+              onPressSecondary={handleBottomSheetClose}
+            />
+          </BottomSheetView>
         )}
         {next && (
-          <BottomSheetMessage
-            type={MessageType.question}
-            title="Deseja realmente pular a questão?"
-            subtitle="Questões não respondidas serão contabilizadas como erros na sua pontuação final."
-            onPressPrimary={handleNextQuestion}
-            onPressSecondary={handleBottomSheetClose}
-          />
+          <BottomSheetView>
+            <BottomSheetMessage
+              type={MessageType.question}
+              title="Deseja realmente pular a questão?"
+              subtitle="Questões não respondidas serão contabilizadas como erros na sua pontuação final."
+              onPressPrimary={handleNextQuestion}
+              onPressSecondary={handleBottomSheetClose}
+            />
+          </BottomSheetView>
         )}
       </BottomSheet>
     </GradientContainer>
