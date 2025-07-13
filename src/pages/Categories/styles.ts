@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { AppTheme } from '@/themes';
 
 export const getCategoriesStyles = (theme: AppTheme) =>
@@ -10,9 +10,9 @@ export const getCategoriesStyles = (theme: AppTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: 10,
-      marginLeft: 24,
-      marginRight: 24,
+      marginTop: Platform.OS === 'android' ? theme.vSpacings.xl3 : theme.vSpacings.md,
+      marginLeft: theme.hSpacings.md,
+      marginRight: theme.hSpacings.md,
     },
     greeting: {
       color: theme.colors.titleBold,
@@ -20,16 +20,16 @@ export const getCategoriesStyles = (theme: AppTheme) =>
       fontFamily: theme.fontFamily.medium,
     },
     title: {
-      marginLeft: 24,
-      marginRight: 24,
+      marginLeft: theme.hSpacings.md,
+      marginRight: theme.hSpacings.md,
       color: theme.colors.titleBold,
       fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.medium,
     },
     category: {
-      marginLeft: 24,
-      marginRight: 24,
-      marginTop: 20,
+      marginLeft: theme.hSpacings.md,
+      marginRight: theme.hSpacings.md,
+      marginTop: theme.vSpacings.md,
       color: theme.colors.titleBold,
       fontSize: theme.fontSizes.xl,
       fontFamily: theme.fontFamily.bold,

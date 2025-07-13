@@ -1,6 +1,6 @@
-import React from 'react';
-import { View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ButtonNavigation } from '@/components/ButtonNavigation';
 import { getBottomNavigationStyles } from './styles';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
@@ -8,8 +8,22 @@ import { useThemedStyles } from '@/hooks/useThemedStyles';
 export function BottomNavigation() {
   const route = useRoute();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const screen = route.name;
-  const styles = useThemedStyles(getBottomNavigationStyles);
+  const baseStyles = useThemedStyles(getBottomNavigationStyles);
+
+  // Converter altura para número e garantir um valor padrão
+  const baseHeight =
+    typeof baseStyles.container.height === 'number' ? baseStyles.container.height : 60;
+
+  // Definir os estilos com tipagem explícita
+  const styles: { container: ViewStyle } = {
+    container: {
+      ...baseStyles.container,
+      height: baseHeight + insets.bottom,
+      paddingBottom: insets.bottom,
+    },
+  };
 
   return (
     <View style={styles.container}>

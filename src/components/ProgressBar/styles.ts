@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
 import { verticalScale } from 'react-native-size-matters';
 import { AppTheme } from '../../themes';
 
@@ -22,20 +21,20 @@ export const getProgressBarStyles = (theme: AppTheme) =>
     },
     questionTitle: {
       color: theme.colors.titleLight,
-      fontSize: RFValue(theme.fontSizes.xs),
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.semibold,
     },
     questionCurrent: {
       marginLeft: 4,
       marginRight: 2,
       color: theme.colors.titleLight,
-      fontSize: RFValue(theme.fontSizes.xs),
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.bold,
     },
     questionTotal: {
       marginLeft: 2,
       color: theme.colors.titleLight,
-      fontSize: RFValue(theme.fontSizes.xs),
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.semibold,
     },
     bar: {

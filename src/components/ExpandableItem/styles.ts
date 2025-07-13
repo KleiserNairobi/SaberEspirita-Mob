@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { verticalScale } from 'react-native-size-matters';
+
 import { AppTheme } from '@/themes';
 
 export const getExpandableItemStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
-      padding: verticalScale(10),
-      marginBottom: verticalScale(16),
+      paddingVertical: theme.vSpacings.xs,
+      paddingHorizontal: theme.hSpacings.xs,
+      marginBottom: theme.vSpacings.xs,
       flexDirection: 'column',
       borderWidth: 1,
       borderRadius: 8,
@@ -15,22 +15,24 @@ export const getExpandableItemStyles = (theme: AppTheme) =>
       backgroundColor: theme.colors.optionNormalBackground,
     },
     boxTitle: {
+      flexWrap: 'nowrap',
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
     boxTitleWrapper: {
-      flex: 1,
-      flexWrap: 'wrap',
+      flexShrink: 1,
+      flexGrow: 1,
+      flexBasis: 0,
     },
     title: {
       color: theme.colors.titleBold,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     content: {
-      marginTop: verticalScale(8),
+      marginTop: 6,
       color: theme.colors.titleNormal,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
   });

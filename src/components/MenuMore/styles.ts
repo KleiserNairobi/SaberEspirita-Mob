@@ -6,8 +6,9 @@ import { AppTheme } from '@/themes';
 export const getMenuMoreStyles = (theme: AppTheme) =>
   StyleSheet.create({
     button: {
-      padding: verticalScale(8),
-      marginBottom: verticalScale(8),
+      paddingVertical: theme.vSpacings.xs,
+      paddingHorizontal: theme.hSpacings.xs,
+      marginBottom: theme.vSpacings.xs,
       borderBottomWidth: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -16,7 +17,7 @@ export const getMenuMoreStyles = (theme: AppTheme) =>
     title: {
       marginLeft: 10,
       color: theme.colors.titleBold,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     boxTitle: {

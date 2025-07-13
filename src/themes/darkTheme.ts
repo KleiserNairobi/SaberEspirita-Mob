@@ -1,4 +1,6 @@
 import { ThemeType } from './colorsTheme';
+import { scale, verticalScale } from 'react-native-size-matters';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const darkTheme: ThemeType = {
   colors: {
@@ -51,7 +53,7 @@ export const darkTheme: ThemeType = {
 
     cardSubcategoryTitle: '#D8DDE5',
     cardSubcategorySubtitle: '#ADB1B7',
-    cardSubcategoryQuizCount: '#798391',
+    cardSubcategoryQuizCount: '#F0F5FB',
 
     toggleBorderActive: '#52606D',
     toggleActiveBackground: '#323F4B',
@@ -60,20 +62,39 @@ export const darkTheme: ThemeType = {
 
     inputPlaceholder: '#798391',
   },
-  spacing: { sm: 8, md: 16, lg: 24 },
+  vSpacings: {
+    xs: verticalScale(8),
+    sm: verticalScale(16),
+    md: verticalScale(24),
+    lg: verticalScale(32),
+    xl: verticalScale(40),
+    xl2: verticalScale(48),
+    xl3: verticalScale(56),
+    xl4: verticalScale(64),
+  },
+  hSpacings: {
+    xs: scale(8),
+    sm: scale(16),
+    md: scale(24),
+    lg: scale(32),
+    xl: scale(40),
+    xl2: scale(48),
+    xl3: scale(56),
+    xl4: scale(64),
+  },
   fontSizes: {
-    xxs: 10,
-    xs: 12,
-    sm: 14,
-    md: 16,
-    lg: 18,
-    xl: 20,
-    xl2: 22,
-    xl3: 24,
-    xl4: 26,
-    xl5: 28,
-    xl6: 30,
-    xl7: 34,
+    xxs: RFValue(10),
+    xs: RFValue(12),
+    sm: RFValue(14),
+    md: RFValue(16),
+    lg: RFValue(18),
+    xl: RFValue(20),
+    xl2: RFValue(22),
+    xl3: RFValue(24),
+    xl4: RFValue(26),
+    xl5: RFValue(28),
+    xl6: RFValue(30),
+    xl7: RFValue(34),
   },
   fontLogo: { regular: 'Courgette_400Regular' },
   fontFamily: {

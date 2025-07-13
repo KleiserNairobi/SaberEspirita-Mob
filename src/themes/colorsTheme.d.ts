@@ -47,7 +47,26 @@ export type ThemeType = {
     toggleBorderInActive: string;
     inputPlaceholder: string;
   };
-  spacing: { sm: number; md: number; lg: number };
+  vSpacings: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xl2: number;
+    xl3: number;
+    xl4: number;
+  };
+  hSpacings: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    xl2: number;
+    xl3: number;
+    xl4: number;
+  };
   fontSizes: {
     xxs: number;
     xs: number;

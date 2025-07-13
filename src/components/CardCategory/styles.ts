@@ -1,5 +1,4 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
 import { scale } from 'react-native-size-matters';
 import { AppTheme } from '@/themes';
 
@@ -14,8 +13,8 @@ export const getCardCategoryStyles = (theme: AppTheme) =>
       height: scale(136),
       width: cardWidth,
       overflow: 'hidden',
-      marginRight: scale(12),
-      marginBottom: scale(12),
+      marginRight: theme.hSpacings.xs,
+      marginBottom: theme.vSpacings.xs,
       borderWidth: 1,
       borderRadius: 8,
       borderColor: theme.colors.cardProgressBorder,
@@ -23,7 +22,8 @@ export const getCardCategoryStyles = (theme: AppTheme) =>
     },
     backImage: {
       flex: 1,
-      padding: scale(16),
+      paddingVertical: theme.vSpacings.sm,
+      paddingHorizontal: theme.hSpacings.sm,
     },
     imageDataColumn: {
       flex: 1,
@@ -34,14 +34,14 @@ export const getCardCategoryStyles = (theme: AppTheme) =>
       flexDirection: 'column',
     },
     title: {
-      paddingTop: scale(8),
+      paddingTop: theme.vSpacings.xs,
       color: theme.colors.cardTitle,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     subtitle: {
       color: theme.colors.cardSubtitle,
-      fontSize: RFValue(theme.fontSizes.xs),
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.regular,
     },
   });

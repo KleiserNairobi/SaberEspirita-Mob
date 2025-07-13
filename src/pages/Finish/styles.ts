@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { AppTheme } from '@/themes';
+import { scale } from 'react-native-size-matters';
 
 export const getFinishStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      marginLeft: 24,
-      marginRight: 24,
+      marginHorizontal: theme.hSpacings.md,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -15,21 +15,21 @@ export const getFinishStyles = (theme: AppTheme) =>
       height: '24%',
     },
     subcategory: {
-      marginTop: 32,
+      marginTop: theme.vSpacings.md,
       textAlign: 'center',
       color: theme.colors.titleBold,
-      fontSize: theme.fontSizes.lg,
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     category: {
       textAlign: 'center',
-      color: theme.colors.titleNormal,
-      fontSize: theme.fontSizes.md,
+      color: theme.colors.titleLight,
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.medium,
     },
     boxRow: {
       width: '100%',
-      marginTop: 16,
+      marginTop: theme.vSpacings.sm,
       flexDirection: 'row',
       justifyContent: 'space-around',
     },
@@ -46,31 +46,31 @@ export const getFinishStyles = (theme: AppTheme) =>
     titlePoints: {
       textAlign: 'center',
       color: theme.colors.titleBold,
-      fontSize: theme.fontSizes.sm,
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.medium,
     },
     title: {
-      marginTop: 32,
+      marginTop: theme.vSpacings.lg,
       marginBottom: 8,
       textAlign: 'center',
       color: theme.colors.titleBold,
-      fontSize: theme.fontSizes.lg,
-      fontFamily: theme.fontFamily.semibold,
+      fontSize: theme.fontSizes.md,
+      fontFamily: theme.fontFamily.medium,
     },
     message: {
-      marginBottom: 50,
+      marginBottom: theme.vSpacings.lg,
       textAlign: 'center',
-      color: theme.colors.titleBold,
+      color: theme.colors.titleNormal,
       fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
     boxButton: {
-      marginTop: 20,
+      width: '100%',
       justifyContent: 'center',
       flexDirection: 'row',
     },
     buttonSecondary: {
-      width: 100,
+      width: scale(120),
       padding: 8,
       borderWidth: 2,
       borderRadius: 18,
@@ -78,7 +78,7 @@ export const getFinishStyles = (theme: AppTheme) =>
       borderColor: theme.colors.buttonActionOutileneBorder,
     },
     buttonPrimary: {
-      width: 100,
+      width: scale(120),
       padding: 8,
       borderRadius: 18,
       alignItems: 'center',

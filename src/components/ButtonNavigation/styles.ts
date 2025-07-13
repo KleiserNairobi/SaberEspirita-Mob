@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
 import { verticalScale } from 'react-native-size-matters';
 import { AppTheme } from '@/themes';
 
@@ -12,7 +11,7 @@ export const getButtonNavigationStyles = (theme: AppTheme) =>
     title: {
       marginTop: verticalScale(2),
       color: theme.colors.bottonNavigationTitle,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.medium,
     },
     titleActive: {

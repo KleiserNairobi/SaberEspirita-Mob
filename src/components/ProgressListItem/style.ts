@@ -33,23 +33,23 @@ export const getProgressListItemStyles = (theme: AppTheme) =>
     quizName: {
       flexWrap: 'wrap',
       color: theme.colors.titleBold,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     dateTime: {
       color: theme.colors.titleLight,
-      fontSize: RFValue(theme.fontSizes.xs),
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.regular,
     },
     percentage: {
       color: theme.colors.accented,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.bold,
     },
     textPercentage: {
       marginTop: verticalScale(2),
       color: theme.colors.titleNormal,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
     boxStar: {

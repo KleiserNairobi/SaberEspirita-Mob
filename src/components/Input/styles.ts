@@ -25,7 +25,7 @@ export const getInputStyles = (theme: AppTheme, props: Props & PropsTextInput) =
     MyLabel: {
       marginBottom: verticalScale(4),
       color: theme.colors.titleNormal,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.semibold,
     },
     InputContainer: {
@@ -55,7 +55,7 @@ export const getInputStyles = (theme: AppTheme, props: Props & PropsTextInput) =
     StyledTextInput: {
       flex: 1,
       color: theme.colors.titleNormal,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
       borderWidth: 0,
       borderColor: props.error
@@ -67,7 +67,7 @@ export const getInputStyles = (theme: AppTheme, props: Props & PropsTextInput) =
     StyleError: {
       marginTop: verticalScale(4),
       color: theme.colors.optionErrorBorder,
-      fontSize: RFValue(theme.fontSizes.xs),
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.regular,
     },
   });

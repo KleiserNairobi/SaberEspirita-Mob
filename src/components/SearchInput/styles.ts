@@ -15,8 +15,7 @@ export const getSearchInputStyles = (
   StyleSheet.create({
     container: {
       flexDirection: 'column',
-      marginTop: verticalScale(20),
-      marginBottom: verticalScale(20),
+      marginVertical: theme.vSpacings.sm,
     },
     inputContainer: {
       flexDirection: 'row',
@@ -37,7 +36,7 @@ export const getSearchInputStyles = (
       flex: 1,
       borderWidth: 0,
       color: theme.colors.titleNormal,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
     iconRight: {

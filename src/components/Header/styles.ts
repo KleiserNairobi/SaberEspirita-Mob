@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { StyleSheet, Platform } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { AppTheme } from '../../themes';
 
@@ -8,7 +7,7 @@ export const getHeaderStyles = (theme: AppTheme) =>
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginTop: verticalScale(40),
+      marginTop: Platform.OS === 'android' ? theme.vSpacings.xl3 : theme.vSpacings.md,
     },
     backButton: {
       width: scale(40),
@@ -21,7 +20,7 @@ export const getHeaderStyles = (theme: AppTheme) =>
     category: {
       marginLeft: 8,
       color: theme.colors.titleBold,
-      fontSize: RFValue(theme.fontSizes.lg),
+      fontSize: theme.fontSizes.lg,
       fontFamily: theme.fontFamily.medium,
     },
   });

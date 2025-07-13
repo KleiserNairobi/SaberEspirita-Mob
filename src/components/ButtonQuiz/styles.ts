@@ -1,14 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { verticalScale } from 'react-native-size-matters';
 import { AppTheme } from '@/themes';
 
 export const getButtonQuizStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
       width: '100%',
-      padding: verticalScale(12),
-      marginBottom: verticalScale(12),
+      paddingVertical: theme.vSpacings.sm,
+      paddingHorizontal: theme.hSpacings.sm,
+      marginBottom: theme.vSpacings.sm,
       borderRadius: 8,
       borderWidth: 1,
       borderColor: theme.colors.optionNormalBorder,
@@ -37,7 +36,7 @@ export const getButtonQuizStyles = (theme: AppTheme) =>
     },
     title: {
       color: theme.colors.optionNormalTitle,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
     titleChecked: {

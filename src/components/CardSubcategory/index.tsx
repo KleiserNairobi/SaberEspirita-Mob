@@ -3,7 +3,7 @@ import Icon from 'react-native-remix-icon';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getCardSubcategoryStyles } from './styles';
 import { useTheme } from '@/hooks/useTheme';
-import { verticalScale } from 'react-native-size-matters';
+import { scale } from 'react-native-size-matters';
 
 type CardType = TouchableOpacityProps & {
   title: string;
@@ -26,16 +26,12 @@ export function CardSubcategory({ title, subtitle, quizCount, completed, ...rest
         </View>
         <View style={styles.boxIcon}>
           {completed ? (
-            <Icon
-              name="checkbox-circle-line"
-              color={theme.colors.primary}
-              size={verticalScale(28)}
-            />
+            <Icon name="checkbox-circle-line" color={theme.colors.primary} size={scale(28)} />
           ) : (
             <Icon
               name="checkbox-blank-circle-line"
               color={theme.colors.optionNormalBorder}
-              size={verticalScale(28)}
+              size={scale(28)}
             />
           )}
         </View>

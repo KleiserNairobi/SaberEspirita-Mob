@@ -1,40 +1,39 @@
 import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { scale, verticalScale } from 'react-native-size-matters';
+import { scale } from 'react-native-size-matters';
 import { AppTheme } from '@/themes';
 
 export const getBottomSheetMessageStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
-      margin: scale(10),
+      marginVertical: theme.vSpacings.xs,
+      marginHorizontal: theme.hSpacings.xs,
       alignItems: 'center',
       flexDirection: 'column',
     },
     title: {
       textAlign: 'center',
-      paddingLeft: 24,
-      paddingRight: 24,
-      marginTop: verticalScale(8),
+      paddingHorizontal: theme.hSpacings.md,
+      marginTop: theme.vSpacings.xs,
       color: theme.colors.titleBold,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.bold,
     },
     subtitle: {
       textAlign: 'center',
-      paddingLeft: 24,
-      paddingRight: 24,
+      paddingHorizontal: theme.hSpacings.md,
       color: theme.colors.titleNormal,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.semibold,
     },
     boxButton: {
-      marginTop: verticalScale(20),
+      marginTop: theme.vSpacings.md,
       justifyContent: 'center',
       flexDirection: 'row',
     },
     buttonSecondary: {
       width: scale(80),
-      padding: verticalScale(8),
+      paddingVertical: theme.vSpacings.xs,
+      paddingHorizontal: theme.hSpacings.xs,
       borderWidth: 2,
       borderRadius: 18,
       alignItems: 'center',
@@ -42,7 +41,8 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
     },
     buttonPrimary: {
       width: scale(80),
-      padding: verticalScale(8),
+      paddingVertical: theme.vSpacings.xs,
+      paddingHorizontal: theme.hSpacings.xs,
       borderRadius: 18,
       alignItems: 'center',
       marginLeft: 10,
@@ -50,12 +50,12 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
     },
     titleButtonPrimary: {
       color: theme.colors.titleBlack,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     titleButtonSecondary: {
       color: theme.colors.titleBold,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
   });

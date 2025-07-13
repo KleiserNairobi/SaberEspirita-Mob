@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, FlatList, View, Text, SafeAreaView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CardCategory } from '@/components/CardCategory';
 import { GradientContainer } from '@/components/GradientContainer';
 import { BottomNavigation } from '@/components/BottomNavigation';
@@ -21,6 +22,7 @@ type RootStackParamList = {
 };
 
 export function Categories() {
+  const insets = useSafeAreaInsets();
   const styles = useThemedStyles(getCategoriesStyles);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { user } = useAppStore();
@@ -88,7 +90,7 @@ export function Categories() {
 
   return (
     <GradientContainer>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
         <View style={styles.greetingBox}>
           <Text style={styles.greeting}>Oi, {user?.displayName || 'amigo(a)'}!</Text>
         </View>
@@ -110,7 +112,7 @@ export function Categories() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingTop: 10,
-            paddingBottom: 200,
+            paddingBottom: 200 + insets.bottom,
             paddingHorizontal: 24,
           }}
         />

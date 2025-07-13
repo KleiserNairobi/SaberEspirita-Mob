@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, TouchableOpacityProps } from 'react-nativ
 import Icon from 'react-native-remix-icon';
 // import SoundPlayer from 'react-native-sound-player';
 import { useTheme } from '../../hooks/useTheme';
-import { verticalScale } from 'react-native-size-matters';
+import { scale } from 'react-native-size-matters';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { getButtonQuizStyles } from './styles';
 import { useAppStore } from '@/hooks/useAppStore';
@@ -67,13 +67,13 @@ export function ButtonQuiz({ title, checked, success, disabled, ...rest }: CardT
               <Icon
                 name="checkbox-circle-line"
                 color={theme.colors.optionSuccessBorder}
-                size={verticalScale(16)}
+                size={scale(16)}
               />
             ) : (
               <Icon
                 name="close-circle-line"
                 color={theme.colors.optionErrorBorder}
-                size={verticalScale(16)}
+                size={scale(16)}
               />
             ))}
         </View>

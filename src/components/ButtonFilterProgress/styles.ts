@@ -1,6 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { verticalScale } from 'react-native-size-matters';
 import { AppTheme } from '@/themes';
 
 export const getButtonFilterProgressStyles = (theme: AppTheme) =>
@@ -8,7 +6,7 @@ export const getButtonFilterProgressStyles = (theme: AppTheme) =>
     button: {
       height: '100%',
       marginRight: 8,
-      marginBottom: verticalScale(20),
+      marginBottom: theme.vSpacings.sm,
       borderRadius: 40,
       backgroundColor: theme.colors.secondary,
     },
@@ -16,10 +14,10 @@ export const getButtonFilterProgressStyles = (theme: AppTheme) =>
       backgroundColor: theme.colors.primary,
     },
     title: {
-      paddingVertical: verticalScale(8),
-      paddingHorizontal: verticalScale(20),
+      paddingVertical: theme.vSpacings.xs,
+      paddingHorizontal: theme.hSpacings.sm,
       color: theme.colors.titleBlack,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.medium,
     },
     titleActive: {

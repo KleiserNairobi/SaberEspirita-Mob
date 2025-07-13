@@ -7,8 +7,8 @@ export const getCardSubcategoryStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
       width: '100%',
-      padding: scale(10),
-      marginBottom: verticalScale(12),
+      padding: verticalScale(10),
+      marginBottom: theme.vSpacings.xs,
       borderRadius: 8,
       borderWidth: 1,
       borderColor: theme.colors.optionNormalBorder,
@@ -29,18 +29,18 @@ export const getCardSubcategoryStyles = (theme: AppTheme) =>
     },
     title: {
       color: theme.colors.cardSubcategoryTitle,
-      fontSize: RFValue(theme.fontSizes.md),
+      fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
     subtitle: {
       color: theme.colors.cardSubcategorySubtitle,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
     quizCount: {
-      paddingTop: verticalScale(4),
+      paddingTop: theme.vSpacings.xs,
       color: theme.colors.cardSubcategoryQuizCount,
-      fontSize: RFValue(theme.fontSizes.sm),
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
     },
   });

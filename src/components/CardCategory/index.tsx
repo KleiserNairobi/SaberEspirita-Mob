@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { scale } from 'react-native-size-matters';
-import { RFValue } from 'react-native-responsive-fontsize';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getCardCategoryStyles } from './styles';
 import { useTheme } from '@/hooks/useTheme';
@@ -38,7 +37,7 @@ export function CardCategory({ title, subtitle, percentage, imageBackground, ...
             inActiveStrokeColor={theme.colors.cardProgressSecondary}
             inActiveStrokeOpacity={0.7}
             progressValueColor={theme.colors.cardSubtitle}
-            progressValueFontSize={RFValue(theme.fontSizes.xs)}
+            progressValueFontSize={theme.fontSizes.xs}
             progressValueStyle={{ fontFamily: theme.fontFamily.semibold }}
           />
           <View style={styles.columnTitle}>

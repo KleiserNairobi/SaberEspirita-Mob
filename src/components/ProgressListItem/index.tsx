@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import Icon from 'react-native-remix-icon';
-import { verticalScale } from 'react-native-size-matters';
+import { scale } from 'react-native-size-matters';
 import { useTheme } from '@/hooks/useTheme';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getProgressListItemStyles } from './style';
@@ -42,7 +42,7 @@ export function ProgressListItem({ level, title, dateTime, percentage }: Props) 
       stars.push(
         <Icon
           key={i}
-          size={verticalScale(16)}
+          size={scale(16)}
           name="star-fill"
           color={filled ? theme.colors.accented : theme.colors.cardQuizBorder}
         />
