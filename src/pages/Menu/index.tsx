@@ -1,8 +1,6 @@
 import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
-import type { IconName } from 'react-native-remix-icon';
-import { View, Text, TouchableOpacity, Share, Alert, SafeAreaView } from 'react-native';
+import { View, Text, Share, Alert, SafeAreaView, Switch, Platform } from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
-import Toggle from 'react-native-toggle-element';
 import Icon from 'react-native-remix-icon';
 import auth from '@react-native-firebase/auth';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
@@ -11,7 +9,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
-
 import { Header } from '@/components/Header';
 import { GradientContainer } from '@/components/GradientContainer';
 import { BottomNavigation } from '@/components/BottomNavigation';
@@ -38,11 +35,17 @@ export function Menu() {
   const [onError, setOnError] = useState(false);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [error, setError] = useState('');
-
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [1, '36%'], []);
 
-  const { theme: themeContext, toggleTheme, isSoundOn, toggleSound, setUser } = useAppStore();
+  const {
+    theme: themeContext,
+    toggleTheme,
+    isSoundOn,
+    toggleSound,
+    setUser,
+    isLoading,
+  } = useAppStore();
 
   const theme = useTheme();
   const isDarkTheme = themeContext === ThemeType.dark;
@@ -113,46 +116,9 @@ export function Menu() {
     }
   }
 
-  const renderToggle = (
-    value: boolean,
-    onPress: () => void,
-    leftIconName: IconName,
-    rightIconName: IconName,
-    leftIconColor: string,
-    rightIconColor: string
-  ) => (
-    <Toggle
-      value={value}
-      onPress={onPress}
-      trackBar={{
-        width: 72,
-        height: 32,
-        borderWidth: 1,
-        borderActiveColor: isDarkTheme
-          ? theme.colors.toggleBorderActive
-          : theme.colors.toggleBorderInActive,
-        activeBackgroundColor: isDarkTheme
-          ? theme.colors.toggleActiveBackground
-          : theme.colors.toggleInActiveBackground,
-        inActiveBackgroundColor: isDarkTheme
-          ? theme.colors.toggleActiveBackground
-          : theme.colors.toggleInActiveBackground,
-        borderInActiveColor: isDarkTheme
-          ? theme.colors.toggleBorderActive
-          : theme.colors.toggleBorderInActive,
-        radius: 16,
-      }}
-      thumbButton={{
-        width: 36,
-        height: 32,
-        radius: 16,
-        activeBackgroundColor: theme.colors.primary,
-        inActiveBackgroundColor: theme.colors.primary,
-      }}
-      leftComponent={<Icon name={leftIconName} size={18} color={leftIconColor} />}
-      rightComponent={<Icon name={rightIconName} size={18} color={rightIconColor} />}
-    />
-  );
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <GradientContainer>
@@ -183,43 +149,68 @@ export function Menu() {
           <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} />
           <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </View>
+
         <View style={styles.boxItems}>
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Emitir som</Text>
-            {renderToggle(
-              isSoundOn,
-              toggleSound,
-              'volume-mute-line',
-              'volume-down-line',
-              !isDarkTheme && !isSoundOn
-                ? theme.colors.secondary
-                : !isDarkTheme && isSoundOn
-                  ? theme.colors.primary
-                  : isDarkTheme && !isSoundOn
-                    ? theme.colors.terciary
-                    : theme.colors.titleNormal,
-              !isDarkTheme && !isSoundOn
-                ? theme.colors.primary
-                : !isDarkTheme && isSoundOn
-                  ? theme.colors.secondary
-                  : isDarkTheme && !isSoundOn
-                    ? theme.colors.titleNormal
-                    : theme.colors.terciary
-            )}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Icon
+                name="volume-mute-line"
+                size={18}
+                color={!isSoundOn ? theme.colors.titleNormal : theme.colors.cardQuizBorder}
+                style={{ marginRight: 6 }}
+              />
+              <View style={Platform.OS === 'android' ? { transform: [{ scale: 1.2 }] } : null}>
+                <Switch
+                  value={isSoundOn}
+                  onValueChange={toggleSound}
+                  thumbColor={theme.colors.primary}
+                  trackColor={{
+                    false: theme.colors.buttonBack,
+                    true: theme.colors.buttonBack,
+                  }}
+                />
+              </View>
+              <Icon
+                name="volume-down-line"
+                size={18}
+                color={isSoundOn ? theme.colors.titleNormal : theme.colors.cardQuizBorder}
+                style={{ marginLeft: 6 }}
+              />
+            </View>
           </View>
+
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Alterar tema</Text>
-            {renderToggle(
-              isDarkTheme,
-              toggleTheme,
-              'sun-line',
-              'contrast-2-fill',
-              isDarkTheme ? theme.colors.titleBold : theme.colors.terciary,
-              isDarkTheme ? theme.colors.terciary : theme.colors.primary
-            )}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Icon
+                name="sun-line"
+                size={18}
+                color={!isDarkTheme ? theme.colors.titleNormal : theme.colors.cardQuizBorder}
+                style={{ marginRight: 6 }}
+              />
+              <View style={Platform.OS === 'android' ? { transform: [{ scale: 1.2 }] } : null}>
+                <Switch
+                  value={isDarkTheme}
+                  onValueChange={toggleTheme}
+                  thumbColor={theme.colors.primary}
+                  trackColor={{
+                    false: theme.colors.buttonBack,
+                    true: theme.colors.buttonBack,
+                  }}
+                />
+              </View>
+              <Icon
+                name="contrast-2-fill"
+                size={18}
+                color={isDarkTheme ? theme.colors.titleNormal : theme.colors.cardQuizBorder}
+                style={{ marginLeft: 6 }}
+              />
+            </View>
           </View>
         </View>
       </SafeAreaView>
+
       <BottomNavigation />
       {bottomSheetOpen && <View style={styles.containerModal} />}
       <BottomSheet

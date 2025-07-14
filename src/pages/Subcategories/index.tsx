@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, View, ScrollView, Text, SafeAreaView } from 'react-native';
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useTheme } from '@/hooks/useTheme';
 import { Header } from '@/components/Header';
@@ -23,6 +23,7 @@ import {
   removeUserCompletedSubcategory,
   removeUserProgress,
 } from '@/services/firestore';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 type SubcategoriesRouteProp = RouteProp<PrivateStackParamList, 'subcategories'>;
 
@@ -69,9 +70,13 @@ export function Subcategories() {
   }, []);
 
   function handleBottomSheetClose() {
-    setQuizAnswered(false);
-    setBottomSheetOpen(false);
     bottomSheetRef.current?.close();
+
+    // Delay para permitir que o fechamento finalize antes de resetar o estado
+    setTimeout(() => {
+      setQuizAnswered(false);
+      setBottomSheetOpen(false);
+    }, 100);
   }
 
   function handleClickCardSubcategory(idSubcategory: string, titleSubcategory: string) {
@@ -86,8 +91,8 @@ export function Subcategories() {
     setIdSubcategoryState(idSubcategory);
     setTitleSubcategoryState(titleSubcategory);
     setQuizAnswered(true);
-    setBottomSheetOpen(true);
-    bottomSheetRef.current?.expand();
+    // setBottomSheetOpen(true);
+    // bottomSheetRef.current?.expand(); // aqui vai mudar
   }
 
   function handleQuizAnswered() {
@@ -131,6 +136,13 @@ export function Subcategories() {
     }, [user?.uid, idCategory])
   );
 
+  useEffect(() => {
+    if (quizAnswered) {
+      setBottomSheetOpen(true);
+      bottomSheetRef.current?.expand();
+    }
+  }, [quizAnswered]);
+
   return (
     <GradientContainer>
       <SafeAreaView style={styles.container}>
@@ -149,7 +161,7 @@ export function Subcategories() {
                 scrollEnabled={false}
                 nestedScrollEnabled={true}
                 keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={{ paddingBottom: 10 }}
+                contentContainerStyle={{ paddingBottom: verticalScale(10) }}
                 renderItem={({ item }) => (
                   <CardSubcategory
                     title={item.title}
@@ -164,18 +176,32 @@ export function Subcategories() {
           )}
         </ScrollView>
       </SafeAreaView>
-      {bottomSheetOpen && <View style={styles.containerModal} />}
+      {/* {bottomSheetOpen && <View style={styles.containerModal} />} */}
+      {/* {bottomSheetOpen && <View style={styles.containerModal} pointerEvents="auto" />} */}
       <BottomSheet
         ref={bottomSheetRef}
-        index={0}
+        index={-1}
         snapPoints={snapPoints}
+        onChange={handleBottomSheetChanges}
         backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
         handleIndicatorStyle={{
           backgroundColor: theme.colors.secondary,
-          width: 80,
-          height: 8,
+          width: scale(80),
+          height: verticalScale(8),
         }}
-        onChange={handleBottomSheetChanges}>
+        // backdropComponent={({ animatedIndex, animatedPosition, style }) => (
+        //   <BottomSheetBackdrop
+        //     animatedIndex={animatedIndex}
+        //     animatedPosition={animatedPosition}
+        //     style={style}
+        //     disappearsOnIndex={0}
+        //     appearsOnIndex={1}
+        //     pressBehavior="none"
+        //   />
+        // )}
+
+        // containerStyle={{ zIndex: 20, elevation: 20 }}
+      >
         {quizAnswered && (
           <BottomSheetView>
             <BottomSheetMessage

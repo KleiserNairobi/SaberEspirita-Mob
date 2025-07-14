@@ -5,8 +5,7 @@ export const getSubcategoriesStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      marginLeft: 24,
-      marginRight: 24,
+      marginHorizontal: theme.hSpacings.md,
     },
     category: {
       marginTop: 20,
@@ -15,7 +14,7 @@ export const getSubcategoriesStyles = (theme: AppTheme) =>
       fontFamily: theme.fontFamily.bold,
     },
     description: {
-      marginTop: 8,
+      marginTop: theme.vSpacings.xs,
       color: theme.colors.titleNormal,
       fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.regular,
@@ -26,8 +25,8 @@ export const getSubcategoriesStyles = (theme: AppTheme) =>
       fontFamily: theme.fontFamily.semibold,
     },
     quizes: {
-      marginTop: 30,
-      marginBottom: 16,
+      marginTop: theme.vSpacings.lg,
+      marginBottom: theme.vSpacings.sm,
       color: theme.colors.titleNormal,
       fontSize: theme.fontSizes.lg,
       fontFamily: theme.fontFamily.semibold,
@@ -42,5 +41,7 @@ export const getSubcategoriesStyles = (theme: AppTheme) =>
       right: 0,
       bottom: 0,
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      zIndex: 10,
+      elevation: 10,
     },
   });

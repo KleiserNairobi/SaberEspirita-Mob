@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import Icon from 'react-native-remix-icon';
-// import SoundPlayer from 'react-native-sound-player';
 import { useTheme } from '../../hooks/useTheme';
 import { scale } from 'react-native-size-matters';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { getButtonQuizStyles } from './styles';
 import { useAppStore } from '@/hooks/useAppStore';
+import { useAudioPlayer } from 'expo-audio';
 
 type CardType = TouchableOpacityProps & {
   title: string;
@@ -26,34 +26,37 @@ export function ButtonQuiz({ title, checked, success, disabled, ...rest }: CardT
     checked && !success && styles.containerCheckedError,
   ];
 
-  // const playSound = useCallback(
-  //   (sound: string) => {
-  //     try {
-  //       if (isSoundOn) {
-  //         SoundPlayer.setVolume(7);
-  //         SoundPlayer.playSoundFile(sound, 'mp3');
-  //       }
-  //     } catch {
-  //       // ignorar
-  //     }
-  //   },
-  //   [isSoundOn]
-  // );
+  const correctPlayer = useAudioPlayer(require('@/assets/sounds/correct.mp3'));
+  const wrongPlayer = useAudioPlayer(require('@/assets/sounds/wrong.mp3'));
+
+  const playSound = useCallback(
+    (sound: 'correct' | 'wrong') => {
+      try {
+        console.log('Tocar som', isSoundOn);
+        if (!isSoundOn) return;
+
+        // Rebubina o som para o início
+        correctPlayer.seekTo(0);
+        wrongPlayer.seekTo(0);
+
+        if (sound === 'correct') {
+          correctPlayer.play();
+        } else {
+          wrongPlayer.play();
+        }
+      } catch (error) {
+        console.log('Erro ao tocar som:', error);
+      }
+    },
+    [isSoundOn, correctPlayer, wrongPlayer]
+  );
 
   useEffect(() => {
-    // let onFinishedPlayingSubscription: any;
-    // onFinishedPlayingSubscription = SoundPlayer.addEventListener('FinishedPlaying', () => {});
-    // return () => {
-    //   onFinishedPlayingSubscription.remove();
-    // };
-  }, []);
-
-  // useEffect(() => {
-  //   if (checked) {
-  //     const sound = success ? 'correct' : 'wrong';
-  //     playSound(sound);
-  //   }
-  // }, [checked, success, playSound]);
+    if (checked) {
+      const sound = success ? 'correct' : 'wrong';
+      playSound(sound);
+    }
+  }, [checked, success, playSound]);
 
   return (
     <TouchableOpacity style={containerStyle} disabled={disabled} {...rest}>
