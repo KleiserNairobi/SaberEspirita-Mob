@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, View, ScrollView, Text, SafeAreaView } from 'react-native';
+import { FlatList, ScrollView, Text, SafeAreaView } from 'react-native';
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
+import { scale, verticalScale } from 'react-native-size-matters';
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useTheme } from '@/hooks/useTheme';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { Header } from '@/components/Header';
 import { CardSubcategory } from '@/components/CardSubcategory';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
@@ -15,7 +17,6 @@ import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories'
 import { MessageType } from '@/models/Utils';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { getSubcategoriesStyles } from './styles';
-import { useThemedStyles } from '@/hooks/useThemedStyles';
 
 import {
   getSubcategories,
@@ -23,7 +24,6 @@ import {
   removeUserCompletedSubcategory,
   removeUserProgress,
 } from '@/services/firestore';
-import { scale, verticalScale } from 'react-native-size-matters';
 
 type SubcategoriesRouteProp = RouteProp<PrivateStackParamList, 'subcategories'>;
 
@@ -35,9 +35,8 @@ export function Subcategories() {
   const { user } = useAppStore();
   const { idCategory, titleCategory, description } = route.params;
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [1, '36%'], []);
+  const snapPoints = useMemo(() => ['1%', '36%'], []);
   const [quizAnswered, setQuizAnswered] = useState(false);
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [idSubcategoryState, setIdSubcategoryState] = useState('');
   const [titleSubcategoryState, setTitleSubcategoryState] = useState('');
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
@@ -66,17 +65,12 @@ export function Subcategories() {
   }, [subcategories, searchTerm]);
 
   const handleBottomSheetChanges = useCallback((index: number) => {
-    setBottomSheetOpen(index === 1);
+    console.log('handleSheetChanges', index);
   }, []);
 
   function handleBottomSheetClose() {
+    setQuizAnswered(false);
     bottomSheetRef.current?.close();
-
-    // Delay para permitir que o fechamento finalize antes de resetar o estado
-    setTimeout(() => {
-      setQuizAnswered(false);
-      setBottomSheetOpen(false);
-    }, 100);
   }
 
   function handleClickCardSubcategory(idSubcategory: string, titleSubcategory: string) {
@@ -91,13 +85,10 @@ export function Subcategories() {
     setIdSubcategoryState(idSubcategory);
     setTitleSubcategoryState(titleSubcategory);
     setQuizAnswered(true);
-    // setBottomSheetOpen(true);
-    // bottomSheetRef.current?.expand(); // aqui vai mudar
   }
 
   function handleQuizAnswered() {
-    setBottomSheetOpen(false);
-    bottomSheetRef.current?.close();
+    handleBottomSheetClose();
     if (user?.uid) {
       removeUserCompletedSubcategory(user.uid, idCategory, idSubcategoryState);
       removeUserProgress(user.uid, idSubcategoryState);
@@ -138,8 +129,7 @@ export function Subcategories() {
 
   useEffect(() => {
     if (quizAnswered) {
-      setBottomSheetOpen(true);
-      bottomSheetRef.current?.expand();
+      bottomSheetRef.current?.snapToIndex(1);
     }
   }, [quizAnswered]);
 
@@ -176,8 +166,6 @@ export function Subcategories() {
           )}
         </ScrollView>
       </SafeAreaView>
-      {/* {bottomSheetOpen && <View style={styles.containerModal} />} */}
-      {/* {bottomSheetOpen && <View style={styles.containerModal} pointerEvents="auto" />} */}
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
@@ -189,19 +177,14 @@ export function Subcategories() {
           width: scale(80),
           height: verticalScale(8),
         }}
-        // backdropComponent={({ animatedIndex, animatedPosition, style }) => (
-        //   <BottomSheetBackdrop
-        //     animatedIndex={animatedIndex}
-        //     animatedPosition={animatedPosition}
-        //     style={style}
-        //     disappearsOnIndex={0}
-        //     appearsOnIndex={1}
-        //     pressBehavior="none"
-        //   />
-        // )}
-
-        // containerStyle={{ zIndex: 20, elevation: 20 }}
-      >
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={-1}
+            appearsOnIndex={1}
+            pressBehavior="close"
+          />
+        )}>
         {quizAnswered && (
           <BottomSheetView>
             <BottomSheetMessage
