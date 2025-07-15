@@ -3,7 +3,7 @@ import { View, ScrollView, Text, BackHandler, SafeAreaView } from 'react-native'
 import firestore from '@react-native-firebase/firestore';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { GradientContainer } from '@/components/GradientContainer';
 import { useTheme } from '@/hooks/useTheme';
@@ -30,6 +30,8 @@ export function Quizes() {
   const route = useRoute<QuizesRouteProp>();
   const styles = useThemedStyles(getQuizesStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['1%', '36%'], []);
   const { user } = useAppStore();
   const { idSubcategory, titleCategory, titleSubcategory } = route.params;
   const [stop, setStop] = useState(false);
@@ -41,11 +43,8 @@ export function Quizes() {
   const [userAnswers, setUserAnswers] = useState<IUserAnswer[]>([]);
   const [alternativeSelected, setAlternativeSelected] = useState<null | number>(null);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [1, '36%'], []);
-
   const handleSheetChanges = useCallback((index: number) => {
-    setBottomSheetOpen(index === 1);
+    console.log('handleSheetChanges', index);
   }, []);
 
   function calculatePercentage(correctAnswers: number, totalQuestions: number) {
@@ -196,7 +195,6 @@ export function Quizes() {
     setStop(true);
     setNext(false);
     setBottomSheetOpen(true);
-    bottomSheetRef.current?.expand();
   }, []);
 
   function handleBottomSheetPressStop() {
@@ -234,6 +232,12 @@ export function Quizes() {
       backHandler.remove();
     };
   }, [navigation, currentQuestion, handleStop]);
+
+  useEffect(() => {
+    if (bottomSheetOpen) {
+      bottomSheetRef.current?.snapToIndex(1);
+    }
+  }, [bottomSheetOpen]);
 
   return (
     <GradientContainer>
@@ -273,18 +277,25 @@ export function Quizes() {
         ) : null}
       </SafeAreaView>
       {(!quiz || quiz.questions.length === 0) && <Loading />}
-      {bottomSheetOpen && <View style={styles.containerModal} />}
       <BottomSheet
         ref={bottomSheetRef}
-        index={0}
+        index={-1}
         snapPoints={snapPoints}
+        onChange={handleSheetChanges}
         backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
         handleIndicatorStyle={{
           backgroundColor: theme.colors.secondary,
           width: 80,
           height: 8,
         }}
-        onChange={handleSheetChanges}>
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={-1}
+            appearsOnIndex={1}
+            pressBehavior="close"
+          />
+        )}>
         {stop && (
           <BottomSheetView>
             <BottomSheetMessage

@@ -1,8 +1,8 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, View, Text, TouchableOpacity } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-remix-icon';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,6 +23,8 @@ export function Login() {
   const theme = useTheme();
   const styles = useThemedStyles(getLoginStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PublicStackParamList>>();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['1%', '36%'], []);
   const { setUser } = useAppStore();
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [modalError, setModalError] = useState(false);
@@ -32,11 +34,8 @@ export function Login() {
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [inputs, setInputs] = useState({ email: '', password: '' });
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [1, '36%'], []);
-
   const handleSheetChanges = useCallback((index: number) => {
-    setBottomSheetOpen(index === 1);
+    console.log('handleSheetChanges', index);
   }, []);
 
   function handleBottomSheetPressPrimary() {
@@ -91,14 +90,12 @@ export function Login() {
           setLoading(false);
           setModalPassword(true);
           setBottomSheetOpen(true);
-          bottomSheetRef.current?.expand();
         })
         .catch((error) => {
           setLoading(false);
           setModalError(true);
           setBottomSheetOpen(true);
           setErrorAuth(getErrorFirebase(error.code));
-          bottomSheetRef.current?.expand();
         });
     }
   }
@@ -129,11 +126,16 @@ export function Login() {
       } else {
         setErrorAuth(getErrorFirebase((error as any).code));
       }
-      bottomSheetRef.current?.expand();
     } finally {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (bottomSheetOpen) {
+      bottomSheetRef.current?.snapToIndex(1);
+    }
+  }, [bottomSheetOpen]);
 
   return (
     <View style={styles.container}>
@@ -199,18 +201,25 @@ export function Login() {
           </KeyboardAwareScrollView>
         </View>
         {loading && <Loading />}
-        {bottomSheetOpen && <View style={styles.containerModal} />}
         <BottomSheet
           ref={bottomSheetRef}
-          index={0}
+          index={-1}
           snapPoints={snapPoints}
+          onChange={handleSheetChanges}
           backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
           handleIndicatorStyle={{
             backgroundColor: theme.colors.secondary,
             width: 80,
             height: 8,
           }}
-          onChange={handleSheetChanges}>
+          backdropComponent={(props) => (
+            <BottomSheetBackdrop
+              {...props}
+              disappearsOnIndex={-1}
+              appearsOnIndex={1}
+              pressBehavior="close"
+            />
+          )}>
           {modalError && (
             <BottomSheetView>
               <BottomSheetMessage

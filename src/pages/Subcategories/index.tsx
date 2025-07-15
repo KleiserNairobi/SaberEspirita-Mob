@@ -174,8 +174,8 @@ export function Subcategories() {
         backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
         handleIndicatorStyle={{
           backgroundColor: theme.colors.secondary,
-          width: scale(80),
-          height: verticalScale(8),
+          width: 80,
+          height: 8,
         }}
         backdropComponent={(props) => (
           <BottomSheetBackdrop

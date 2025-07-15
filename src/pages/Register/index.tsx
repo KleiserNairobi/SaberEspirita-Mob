@@ -1,14 +1,13 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import auth from '@react-native-firebase/auth';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
-
 import { PublicStackParamList } from '@/routes/PublicStack';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -23,7 +22,8 @@ export function Register() {
   const theme = useTheme();
   const styles = useThemedStyles(getRegisterStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PublicStackParamList>>();
-
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['1%', '36%'], []);
   const { setUser } = useAppStore();
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [modalError, setModalError] = useState(false);
@@ -32,11 +32,8 @@ export function Register() {
   const [errors, setErrors] = useState({ fullname: '', email: '', password: '' });
   const [inputs, setInputs] = useState({ fullname: '', email: '', password: '' });
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [1, '36%'], []);
-
   const handleSheetChanges = useCallback((index: number) => {
-    setBottomSheetOpen(index === 1);
+    console.log('handleSheetChanges', index);
   }, []);
 
   function handleBottomSheetPressPrimary() {
@@ -104,7 +101,6 @@ export function Register() {
       } else {
         setErrorAuth(getErrorFirebase((error as any).code));
       }
-      bottomSheetRef.current?.expand();
     } finally {
       setLoading(false);
     }
@@ -128,11 +124,16 @@ export function Register() {
       setModalError(true);
       setBottomSheetOpen(true);
       setErrorAuth(getErrorFirebase((error as any).code));
-      bottomSheetRef.current?.expand();
     } finally {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (bottomSheetOpen) {
+      bottomSheetRef.current?.snapToIndex(1);
+    }
+  }, [bottomSheetOpen]);
 
   return (
     <View style={styles.container}>
@@ -202,18 +203,26 @@ export function Register() {
           </KeyboardAwareScrollView>
         </View>
         {loading && <Loading />}
-        {bottomSheetOpen && <View style={styles.containerModal} />}
+        {/* {bottomSheetOpen && <View style={styles.containerModal} />} */}
         <BottomSheet
           ref={bottomSheetRef}
-          index={0}
+          index={-1}
           snapPoints={snapPoints}
+          onChange={handleSheetChanges}
           backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
           handleIndicatorStyle={{
             backgroundColor: theme.colors.secondary,
             width: 80,
             height: 8,
           }}
-          onChange={handleSheetChanges}>
+          backdropComponent={(props) => (
+            <BottomSheetBackdrop
+              {...props}
+              disappearsOnIndex={-1}
+              appearsOnIndex={1}
+              pressBehavior="close"
+            />
+          )}>
           {modalError && (
             <BottomSheetView>
               <BottomSheetMessage
