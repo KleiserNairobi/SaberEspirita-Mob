@@ -4,10 +4,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ButtonNavigation } from '@/components/ButtonNavigation';
 import { getBottomNavigationStyles } from './styles';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
+import { PrivateStackParamList } from '@/routes/PrivateStack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export function BottomNavigation() {
   const route = useRoute();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const insets = useSafeAreaInsets();
   const screen = route.name;
   const baseStyles = useThemedStyles(getBottomNavigationStyles);

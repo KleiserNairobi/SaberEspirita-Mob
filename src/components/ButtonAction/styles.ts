@@ -5,8 +5,7 @@ export const getButtonActionStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
       width: '100%',
-      paddingVertical: theme.vSpacings.sm,
-      paddingHorizontal: theme.hSpacings.sm,
+      padding: 12,
       borderRadius: 30,
       alignItems: 'center',
       backgroundColor: theme.colors.secondary,

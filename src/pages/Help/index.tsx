@@ -44,19 +44,19 @@ export function Help() {
           />
           <ExpandableItem
             title="Posso contribuir financeiramente com o aplicativo?"
-            content="Sim, você pode contribuir financeiramente com o aplicativo para ajudar a cobrir as despesas com as lojas Google e Apple."
+            content="Sim, sua contribuição ajuda a cobrir os custos com servidor e manter o aplicativo funcionando para todos os usuários."
           />
           <ExpandableItem
             title="Como posso contribuir financeiramente com o aplicativo?"
-            content="Para contribuir financeiramente com o aplicativo, entre em contato com o desenvolvedor pelo e-mail espirita.quiz@gmail.com."
+            content="Para contribuir financeiramente com o aplicativo, entre em contato pelo e-mail quiz.saberespirita@gmail.com."
           />
           <ExpandableItem
             title="Posso contribuir com novas questões para o quiz?"
-            content='Sim, você pode contribuir com novas questões para o quiz diretamente pela página "Criar Quiz"! Basta preencher os campos com a categoria, a pergunta, a resposta correta e três respostas incorretas. Se preferir, também pode enviar sugestões por e-mail para espirita.quiz@gmail.com. Todas as submissões passam por análise e, se aprovadas, serão publicadas em uma nova versão do quiz. Não se esqueça de incluir seu nome para os devidos créditos. Agradecemos sua colaboração!'
+            content='Sim, você pode contribuir com novas questões para o quiz diretamente pela página "Criar Quiz"! Basta preencher os campos com a categoria, a pergunta, a resposta correta e três respostas incorretas. Se preferir, também pode enviar sugestões por e-mail para quiz.saberespirita@gmail.com. Todas as submissões passam por análise e, se aprovadas, serão publicadas em uma nova versão do quiz. Agradecemos sua colaboração!'
           />
           <ExpandableItem
             title="Quais são os objetivos futuros deste quiz?"
-            content="Os objetivos futuros incluem tornar o jogo multiplayer, permitir rankings entre os jogadores, dar aos usuários a capacidade de cadastrar novos quizzes e oferecer suporte para outros idiomas."
+            content="Os objetivos futuros incluem tornar o jogo multiplayer, permitir rankings entre os jogadores e oferecer suporte para outros idiomas."
           />
           <ExpandableItem
             title="Em quais plataformas este aplicativo estará disponível?"

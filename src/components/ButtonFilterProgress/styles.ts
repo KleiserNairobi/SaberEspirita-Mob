@@ -14,7 +14,7 @@ export const getButtonFilterProgressStyles = (theme: AppTheme) =>
       backgroundColor: theme.colors.primary,
     },
     title: {
-      paddingVertical: theme.vSpacings.xs,
+      paddingVertical: 8,
       paddingHorizontal: theme.hSpacings.sm,
       color: theme.colors.titleBlack,
       fontSize: theme.fontSizes.sm,

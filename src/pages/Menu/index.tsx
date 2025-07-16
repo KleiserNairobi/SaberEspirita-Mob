@@ -162,8 +162,8 @@ export function Menu() {
                   onValueChange={toggleSound}
                   thumbColor={theme.colors.primary}
                   trackColor={{
-                    false: theme.colors.buttonBack,
-                    true: theme.colors.buttonBack,
+                    false: theme.colors.bottonNavigationBack,
+                    true: theme.colors.bottonNavigationBack,
                   }}
                 />
               </View>
@@ -191,8 +191,8 @@ export function Menu() {
                   onValueChange={toggleTheme}
                   thumbColor={theme.colors.primary}
                   trackColor={{
-                    false: theme.colors.buttonBack,
-                    true: theme.colors.buttonBack,
+                    false: theme.colors.bottonNavigationBack,
+                    true: theme.colors.bottonNavigationBack,
                   }}
                 />
               </View>
@@ -211,7 +211,7 @@ export function Menu() {
 
       <BottomSheet
         ref={bottomSheetRef}
-        index={0}
+        index={-1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}

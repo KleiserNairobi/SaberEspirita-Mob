@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { scale } from 'react-native-size-matters';
+import { scale, verticalScale } from 'react-native-size-matters';
 import { AppTheme } from '@/themes';
 
 export const getBottomSheetMessageStyles = (theme: AppTheme) =>
@@ -32,8 +32,7 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
     },
     buttonSecondary: {
       width: scale(80),
-      paddingVertical: theme.vSpacings.xs,
-      paddingHorizontal: theme.hSpacings.xs,
+      padding: 6,
       borderWidth: 2,
       borderRadius: 18,
       alignItems: 'center',
@@ -41,8 +40,7 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
     },
     buttonPrimary: {
       width: scale(80),
-      paddingVertical: theme.vSpacings.xs,
-      paddingHorizontal: theme.hSpacings.xs,
+      padding: 6,
       borderRadius: 18,
       alignItems: 'center',
       marginLeft: 10,

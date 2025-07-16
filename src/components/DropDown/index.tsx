@@ -56,7 +56,7 @@ export function DropDown({ label, error, onFocus, ...rest }: Props) {
         }}
         textStyle={{
           fontFamily: theme.fontFamily.regular,
-          fontSize: RFValue(theme.fontSizes.sm),
+          fontSize: theme.fontSizes.sm,
         }}
         // Configurações da modal
         listMode="MODAL"
