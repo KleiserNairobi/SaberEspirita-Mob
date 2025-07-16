@@ -1,4 +1,4 @@
-import { ScrollView, View, Text, SafeAreaView } from 'react-native';
+import { ScrollView, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { GradientContainer } from '@/components/GradientContainer';
 import { Header } from '@/components/Header';
@@ -9,7 +9,6 @@ import { getHelpStyles } from './styles';
 export function Help() {
   const navigation = useNavigation();
   const styles = useThemedStyles(getHelpStyles);
-  // const theme = useTheme();
 
   return (
     <GradientContainer>

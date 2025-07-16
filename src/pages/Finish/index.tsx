@@ -1,44 +1,22 @@
 import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { GradientContainer } from '@/components/GradientContainer';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
-import { IUserAnswer } from '@/models/UserAnswer';
 import { getFinishStyles } from './styles';
-
 import FourStars from '@/assets/images/Stars/FourStars.png';
 import ThreeStars from '@/assets/images/Stars/ThreeStars.png';
 import TwoStars from '@/assets/images/Stars/TwoStars.png';
 import OneStar from '@/assets/images/Stars/OneStar.png';
+import { PrivateStackParamList } from '@/routes/PrivateStack';
 
-type RouteParams = {
-  titleCategory: string;
-  titleSubcategory: string;
-  points: number;
-  totalQuestions: number;
-  percentage: number;
-  level: string;
-  userAnswers: IUserAnswer[];
-};
-
-type RootStackParamList = {
-  answers: {
-    titleCategory: string;
-    titleSubcategory: string;
-    points: number;
-    totalQuestions: number;
-    percentage: number;
-    level: string;
-    userAnswers: IUserAnswer[];
-  };
-  categories: undefined;
-};
+type FinishRouteProp = RouteProp<PrivateStackParamList, 'finish'>;
 
 export function Finish() {
-  const route = useRoute();
+  const route = useRoute<FinishRouteProp>();
   const styles = useThemedStyles(getFinishStyles);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const [title, setTitle] = useState('');
   const [pathImage, setPathImage] = useState<any>(null);
   const [message, setMessage] = useState('');
@@ -50,7 +28,7 @@ export function Finish() {
     percentage,
     level,
     userAnswers,
-  } = route.params as RouteParams;
+  } = route.params;
 
   function getPerformanceMessage(percentage: number): any {
     if (percentage >= 90) {

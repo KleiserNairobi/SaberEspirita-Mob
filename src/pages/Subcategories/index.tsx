@@ -32,16 +32,20 @@ export function Subcategories() {
   const route = useRoute<SubcategoriesRouteProp>();
   const styles = useThemedStyles(getSubcategoriesStyles);
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
-  const { user } = useAppStore();
-  const { idCategory, titleCategory, description } = route.params;
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '36%'], []);
+  const { user } = useAppStore();
+  const { idCategory, titleCategory, description } = route.params;
   const [quizAnswered, setQuizAnswered] = useState(false);
   const [idSubcategoryState, setIdSubcategoryState] = useState('');
   const [titleSubcategoryState, setTitleSubcategoryState] = useState('');
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [completed, setCompleted] = useState<IUserCompletedSubcategory | null>();
+
+  const handleBottomSheetChanges = useCallback((index: number) => {
+    setQuizAnswered(index === 1);
+  }, []);
 
   function goToBack() {
     navigation.goBack();
@@ -63,10 +67,6 @@ export function Subcategories() {
         sub.subtitle.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [subcategories, searchTerm]);
-
-  const handleBottomSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
 
   function handleBottomSheetClose() {
     setQuizAnswered(false);
@@ -129,7 +129,7 @@ export function Subcategories() {
 
   useEffect(() => {
     if (quizAnswered) {
-      bottomSheetRef.current?.snapToIndex(1);
+      bottomSheetRef.current?.expand();
     }
   }, [quizAnswered]);
 

@@ -7,7 +7,6 @@ import { Loading } from '@/components/Loading';
 import { ThemeType } from '@/models/Utils';
 import { PrivateStack } from './PrivateStack';
 import { PublicStack } from './PublicStack';
-// import { Home } from '@/pages/Home';
 
 export function Routes() {
   const { theme, user, setUser, isLoading, finishLoading } = useAppStore();
@@ -53,7 +52,6 @@ export function Routes() {
         barStyle={isDarkTheme ? 'light-content' : 'dark-content'}
         backgroundColor="transparent"
       />
-      {/* <Home /> */}
       {user ? <PrivateStack /> : <PublicStack />}
     </NavigationContainer>
   );

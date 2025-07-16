@@ -6,9 +6,7 @@
     "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "experiments": {
       "tsconfigPaths": true
     },
@@ -18,7 +16,7 @@
       "backgroundColor": "#0C1624"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
     },

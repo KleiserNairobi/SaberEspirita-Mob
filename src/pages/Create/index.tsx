@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, View, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import firestore from '@react-native-firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTheme } from '@/hooks/useTheme';
@@ -158,11 +158,9 @@ export function CreateQuiz() {
       await addUserCreatedQuiz(quizData);
       setModalSuccess(true);
       setBottomSheetOpen(true);
-      bottomSheetRef.current?.expand();
     } catch (error) {
       setModalError(true);
       setBottomSheetOpen(true);
-      bottomSheetRef.current?.expand();
     } finally {
       setLoading(false);
     }
@@ -175,6 +173,12 @@ export function CreateQuiz() {
   function handleError(errorMessage: string | null, input: string) {
     setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   }
+
+  useEffect(() => {
+    if (bottomSheetOpen) {
+      bottomSheetRef.current?.expand();
+    }
+  }, [bottomSheetOpen]);
 
   return (
     <GradientContainer>
@@ -270,18 +274,26 @@ export function CreateQuiz() {
         </KeyboardAwareScrollView>
       </SafeAreaView>
       {loading && <Loading />}
-      {bottomSheetOpen && <View style={styles.containerModal} />}
+
       <BottomSheet
         ref={bottomSheetRef}
-        index={0}
+        index={-1}
         snapPoints={snapPoints}
+        onChange={handleSheetChanges}
         backgroundStyle={{ backgroundColor: theme.colors.backGradientStart }}
         handleIndicatorStyle={{
           backgroundColor: theme.colors.secondary,
           width: 80,
           height: 8,
         }}
-        onChange={handleSheetChanges}>
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={-1}
+            appearsOnIndex={1}
+            pressBehavior="close"
+          />
+        )}>
         {modalError && (
           <BottomSheetView>
             <BottomSheetMessage

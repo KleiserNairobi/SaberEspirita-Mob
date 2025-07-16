@@ -14,11 +14,13 @@ import { IUserProgress } from '@/models/UsersProgress';
 import { getUserProgress } from '@/services/firestore';
 import { useAppStore } from '@/hooks/useAppStore';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { PrivateStackParamList } from '@/routes/PrivateStack';
 
 export function Progress() {
-  const navigation = useNavigation();
   const styles = useThemedStyles(getProgressStyles);
   const { user } = useAppStore();
+  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const [userProgress, setUserProgress] = useState<IUserProgress[]>([]);
   const [filterData, setFilterData] = useState<IUserProgress[]>([]);
   const [filterTitle, setFilterTitle] = useState('Todos');

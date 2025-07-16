@@ -1,38 +1,24 @@
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-remix-icon';
 import { GradientContainer } from '@/components/GradientContainer';
-import { IUserAnswer } from '@/models/UserAnswer';
 import { Header } from '@/components/Header';
 import { ButtonAction } from '@/components/ButtonAction';
 import { useTheme } from '@/hooks/useTheme';
 import { useThemedStylesProps } from '@/hooks/useThemedStyles';
 import { getAnswersStyles } from './styles';
+import { PrivateStackParamList } from '@/routes/PrivateStack';
 
-type RootStackParamList = {
-  categories: undefined;
-  answers: RouteParams;
-};
-
-type RouteParams = {
-  titleCategory: string;
-  titleSubcategory: string;
-  points: number;
-  totalQuestions: number;
-  percentage: number;
-  level: string;
-  userAnswers: IUserAnswer[];
-};
+type AnswersRouteProp = RouteProp<PrivateStackParamList, 'answers'>;
 
 export function Answers() {
-  const route = useRoute();
   const theme = useTheme();
+  const route = useRoute<AnswersRouteProp>();
   const styles = useThemedStylesProps(getAnswersStyles, { isCorrect: false });
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
+  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { titleCategory, titleSubcategory, totalQuestions, percentage, level, userAnswers } =
-    route.params as RouteParams;
+    route.params;
 
   let filledCount = 0;
 

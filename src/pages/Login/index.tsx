@@ -35,7 +35,7 @@ export function Login() {
   const [inputs, setInputs] = useState({ email: '', password: '' });
 
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+    setBottomSheetOpen(index === 1);
   }, []);
 
   function handleBottomSheetPressPrimary() {
@@ -133,7 +133,7 @@ export function Login() {
 
   useEffect(() => {
     if (bottomSheetOpen) {
-      bottomSheetRef.current?.snapToIndex(1);
+      bottomSheetRef.current?.expand();
     }
   }, [bottomSheetOpen]);
 

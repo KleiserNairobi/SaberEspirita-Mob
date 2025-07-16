@@ -16,14 +16,14 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       marginTop: theme.vSpacings.xs,
       color: theme.colors.titleBold,
       fontSize: theme.fontSizes.md,
-      fontFamily: theme.fontFamily.bold,
+      fontFamily: theme.fontFamily.semibold,
     },
     subtitle: {
       textAlign: 'center',
       paddingHorizontal: theme.hSpacings.md,
       color: theme.colors.titleNormal,
       fontSize: theme.fontSizes.sm,
-      fontFamily: theme.fontFamily.semibold,
+      fontFamily: theme.fontFamily.medium,
     },
     boxButton: {
       marginTop: theme.vSpacings.md,

@@ -33,7 +33,7 @@ export function Register() {
   const [inputs, setInputs] = useState({ fullname: '', email: '', password: '' });
 
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+    setBottomSheetOpen(index === 1);
   }, []);
 
   function handleBottomSheetPressPrimary() {
@@ -131,7 +131,7 @@ export function Register() {
 
   useEffect(() => {
     if (bottomSheetOpen) {
-      bottomSheetRef.current?.snapToIndex(1);
+      bottomSheetRef.current?.expand();
     }
   }, [bottomSheetOpen]);
 
@@ -203,7 +203,7 @@ export function Register() {
           </KeyboardAwareScrollView>
         </View>
         {loading && <Loading />}
-        {/* {bottomSheetOpen && <View style={styles.containerModal} />} */}
+
         <BottomSheet
           ref={bottomSheetRef}
           index={-1}

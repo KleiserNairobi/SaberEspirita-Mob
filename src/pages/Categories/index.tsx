@@ -12,19 +12,12 @@ import { ICategory } from '@/models/Categories';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 import { getCategories, getUserCompletedSubcategories } from '@/services/firestore';
 import { getCategoriesStyles } from './styles';
-
-type RootStackParamList = {
-  subcategories: {
-    idCategory: string;
-    titleCategory: string;
-    description: string;
-  };
-};
+import { PrivateStackParamList } from '@/routes/PrivateStack';
 
 export function Categories() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(getCategoriesStyles);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { user } = useAppStore();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [completed, setCompleted] = useState<IUserCompletedSubcategory | null>();

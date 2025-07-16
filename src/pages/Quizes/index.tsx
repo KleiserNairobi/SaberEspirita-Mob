@@ -44,7 +44,7 @@ export function Quizes() {
   const [alternativeSelected, setAlternativeSelected] = useState<null | number>(null);
 
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+    setBottomSheetOpen(index === 1);
   }, []);
 
   function calculatePercentage(correctAnswers: number, totalQuestions: number) {
@@ -235,7 +235,7 @@ export function Quizes() {
 
   useEffect(() => {
     if (bottomSheetOpen) {
-      bottomSheetRef.current?.snapToIndex(1);
+      bottomSheetRef.current?.expand();
     }
   }, [bottomSheetOpen]);
 
