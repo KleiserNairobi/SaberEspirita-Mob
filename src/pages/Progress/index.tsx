@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Dimensions, FlatList, ScrollView, View, Text, Image, SafeAreaView } from 'react-native';
+import { FlatList, ScrollView, View, Text, Image, SafeAreaView } from 'react-native';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from '@/components/Header';
@@ -16,15 +16,16 @@ import { useAppStore } from '@/hooks/useAppStore';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function Progress() {
   const styles = useThemedStyles(getProgressStyles);
+  const insets = useSafeAreaInsets();
   const { user } = useAppStore();
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const [userProgress, setUserProgress] = useState<IUserProgress[]>([]);
   const [filterData, setFilterData] = useState<IUserProgress[]>([]);
   const [filterTitle, setFilterTitle] = useState('Todos');
-  const { height } = Dimensions.get('window');
 
   const categories = [
     { id: 0, title: 'Todos' },
@@ -77,7 +78,7 @@ export function Progress() {
 
   return (
     <GradientContainer>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
         <View style={styles.wrapper}>
           <Header onPress={() => navigation.goBack()} title="Progresso" />
           <Text style={styles.subtitle}>
@@ -89,7 +90,7 @@ export function Progress() {
             data={categories}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <View style={{ height: 40, marginBottom: 20 }}>
+              <View style={{ height: 40, marginBottom: 25 }}>
                 <ButtonFilterProgress
                   active={filterTitle === item.title}
                   title={item.title}
@@ -101,34 +102,38 @@ export function Progress() {
           {userProgress.length > 0 && filterTitle === 'Todos' ? (
             <>
               <Text style={styles.completedQuizes}>Quizes concluídos</Text>
-              <ScrollView showsVerticalScrollIndicator={false} style={{ height: height - 320 }}>
-                {userProgress.map((item) => (
-                  <ProgressListItem
-                    key={item.subcategoryId}
-                    title={item.subtitle}
-                    dateTime={getFormatedDateTime(item.completedAt)}
-                    level={item.level}
-                    percentage={item.percentage.toString() + '%'}
-                  />
-                ))}
-              </ScrollView>
+              <View style={{ height: 500, overflow: 'hidden', paddingBottom: 50 }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1 }}>
+                  {userProgress.map((item) => (
+                    <ProgressListItem
+                      key={item.subcategoryId}
+                      title={item.subtitle}
+                      dateTime={getFormatedDateTime(item.completedAt)}
+                      level={item.level}
+                      percentage={item.percentage.toString() + '%'}
+                    />
+                  ))}
+                </ScrollView>
+              </View>
             </>
           ) : userProgress.length === 0 && filterTitle === 'Todos' ? (
             flatListEmpty()
           ) : filterData.length > 0 && filterTitle !== 'Todos' ? (
             <>
               <Text style={styles.completedQuizes}>Quizes concluídos</Text>
-              <ScrollView showsVerticalScrollIndicator={false} style={{ height: height - 320 }}>
-                {filterData.map((item) => (
-                  <ProgressListItem
-                    key={item.subcategoryId}
-                    title={item.subtitle}
-                    dateTime={getFormatedDateTime(item.completedAt)}
-                    level={item.level}
-                    percentage={item.percentage.toString() + '%'}
-                  />
-                ))}
-              </ScrollView>
+              <View style={{ height: 500, overflow: 'hidden', paddingBottom: 50 }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1 }}>
+                  {filterData.map((item) => (
+                    <ProgressListItem
+                      key={item.subcategoryId}
+                      title={item.subtitle}
+                      dateTime={getFormatedDateTime(item.completedAt)}
+                      level={item.level}
+                      percentage={item.percentage.toString() + '%'}
+                    />
+                  ))}
+                </ScrollView>
+              </View>
             </>
           ) : (
             flatListEmpty()

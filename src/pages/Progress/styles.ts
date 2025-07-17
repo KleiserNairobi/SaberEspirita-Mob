@@ -18,13 +18,13 @@ export const getProgressStyles = (theme: AppTheme) =>
     },
     subtitle: {
       marginTop: 8,
-      marginBottom: 20,
+      marginBottom: 25,
       color: theme.colors.titleNormal,
       fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.medium,
     },
     completedQuizes: {
-      marginBottom: 6,
+      marginBottom: 10,
       color: theme.colors.titleNormal,
       fontSize: theme.fontSizes.xl,
       fontFamily: theme.fontFamily.bold,

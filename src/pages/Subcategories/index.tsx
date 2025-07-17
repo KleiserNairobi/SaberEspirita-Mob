@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, ScrollView, Text, SafeAreaView } from 'react-native';
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { scale, verticalScale } from 'react-native-size-matters';
+import { verticalScale } from 'react-native-size-matters';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useTheme } from '@/hooks/useTheme';
@@ -24,6 +24,7 @@ import {
   removeUserCompletedSubcategory,
   removeUserProgress,
 } from '@/services/firestore';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type SubcategoriesRouteProp = RouteProp<PrivateStackParamList, 'subcategories'>;
 
@@ -31,6 +32,7 @@ export function Subcategories() {
   const theme = useTheme();
   const route = useRoute<SubcategoriesRouteProp>();
   const styles = useThemedStyles(getSubcategoriesStyles);
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '36%'], []);
@@ -135,7 +137,7 @@ export function Subcategories() {
 
   return (
     <GradientContainer>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
         <Header title={titleCategory} onPress={goToBack} />
         <Text style={styles.description}>{description}</Text>
         <SearchInput
@@ -151,7 +153,7 @@ export function Subcategories() {
                 scrollEnabled={false}
                 nestedScrollEnabled={true}
                 keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={{ paddingBottom: verticalScale(10) }}
+                contentContainerStyle={{ paddingBottom: verticalScale(14) }}
                 renderItem={({ item }) => (
                   <CardSubcategory
                     title={item.title}

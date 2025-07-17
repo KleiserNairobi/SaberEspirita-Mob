@@ -9,12 +9,14 @@ import { useTheme } from '@/hooks/useTheme';
 import { useThemedStylesProps } from '@/hooks/useThemedStyles';
 import { getAnswersStyles } from './styles';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type AnswersRouteProp = RouteProp<PrivateStackParamList, 'answers'>;
 
 export function Answers() {
   const theme = useTheme();
   const route = useRoute<AnswersRouteProp>();
+  const insets = useSafeAreaInsets();
   const styles = useThemedStylesProps(getAnswersStyles, { isCorrect: false });
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { titleCategory, titleSubcategory, totalQuestions, percentage, level, userAnswers } =
@@ -57,7 +59,7 @@ export function Answers() {
 
   return (
     <GradientContainer>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
         <Header title="Revisão das respostas" onPress={() => navigation.goBack()} />
 
         <View style={styles.boxRowHeader}>
