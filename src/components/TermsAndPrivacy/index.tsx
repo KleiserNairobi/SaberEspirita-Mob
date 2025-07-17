@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View, Text, Modal, TouchableOpacity, Platform, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getTermsAndPrivacyStyles } from './styles';
-import { useTheme } from '@/hooks/useTheme';
 import { Header } from '../Header';
+import { ThemeType } from '@/models/Utils';
+import { useAppStore } from '@/hooks/useAppStore';
 
 type TermsAndPrivacyProps = {
   termsUrl: string;
@@ -12,11 +13,12 @@ type TermsAndPrivacyProps = {
 };
 
 export function TermsAndPrivacy({ termsUrl, privacyUrl }: TermsAndPrivacyProps) {
-  const theme = useTheme();
+  const { theme } = useAppStore();
   const styles = useThemedStyles(getTermsAndPrivacyStyles);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
   const [currentTitle, setCurrentTitle] = useState('');
+  const isDarkTheme = theme === ThemeType.dark;
 
   function openModal(url: string, title: string) {
     setCurrentUrl(url);
@@ -27,29 +29,6 @@ export function TermsAndPrivacy({ termsUrl, privacyUrl }: TermsAndPrivacyProps) 
   function closeModal() {
     setModalVisible(false);
   }
-
-  useEffect(() => {
-    if (modalVisible) {
-      StatusBar.setBarStyle('light-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
-      }
-    } else {
-      StatusBar.setBarStyle('dark-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(false);
-      }
-    }
-    return () => {
-      StatusBar.setBarStyle('dark-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(false);
-      }
-    };
-  }, [modalVisible]);
 
   return (
     <View style={styles.container}>
@@ -70,10 +49,11 @@ export function TermsAndPrivacy({ termsUrl, privacyUrl }: TermsAndPrivacyProps) 
         visible={modalVisible}
         statusBarTranslucent={true}
         onRequestClose={closeModal}>
-        {Platform.OS === 'android' && (
-          <StatusBar backgroundColor="transparent" translucent barStyle="light-content" />
-        )}
-
+        <StatusBar
+          translucent
+          barStyle={isDarkTheme ? 'light-content' : 'dark-content'}
+          backgroundColor="transparent"
+        />
         <View style={styles.modalContainer}>
           {Platform.OS === 'ios' ? (
             <View style={styles.iosHeader}>
@@ -84,13 +64,12 @@ export function TermsAndPrivacy({ termsUrl, privacyUrl }: TermsAndPrivacyProps) 
               <Header title={currentTitle} onPress={closeModal} />
             </View>
           )}
-
           <WebView
             source={{ uri: currentUrl }}
             style={styles.webview}
             injectedJavaScript={`
-              document.body.style.backgroundColor = ${theme.colors.background};
-              document.body.style.color = '${theme.colors.titleNormal}';
+              document.body.style.backgroundColor = '#0C1624';
+              document.body.style.color = '#D8DDE5';
               true;
             `}
           />
