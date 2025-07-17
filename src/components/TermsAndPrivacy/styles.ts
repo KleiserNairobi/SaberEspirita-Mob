@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { AppTheme } from '@/themes';
 
 export const getTermsAndPrivacyStyles = (theme: AppTheme) =>
@@ -21,17 +21,23 @@ export const getTermsAndPrivacyStyles = (theme: AppTheme) =>
     },
     modalContainer: {
       flex: 1,
+      backgroundColor: theme.colors.background,
     },
     webview: {
       flex: 1,
+      backgroundColor: theme.colors.background,
     },
-    closeButton: {
-      padding: 15,
-      backgroundColor: '#f8f8f8',
+    iosHeader: {
+      paddingTop: Platform.OS === 'ios' ? 44 : 0,
+      paddingBottom: 15,
+      paddingHorizontal: 15,
+      backgroundColor: theme.colors.background,
+      flexDirection: 'row',
+      borderBottomWidth: 1,
+      borderBottomColor: '#333333',
     },
-    closeButtonText: {
-      color: '#007AFF',
-      textAlign: 'right',
-      fontWeight: 'bold',
+    androidHeader: {
+      paddingTop: Platform.OS === 'android' ? 24 : 0,
+      backgroundColor: theme.colors.background,
     },
   });

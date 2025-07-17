@@ -50,6 +50,7 @@ export const darkTheme: ThemeType = {
     toggleInActiveBackground: '#FDEEA9',
     toggleBorderInActive: '#FDE168',
     inputPlaceholder: '#798391',
+    background: '#0C1624',
   },
   vSpacings: {
     xs: verticalScale(8),

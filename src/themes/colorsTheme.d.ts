@@ -46,6 +46,7 @@ export type ThemeType = {
     toggleInActiveBackground: string;
     toggleBorderInActive: string;
     inputPlaceholder: string;
+    background: string;
   };
   vSpacings: {
     xs: number;

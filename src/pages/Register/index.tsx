@@ -202,8 +202,8 @@ export function Register() {
                 Já tem uma conta? <Text style={styles.linkLogin}>Faça o login.</Text>
               </Text>
               <TermsAndPrivacy
-                termsUrl="https://seudominio.com/termos"
-                privacyUrl="https://kleisernairobi.github.io/saberespirita-privacy/"
+                termsUrl="https://kleisernairobi.github.io/SaberEspirita-Terms/"
+                privacyUrl="https://kleisernairobi.github.io/SaberEspirita-Privacy/"
               />
             </TouchableOpacity>
           </KeyboardAwareScrollView>

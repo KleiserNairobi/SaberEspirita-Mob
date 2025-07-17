@@ -200,8 +200,8 @@ export function Login() {
               </TouchableOpacity>
             </View>
             <TermsAndPrivacy
-              termsUrl="https://seudominio.com/termos"
-              privacyUrl="https://kleisernairobi.github.io/saberespirita-privacy/"
+              termsUrl="https://kleisernairobi.github.io/SaberEspirita-Terms/"
+              privacyUrl="https://kleisernairobi.github.io/SaberEspirita-Privacy/"
             />
           </KeyboardAwareScrollView>
         </View>
