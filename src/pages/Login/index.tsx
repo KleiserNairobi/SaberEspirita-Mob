@@ -18,6 +18,7 @@ import { BottomSheetMessage } from '@/components/BottomSheetMessage';
 import { Loading } from '@/components/Loading';
 import { PublicStackParamList } from '@/routes/PublicStack';
 import { getLoginStyles } from './styles';
+import { TermsAndPrivacy } from '@/components/TermsAndPrivacy';
 
 export function Login() {
   const theme = useTheme();
@@ -198,6 +199,10 @@ export function Login() {
                 </View>
               </TouchableOpacity>
             </View>
+            <TermsAndPrivacy
+              termsUrl="https://seudominio.com/termos"
+              privacyUrl="https://kleisernairobi.github.io/saberespirita-privacy/"
+            />
           </KeyboardAwareScrollView>
         </View>
         {loading && <Loading />}

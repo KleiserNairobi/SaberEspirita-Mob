@@ -17,6 +17,7 @@ import { Loading } from '@/components/Loading';
 import { MessageType } from '@/models/Utils';
 import { getErrorFirebase } from '@/utils/Firebase';
 import { getRegisterStyles } from './styles';
+import { TermsAndPrivacy } from '@/components/TermsAndPrivacy';
 
 export function Register() {
   const theme = useTheme();
@@ -192,6 +193,7 @@ export function Register() {
               autoCorrect={false}
               password={true}
             />
+
             <View style={styles.spaceButton}>
               <ButtonAction disabled={false} title="Registrar" onPress={validate} />
             </View>
@@ -199,6 +201,10 @@ export function Register() {
               <Text style={styles.login}>
                 Já tem uma conta? <Text style={styles.linkLogin}>Faça o login.</Text>
               </Text>
+              <TermsAndPrivacy
+                termsUrl="https://seudominio.com/termos"
+                privacyUrl="https://kleisernairobi.github.io/saberespirita-privacy/"
+              />
             </TouchableOpacity>
           </KeyboardAwareScrollView>
         </View>

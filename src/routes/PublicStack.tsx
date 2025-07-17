@@ -5,6 +5,7 @@ import { Register } from '@/pages/Register';
 export type PublicStackParamList = {
   login: undefined;
   register: undefined;
+  WebViewScreen: { url: string; title: string };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<PublicStackParamList>();
