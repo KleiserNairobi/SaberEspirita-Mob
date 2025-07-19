@@ -2,7 +2,7 @@
   "expo": {
     "name": "Saber Espírita",
     "slug": "saber-espirita",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
