@@ -34,4 +34,9 @@ export const getCategoriesStyles = (theme: AppTheme) =>
       fontSize: theme.fontSizes.xl,
       fontFamily: theme.fontFamily.bold,
     },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   });

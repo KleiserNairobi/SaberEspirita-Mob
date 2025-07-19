@@ -142,7 +142,7 @@ export function Menu() {
             title="Criar quiz"
             onPress={() => navigation.navigate('create')}
           />
-          <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} />
+          {/* <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} /> */}
           <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </View>
 

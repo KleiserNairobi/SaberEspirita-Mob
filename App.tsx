@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
-// import './src/libs/unistyles';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useCallback, useEffect, useState } from 'react';
 import { Text } from 'react-native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { initializeFirebaseApp } from './src/libs/firebase';
 import * as SplashScreen from 'expo-splash-screen';
 import { Routes } from './src/routes';
@@ -16,12 +16,11 @@ import {
   Nunito_700Bold,
 } from '@expo-google-fonts/nunito';
 
-// import { useTheme } from '@/hooks/useAppStore';
-
 SplashScreen.preventAutoHideAsync();
 
+const queryClient = new QueryClient();
+
 export default function App() {
-  // const theme = useTheme();
   const [appIsReady, setAppIsReady] = useState(false);
   const [firebaseError, setFirebaseError] = useState<Error | null>(null);
 
@@ -40,7 +39,7 @@ export default function App() {
 
         if (fontsLoaded) {
           // Adicione aqui qualquer outra inicialização assíncrona
-          await new Promise((resolve) => setTimeout(resolve, 500)); // Opcional
+          await new Promise((resolve) => setTimeout(resolve, 500));
           setAppIsReady(true);
         }
       } catch (e: any) {
@@ -62,7 +61,6 @@ export default function App() {
   if (firebaseError) {
     return (
       <GestureHandlerRootView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {/* <ThemeProvider theme={theme}> */}
         <Text style={{ color: 'red', textAlign: 'center', padding: 20 }}>
           Ocorreu um erro ao iniciar o aplicativo:
           {'\n'}
@@ -70,7 +68,6 @@ export default function App() {
           {'\n'}
           Por favor, tente novamente mais tarde.
         </Text>
-        {/* </ThemeProvider> */}
       </GestureHandlerRootView>
     );
   }
@@ -81,9 +78,9 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      {/* <ThemeProvider theme={theme}> */}
-      <Routes />
-      {/* </ThemeProvider> */}
+      <QueryClientProvider client={queryClient}>
+        <Routes />
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }
