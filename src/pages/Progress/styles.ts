@@ -38,7 +38,8 @@ export const getProgressStyles = (theme: AppTheme) =>
       height: 80,
       width: 80,
       marginTop: 20,
-    },
+      resizeMode: 'contain',
+    } as const,
     titleFlatListEmpty: {
       marginTop: 24,
       marginBottom: 8,

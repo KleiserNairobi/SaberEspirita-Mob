@@ -47,18 +47,18 @@ export function Menu() {
     setBottomSheetOpen(index === 1);
   }, []);
 
-  async function handleShared() {
-    try {
-      await Share.share({
-        message: MESSAGE,
-        title: TITLE,
-      });
-    } catch (error) {
-      setError('Erro ao compartilhar aplicativo com amigos.');
-      setOnError(true);
-      setBottomSheetOpen(true);
-    }
-  }
+  // async function handleShared() {
+  //   try {
+  //     await Share.share({
+  //       message: MESSAGE,
+  //       title: TITLE,
+  //     });
+  //   } catch (error) {
+  //     setError('Erro ao compartilhar aplicativo com amigos.');
+  //     setOnError(true);
+  //     setBottomSheetOpen(true);
+  //   }
+  // }
 
   function handleCloseError() {
     setError('');

@@ -61,7 +61,6 @@ export function Answers() {
     <GradientContainer>
       <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
         <Header title="Revisão das respostas" onPress={() => navigation.goBack()} />
-
         <View style={styles.boxRowHeader}>
           <View style={styles.boxColumnLeft}>
             <Text style={styles.title}>{titleSubcategory}</Text>
@@ -74,7 +73,6 @@ export function Answers() {
             <View style={styles.boxStar}>{renderStars(filledCount)}</View>
           </View>
         </View>
-
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 20, paddingBottom: 30 }}>
@@ -103,9 +101,7 @@ export function Answers() {
                     )}
                   </View>
                 </View>
-
                 <Text style={styles.questionText}>{answer.question}</Text>
-
                 <View style={styles.answerBlock}>
                   <Text style={styles.label}>Sua resposta:</Text>
                   <Text style={questionStyles.userAnswerText}>
@@ -113,13 +109,11 @@ export function Answers() {
                       ? answer.alternatives[answer.selectedAnswerIndex]
                       : 'Pulou a questão'}
                   </Text>
-
                   <Text style={styles.label}>Resposta correta:</Text>
                   <Text style={styles.correctAnswerText}>
                     {answer.alternatives[answer.correctAnswerIndex]}
                   </Text>
                 </View>
-
                 {answer.explanation && (
                   <View style={styles.explanation}>
                     <Text style={styles.explanationTitle}>Explicação doutrinária:</Text>

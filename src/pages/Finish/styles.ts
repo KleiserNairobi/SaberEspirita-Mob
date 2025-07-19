@@ -11,9 +11,10 @@ export const getFinishStyles = (theme: AppTheme) =>
       justifyContent: 'center',
     },
     starsAndBooks: {
-      width: '100%',
-      height: '24%',
-    },
+      width: 300,
+      height: 200,
+      resizeMode: 'contain',
+    } as const,
     subcategory: {
       marginTop: theme.vSpacings.md,
       textAlign: 'center',

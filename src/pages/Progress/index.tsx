@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { FlatList, ScrollView, View, Text, Image, SafeAreaView } from 'react-native';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +24,6 @@ export function Progress() {
   const insets = useSafeAreaInsets();
   const { user } = useAppStore();
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
-  const [userProgress, setUserProgress] = useState<IUserProgress[]>([]);
   const [filterData, setFilterData] = useState<IUserProgress[]>([]);
   const [filterTitle, setFilterTitle] = useState('Todos');
 
@@ -37,10 +37,15 @@ export function Progress() {
     { id: 6, title: 'Diversos' },
   ];
 
-  async function fetchUserProgress(userId: string) {
-    const response = await getUserProgress(userId);
-    setUserProgress(response);
-  }
+  const {
+    data: userProgress,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['userProgress', user?.uid],
+    queryFn: () => getUserProgress(user?.uid || ''),
+    enabled: !!user?.uid,
+  });
 
   function getFormatedDateTime(dateTime: FirebaseFirestoreTypes.Timestamp): string {
     const dataHora = dateTime.toDate();
@@ -48,16 +53,10 @@ export function Progress() {
   }
 
   function filterDataByTitle(title: string) {
-    const filtered = userProgress.filter((item) => item.title === title);
+    const filtered = userProgress?.filter((item) => item.title === title) || [];
     setFilterData(filtered);
     setFilterTitle(title);
   }
-
-  useEffect(() => {
-    if (user?.uid) {
-      fetchUserProgress(user.uid);
-    }
-  }, [user?.uid]);
 
   function flatListEmpty() {
     return (
@@ -99,7 +98,11 @@ export function Progress() {
               </View>
             )}
           />
-          {userProgress.length > 0 && filterTitle === 'Todos' ? (
+          {!isLoading &&
+          !error &&
+          userProgress &&
+          userProgress.length > 0 &&
+          filterTitle === 'Todos' ? (
             <>
               <Text style={styles.completedQuizes}>Quizes concluídos</Text>
               <View style={{ height: 500, overflow: 'hidden', paddingBottom: 50 }}>
@@ -116,7 +119,10 @@ export function Progress() {
                 </ScrollView>
               </View>
             </>
-          ) : userProgress.length === 0 && filterTitle === 'Todos' ? (
+          ) : !isLoading &&
+            !error &&
+            (!userProgress || userProgress.length === 0) &&
+            filterTitle === 'Todos' ? (
             flatListEmpty()
           ) : filterData.length > 0 && filterTitle !== 'Todos' ? (
             <>

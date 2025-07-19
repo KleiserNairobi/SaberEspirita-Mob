@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, ScrollView, Text, SafeAreaView } from 'react-native';
-import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useQuery } from '@tanstack/react-query';
 import { verticalScale } from 'react-native-size-matters';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { useAppStore } from '@/hooks/useAppStore';
@@ -12,8 +14,6 @@ import { CardSubcategory } from '@/components/CardSubcategory';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
 import { GradientContainer } from '@/components/GradientContainer';
 import { SearchInput } from '@/components/SearchInput';
-import { ISubcategory } from '@/models/Subcategories';
-import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 import { MessageType } from '@/models/Utils';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { getSubcategoriesStyles } from './styles';
@@ -24,7 +24,6 @@ import {
   removeUserCompletedSubcategory,
   removeUserProgress,
 } from '@/services/firestore';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type SubcategoriesRouteProp = RouteProp<PrivateStackParamList, 'subcategories'>;
 
@@ -41,93 +40,91 @@ export function Subcategories() {
   const [quizAnswered, setQuizAnswered] = useState(false);
   const [idSubcategoryState, setIdSubcategoryState] = useState('');
   const [titleSubcategoryState, setTitleSubcategoryState] = useState('');
-  const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [completed, setCompleted] = useState<IUserCompletedSubcategory | null>();
 
+  const { data: subcategories = [] } = useQuery({
+    queryKey: ['subcategories', idCategory],
+    queryFn: () => getSubcategories(idCategory),
+  });
+
+  const { data: completed } = useQuery({
+    queryKey: ['completedSubcategories', user?.uid, idCategory],
+    queryFn: () => (user?.uid ? getUserCompletedSubcategories(user.uid, idCategory) : null),
+    enabled: !!user?.uid,
+  });
+
+  // Memoized values
+  const isSubcategoryCompleted = useMemo(
+    () =>
+      (idSubcategory: string): boolean => {
+        if (!completed || !completed.completedSubcategories[idCategory]) {
+          return false;
+        }
+        return completed.completedSubcategories[idCategory].includes(idSubcategory);
+      },
+    [completed, idCategory]
+  );
+
+  const filteredSubcategories = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+    return subcategories.filter(
+      (sub) => sub.title.toLowerCase().includes(term) || sub.subtitle.toLowerCase().includes(term)
+    );
+  }, [subcategories, searchTerm]);
+
+  // Handlers
   const handleBottomSheetChanges = useCallback((index: number) => {
     setQuizAnswered(index === 1);
   }, []);
 
-  function goToBack() {
-    navigation.goBack();
-  }
-
-  function goToQuizes(idSubcategory: string, titleSubcategory: string) {
-    navigation.navigate('quizes', {
-      idCategory: idCategory,
-      titleCategory: titleCategory,
-      idSubcategory: idSubcategory,
-      titleSubcategory: titleSubcategory,
-    });
-  }
-
-  const filteredSubcategories = useMemo(() => {
-    return subcategories.filter(
-      (sub) =>
-        sub.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        sub.subtitle.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [subcategories, searchTerm]);
-
-  function handleBottomSheetClose() {
+  const handleBottomSheetClose = useCallback(() => {
     setQuizAnswered(false);
     bottomSheetRef.current?.close();
-  }
+  }, []);
 
-  function handleClickCardSubcategory(idSubcategory: string, titleSubcategory: string) {
-    if (isSubcategoryCompleted(idSubcategory)) {
-      checkAnsweredQuiz(idSubcategory, titleSubcategory);
-    } else {
-      goToQuizes(idSubcategory, titleSubcategory);
-    }
-  }
+  const handleClickCardSubcategory = useCallback(
+    (idSubcategory: string, titleSubcategory: string) => {
+      if (isSubcategoryCompleted(idSubcategory)) {
+        checkAnsweredQuiz(idSubcategory, titleSubcategory);
+      } else {
+        goToQuizes(idSubcategory, titleSubcategory);
+      }
+    },
+    [isSubcategoryCompleted]
+  );
 
-  function checkAnsweredQuiz(idSubcategory: string, titleSubcategory: string) {
-    setIdSubcategoryState(idSubcategory);
-    setTitleSubcategoryState(titleSubcategory);
-    setQuizAnswered(true);
-  }
-
-  function handleQuizAnswered() {
+  const handleQuizAnswered = useCallback(() => {
     handleBottomSheetClose();
     if (user?.uid) {
       removeUserCompletedSubcategory(user.uid, idCategory, idSubcategoryState);
       removeUserProgress(user.uid, idSubcategoryState);
       goToQuizes(idSubcategoryState, titleSubcategoryState);
     }
-  }
+  }, [user?.uid, idCategory, idSubcategoryState, titleSubcategoryState, handleBottomSheetClose]);
 
-  function isSubcategoryCompleted(idSubcategory: string): boolean {
-    if (!completed || !completed.completedSubcategories[idCategory]) {
-      return false;
-    }
-    return completed.completedSubcategories[idCategory].includes(idSubcategory);
-  }
+  // Navigation
+  const goToBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getSubcategories(idCategory);
-        setSubcategories(data);
-      } catch (error) {
-        console.error('Erro ao obter subcategorias:', error);
-      }
-    };
-    fetchData();
-  }, [idCategory]);
-
-  useFocusEffect(
-    useCallback(() => {
-      const fetchCompletedSubcategories = async () => {
-        if (user?.uid) {
-          const data = await getUserCompletedSubcategories(user.uid, idCategory);
-          setCompleted(data);
-        }
-      };
-      fetchCompletedSubcategories();
-    }, [user?.uid, idCategory])
+  const goToQuizes = useCallback(
+    (idSubcategory: string, titleSubcategory: string) => {
+      navigation.navigate('quizes', {
+        idCategory,
+        titleCategory,
+        idSubcategory,
+        titleSubcategory,
+      });
+    },
+    [navigation, idCategory, titleCategory]
   );
+
+  // Helpers
+  const checkAnsweredQuiz = useCallback((idSubcategory: string, titleSubcategory: string) => {
+    setIdSubcategoryState(idSubcategory);
+    setTitleSubcategoryState(titleSubcategory);
+    setQuizAnswered(true);
+  }, []);
 
   useEffect(() => {
     if (quizAnswered) {
