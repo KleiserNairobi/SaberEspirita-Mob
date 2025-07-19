@@ -14,6 +14,7 @@ import { ICategory } from '@/models/Categories';
 import { getCategories, getUserCompletedSubcategories } from '@/services/firestore';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { getCategoriesStyles } from './styles';
+import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 
 export function Categories() {
   const theme = useTheme();
@@ -28,9 +29,25 @@ export function Categories() {
     queryFn: getCategories,
   });
 
-  const { data: completed, isLoading: isLoadingCompleted } = useQuery({
+  const {
+    data: completed = {
+      userId: user?.uid || '',
+      completedSubcategories: {},
+      totalCompleted: 0,
+    },
+    isLoading: isLoadingCompleted,
+  } = useQuery<IUserCompletedSubcategory>({
     queryKey: ['completedSubcategories', user?.uid],
-    queryFn: () => getUserCompletedSubcategories(user!.uid),
+    queryFn: () => {
+      if (!user?.uid) {
+        return Promise.resolve({
+          userId: '',
+          completedSubcategories: {},
+          totalCompleted: 0,
+        });
+      }
+      return getUserCompletedSubcategories(user.uid);
+    },
     enabled: !!user?.uid,
   });
 
@@ -55,11 +72,10 @@ export function Categories() {
     };
   }, [navigation]);
 
-  // 2 - Atualizando porcentagem de subcategorias completadas
   useEffect(() => {
-    if (categories.length > 0 && completed) {
+    if (categories.length > 0 && completed && completed.completedSubcategories) {
       const updated = categories.map((category) => {
-        const completedCount = completed.completedSubcategories?.[category.id]?.length || 0;
+        const completedCount = completed.completedSubcategories[category.id]?.length || 0;
         const percentage =
           category.subcategoryCount > 0
             ? Math.round((completedCount / category.subcategoryCount) * 100)

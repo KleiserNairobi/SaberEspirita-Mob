@@ -3,4 +3,5 @@ export interface IUserCompletedSubcategory {
   completedSubcategories: {
     [categoryId: string]: string[];
   };
+  totalCompleted?: number;
 }
