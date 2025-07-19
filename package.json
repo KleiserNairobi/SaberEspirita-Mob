@@ -6,7 +6,9 @@
     "ios": "expo run:ios",
     "start": "expo start",
     "prebuild": "expo prebuild",
-    "postprebuild": "node dev/scripts/patch-android-signature.js"
+    "postprebuild": "node dev/scripts/patch-android-signature.js",
+    "build:aab": "expo prebuild && cd android && ./gradlew bundleRelease",
+    "rename:aab": "node dev/scripts/rename-aab.js"
   },
   "dependencies": {
     "@expo-google-fonts/courgette": "^0.4.0",
