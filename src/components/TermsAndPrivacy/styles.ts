@@ -21,7 +21,6 @@ export const getTermsAndPrivacyStyles = (theme: AppTheme) =>
     },
     modalContainer: {
       flex: 1,
-
       backgroundColor: theme.colors.background,
     },
     webview: {

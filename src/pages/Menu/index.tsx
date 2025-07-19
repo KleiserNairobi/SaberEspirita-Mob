@@ -19,8 +19,10 @@ import { getMenuStyles } from './styles';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 
 const TITLE = 'Saber Espírita';
-const MESSAGE =
-  'Que tal um desafio sobre espiritismo? \n\nTeste seus conhecimentos no Saber Espírita. \nBaixe agora: https://play.google.com/store/apps/details?id=seu.app';
+const MESSAGE = `Desafie sua mente e aprofunde seus conhecimentos sobre espiritismo! ${'\n'}
+O app Saber Espírita traz quizzes incríveis para você. ${'\n'}
+Baixe agora e compartilhe com seus amigos: ${'\n'}
+https://play.google.com/store/apps/details?id=app.saberespirita`;
 
 export function Menu() {
   const styles = useThemedStyles(getMenuStyles);
@@ -47,18 +49,18 @@ export function Menu() {
     setBottomSheetOpen(index === 1);
   }, []);
 
-  // async function handleShared() {
-  //   try {
-  //     await Share.share({
-  //       message: MESSAGE,
-  //       title: TITLE,
-  //     });
-  //   } catch (error) {
-  //     setError('Erro ao compartilhar aplicativo com amigos.');
-  //     setOnError(true);
-  //     setBottomSheetOpen(true);
-  //   }
-  // }
+  async function handleShared() {
+    try {
+      await Share.share({
+        message: MESSAGE,
+        title: TITLE,
+      });
+    } catch (error) {
+      setError('Erro ao compartilhar aplicativo com amigos.');
+      setOnError(true);
+      setBottomSheetOpen(true);
+    }
+  }
 
   function handleCloseError() {
     setError('');
@@ -142,7 +144,7 @@ export function Menu() {
             title="Criar quiz"
             onPress={() => navigation.navigate('create')}
           />
-          {/* <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} /> */}
+          <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} />
           <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </View>
 
