@@ -82,7 +82,7 @@ export function Categories() {
         {isLoadingCategories || isLoadingCompleted ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={theme.colors.primary} />
-            <Text>Carregando...</Text>
+            <Text style={styles.titleLoading}>Carregando...</Text>
           </View>
         ) : (
           <FlatList

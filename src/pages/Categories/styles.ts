@@ -39,4 +39,9 @@ export const getCategoriesStyles = (theme: AppTheme) =>
       justifyContent: 'center',
       alignItems: 'center',
     },
+    titleLoading: {
+      color: theme.colors.titleBold,
+      fontSize: theme.fontSizes.md,
+      fontFamily: theme.fontFamily.medium,
+    },
   });
