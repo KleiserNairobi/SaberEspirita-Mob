@@ -1,4 +1,3 @@
-import React from 'react';
 import { View } from 'react-native';
 import { ButtonQuiz } from '@/components/ButtonQuiz';
 import { useThemedStyles } from '@/hooks/useThemedStyles';

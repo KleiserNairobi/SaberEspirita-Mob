@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, FlatList, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CardCategory } from '@/components/CardCategory';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -20,6 +21,7 @@ export function Categories() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(getCategoriesStyles);
+  const queryClient = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { user } = useAppStore();
   const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
@@ -85,6 +87,16 @@ export function Categories() {
       setCategoriesWithCompletion(updated);
     }
   }, [categories, completed]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (user?.uid) {
+        queryClient.invalidateQueries({
+          queryKey: ['completedSubcategories', user.uid],
+        });
+      }
+    }, [user?.uid])
+  );
 
   return (
     <GradientContainer>

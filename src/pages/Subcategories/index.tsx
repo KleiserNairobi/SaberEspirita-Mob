@@ -3,9 +3,10 @@ import { FlatList, ScrollView, Text, SafeAreaView } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { verticalScale } from 'react-native-size-matters';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import { useFocusEffect } from '@react-navigation/native';
 import { useAppStore } from '@/hooks/useAppStore';
 import { useTheme } from '@/hooks/useTheme';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
@@ -41,6 +42,7 @@ export function Subcategories() {
   const [idSubcategoryState, setIdSubcategoryState] = useState('');
   const [titleSubcategoryState, setTitleSubcategoryState] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const queryClient = useQueryClient();
 
   const { data: subcategories = [] } = useQuery({
     queryKey: ['subcategories', idCategory],
@@ -131,6 +133,16 @@ export function Subcategories() {
       bottomSheetRef.current?.expand();
     }
   }, [quizAnswered]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (user?.uid) {
+        queryClient.invalidateQueries({
+          queryKey: ['completedSubcategories', user.uid, idCategory],
+        });
+      }
+    }, [user?.uid, idCategory])
+  );
 
   return (
     <GradientContainer>
