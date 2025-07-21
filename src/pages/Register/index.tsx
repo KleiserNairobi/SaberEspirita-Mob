@@ -77,7 +77,8 @@ export function Register() {
   }
 
   function handleOnChange(text: string, input: string) {
-    setInputs((prevState) => ({ ...prevState, [input]: text }));
+    const value = input === 'email' ? text.toLowerCase() : text;
+    setInputs((prevState) => ({ ...prevState, [input]: value }));
   }
 
   function handleError(errorMessage: string | null, input: string) {
@@ -180,6 +181,7 @@ export function Register() {
               onFocus={() => handleError(null, 'email')}
               onChangeText={(text) => handleOnChange(text, 'email')}
               autoCorrect={false}
+              autoCapitalize="none"
               keyboardType="email-address"
             />
             <Input
