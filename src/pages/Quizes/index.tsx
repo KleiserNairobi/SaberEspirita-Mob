@@ -257,6 +257,7 @@ export function Quizes() {
               <Question
                 question={quiz.questions[currentQuestion]}
                 success={quiz.questions[currentQuestion].correct === alternativeSelected}
+                correctIndex={quiz.questions[currentQuestion].correct}
                 alternativeSelected={alternativeSelected}
                 setAlternativeSelected={setAlternativeSelected}
               />
