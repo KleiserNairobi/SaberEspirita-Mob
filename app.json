@@ -47,8 +47,7 @@
         }
       ],
       "expo-font",
-      "expo-mail-composer",
-      "expo-audio"
+      "expo-mail-composer"
     ]
   }
 }
