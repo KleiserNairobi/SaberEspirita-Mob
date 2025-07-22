@@ -1,6 +1,6 @@
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
-export interface IUserProgress {
+export interface IUserHistory {
   userId: string; // Identificador único do usuário
   categoryId: string; // Identificador da categoria
   subcategoryId: string; // Identificador da subcategoria

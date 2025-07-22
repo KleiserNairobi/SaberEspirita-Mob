@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import { ICategory } from '@/models/Categories';
 import { ISubcategory } from '@/models/Subcategories';
 import { IQuizes } from '@/models/Quizes';
-import { IUserProgress } from '@/models/UsersProgress';
+import { IUserHistory } from '@/models/UsersHistory';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 import { IUserCreatedQuiz } from '@/models/UserCreatedQuiz';
 
@@ -256,7 +256,7 @@ export async function removeUserCompletedSubcategory(
   }
 }
 
-export async function getUserProgress(userId: string): Promise<IUserProgress[]> {
+export async function getUserHistory(userId: string): Promise<IUserHistory[]> {
   try {
     const progressSnapshot = await firestore()
       .collection('users_progress')
@@ -264,10 +264,10 @@ export async function getUserProgress(userId: string): Promise<IUserProgress[]> 
       .collection('progress')
       .orderBy('completedAt', 'desc')
       .get();
-    const userProgress: IUserProgress[] = progressSnapshot.docs.map((doc) => ({
+    const userProgress: IUserHistory[] = progressSnapshot.docs.map((doc) => ({
       userId,
       ...doc.data(),
-    })) as IUserProgress[];
+    })) as IUserHistory[];
     return userProgress;
   } catch (error) {
     console.log('Ocorreu um erro ao buscar o progresso do usuário:', error);
@@ -275,21 +275,21 @@ export async function getUserProgress(userId: string): Promise<IUserProgress[]> 
   }
 }
 
-export async function addUserProgress(userProgress: IUserProgress): Promise<void> {
+export async function addUserHistory(userHistory: IUserHistory): Promise<void> {
   try {
     const userProgressRef = firestore()
       .collection('users_progress')
-      .doc(userProgress.userId)
+      .doc(userHistory.userId)
       .collection('progress')
-      .doc(userProgress.subcategoryId);
-    await userProgressRef.set(userProgress);
+      .doc(userHistory.subcategoryId);
+    await userProgressRef.set(userHistory);
     console.log('Progresso do usuário adicionado com sucesso!');
   } catch (error) {
     console.log('Ocorreu um erro ao adicionar o progresso do usuário:', error);
   }
 }
 
-export async function removeUserProgress(userId: string, subcategoryId: string): Promise<void> {
+export async function removeUserHistory(userId: string, subcategoryId: string): Promise<void> {
   try {
     const userProgressRef = firestore()
       .collection('users_progress')

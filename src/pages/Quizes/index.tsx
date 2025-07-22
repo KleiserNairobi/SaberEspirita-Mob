@@ -17,10 +17,10 @@ import { Question } from '@/components/Question';
 import { Loading } from '@/components/Loading';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
 import { IQuizes } from '@/models/Quizes';
-import { IUserProgress } from '@/models/UsersProgress';
+import { IUserHistory } from '@/models/UsersHistory';
 import { IUserAnswer } from '@/models/UserAnswer';
 import { MessageType } from '@/models/Utils';
-import { addUserProgress, getQuiz, saveUserCompletedSubcategories } from '@/services/firestore';
+import { addUserHistory, getQuiz, saveUserCompletedSubcategories } from '@/services/firestore';
 import { getQuizesStyles } from './styles';
 
 type QuizesRouteProp = RouteProp<PrivateStackParamList, 'quizes'>;
@@ -155,7 +155,7 @@ export function Quizes() {
     const level = getLevel(percentage);
     const score = Math.round(percentage);
 
-    const userProgress: IUserProgress = {
+    const userHistory: IUserHistory = {
       userId: user?.uid || '',
       categoryId: quiz.idCategory,
       subcategoryId: quiz.idSubcategory,
@@ -174,7 +174,7 @@ export function Quizes() {
     try {
       if (user?.uid) {
         await saveUserCompletedSubcategories(user.uid, quiz.idCategory, quiz.idSubcategory);
-        await addUserProgress(userProgress);
+        await addUserHistory(userHistory);
       }
 
       navigation.navigate('finish', {

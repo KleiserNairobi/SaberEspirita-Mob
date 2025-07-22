@@ -23,7 +23,7 @@ import {
   getSubcategories,
   getUserCompletedSubcategories,
   removeUserCompletedSubcategory,
-  removeUserProgress,
+  removeUserHistory,
 } from '@/services/firestore';
 
 type SubcategoriesRouteProp = RouteProp<PrivateStackParamList, 'subcategories'>;
@@ -99,7 +99,7 @@ export function Subcategories() {
     handleBottomSheetClose();
     if (user?.uid) {
       removeUserCompletedSubcategory(user.uid, idCategory, idSubcategoryState);
-      removeUserProgress(user.uid, idSubcategoryState);
+      removeUserHistory(user.uid, idSubcategoryState);
       goToQuizes(idSubcategoryState, titleSubcategoryState);
     }
   }, [user?.uid, idCategory, idSubcategoryState, titleSubcategoryState, handleBottomSheetClose]);

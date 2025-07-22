@@ -11,20 +11,20 @@ import { ButtonFilterProgress } from '@/components/ButtonFilterProgress';
 import { ButtonAction } from '@/components/ButtonAction';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getProgressStyles } from './styles';
-import { IUserProgress } from '@/models/UsersProgress';
-import { getUserProgress } from '@/services/firestore';
+import { IUserHistory } from '@/models/UsersHistory';
+import { getUserHistory } from '@/services/firestore';
 import { useAppStore } from '@/hooks/useAppStore';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export function Progress() {
+export function History() {
   const styles = useThemedStyles(getProgressStyles);
   const insets = useSafeAreaInsets();
   const { user } = useAppStore();
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
-  const [filterData, setFilterData] = useState<IUserProgress[]>([]);
+  const [filterData, setFilterData] = useState<IUserHistory[]>([]);
   const [filterTitle, setFilterTitle] = useState('Todos');
 
   const categories = [
@@ -43,7 +43,7 @@ export function Progress() {
     error,
   } = useQuery({
     queryKey: ['userProgress', user?.uid],
-    queryFn: () => getUserProgress(user?.uid || ''),
+    queryFn: () => getUserHistory(user?.uid || ''),
     enabled: !!user?.uid,
   });
 
@@ -79,7 +79,7 @@ export function Progress() {
     <GradientContainer>
       <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
         <View style={styles.wrapper}>
-          <Header onPress={() => navigation.goBack()} title="Progresso" />
+          <Header onPress={() => navigation.goBack()} title="Histórico" />
           <Text style={styles.subtitle}>
             Selecione uma categoria para conferir o seu progresso nos quizes
           </Text>
