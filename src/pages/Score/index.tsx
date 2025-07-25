@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  ImageStyle,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -15,28 +7,21 @@ import { Header } from '@/components/Header';
 import { LeaderboardFilter } from '@/components/LeaderboardFilter';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { LeaderboardPodium } from '@/components/LeaderboardPodium';
-import { useThemedStyles } from '@/hooks/useThemedStyles';
-import { getScoreStyles } from './styles';
-import { mockLeaderboardData } from '@/assets/mocks/mockData';
 import { LeaderboardList } from '@/components/LeaderboardList';
-
-// import { Ionicons } from '@expo/vector-icons';
-
-type TimeFilter = 'allTime' | 'thisWeek' | 'thisMonth';
+import { TimeFilterEnum, TimeFilter } from '@/models/Filters';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
+import { useLeaderboardScores } from '@/hooks/useLeaderboardScores';
+import { getScoreStyles } from './styles';
 
 export function Score() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(getScoreStyles);
-  const [selectedFilter, setSelectedFilter] = useState<TimeFilter>('allTime');
+  const [selectedFilter, setSelectedFilter] = useState<TimeFilter>(TimeFilterEnum.ALL);
 
-  const getFilteredData = () => {
-    return mockLeaderboardData[selectedFilter];
-  };
-
-  const filteredData = getFilteredData();
-  const topThree = filteredData.slice(0, 3);
-  const restOfPlayers = filteredData.slice(3);
+  const { data = [], isLoading } = useLeaderboardScores(selectedFilter);
+  const topThree = data.slice(0, 3);
+  const restOfPlayers = data.slice(3);
 
   return (
     <GradientContainer>
@@ -50,7 +35,7 @@ export function Score() {
             <LeaderboardPodium players={topThree} />
             <View style={styles.playersList}>
               {restOfPlayers.map((player, index) => (
-                <LeaderboardList key={player.id} player={player} position={index + 4} />
+                <LeaderboardList key={player.userId} player={player} />
               ))}
             </View>
           </ScrollView>

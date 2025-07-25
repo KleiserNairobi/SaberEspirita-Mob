@@ -5,6 +5,9 @@ import { IQuizes } from '@/models/Quizes';
 import { IUserHistory } from '@/models/UsersHistory';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 import { IUserCreatedQuiz } from '@/models/UserCreatedQuiz';
+import { IUserScore } from '@/models/UsersScores';
+import { ILeaderboardUser } from '@/models/UsersLeaderboard';
+import { TimeFilterEnum, TimeFilter } from '@/models/Filters';
 
 const imageMapping: { [key: string]: any } = {
   CONCEITOS: require('@/assets/images/Categories/Concepts.png'),
@@ -221,7 +224,8 @@ export async function addUserHistory(userHistory: IUserHistory): Promise<void> {
       .collection('progress')
       .doc(userHistory.subcategoryId);
     await userProgressRef.set(userHistory);
-    console.log('Progresso do usuário adicionado com sucesso!');
+    await updateUserScore(userHistory.userId);
+    console.log('Adicionado progresso e computado score do usuário com sucesso!');
   } catch (error) {
     console.log('Ocorreu um erro ao adicionar o progresso do usuário:', error);
   }
@@ -235,7 +239,8 @@ export async function removeUserHistory(userId: string, subcategoryId: string): 
       .collection('progress')
       .doc(subcategoryId);
     await userProgressRef.delete();
-    console.log('Progresso do usuário removido com sucesso!');
+    await updateUserScore(userId);
+    console.log('Removido progresso e computado score do usuário com sucesso!');
   } catch (error) {
     console.log('Ocorreu um erro ao remover o progresso do usuário:', error);
   }
@@ -253,4 +258,83 @@ export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Pro
   } catch (error) {
     console.log('Ocorreu um erro ao adicionar o quiz criado pelo usuário:', error);
   }
+}
+
+export async function updateUserScore(userId: string): Promise<void> {
+  try {
+    const historySnapshot = await firestore()
+      .collection('users_progress')
+      .doc(userId)
+      .collection('progress')
+      .get();
+
+    const histories = historySnapshot.docs.map((doc) => doc.data() as IUserHistory);
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfWeek = new Date(now);
+
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    let totalAllTime = 0;
+    let totalThisMonth = 0;
+    let totalThisWeek = 0;
+
+    histories.forEach((history) => {
+      const completedDate = history.completedAt.toDate();
+      const score = history.score;
+
+      totalAllTime += score;
+
+      if (completedDate >= startOfMonth) {
+        totalThisMonth += score;
+      }
+
+      if (completedDate >= startOfWeek) {
+        totalThisWeek += score;
+      }
+    });
+
+    const userScoreRef = firestore().collection('leaderboard_scores').doc(userId);
+
+    const summary: IUserScore = {
+      userId,
+      totalAllTime,
+      totalThisMonth,
+      totalThisWeek,
+      lastUpdated: firestore.FieldValue.serverTimestamp() as any,
+    };
+
+    await userScoreRef.set(summary);
+    console.log('Resumo de score atualizado com sucesso!');
+  } catch (error) {
+    console.error('Erro ao atualizar resumo de score do usuário:', error);
+  }
+}
+
+export async function getLeaderboard(period: TimeFilter): Promise<ILeaderboardUser[]> {
+  const fieldMap: Record<TimeFilterEnum, string> = {
+    [TimeFilterEnum.WEEK]: 'totalThisWeek',
+    [TimeFilterEnum.MONTH]: 'totalThisMonth',
+    [TimeFilterEnum.ALL]: 'totalAllTime',
+  };
+
+  const field = fieldMap[period];
+
+  const snapshot = await firestore()
+    .collection('leaderboard_scores')
+    .orderBy(field, 'desc')
+    .limit(100)
+    .get();
+
+  return snapshot.docs.map((doc, index) => {
+    const data = doc.data();
+    return {
+      userId: data.userId,
+      displayName: `Usuário ${index + 1}`, // substitua se tiver displayName real
+      avatarUrl: undefined,
+      score: data[field],
+      position: index + 1,
+    };
+  });
 }

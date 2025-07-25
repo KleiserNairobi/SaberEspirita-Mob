@@ -2,17 +2,10 @@ import { View, Text, Image, ImageStyle } from 'react-native';
 import Icon from 'react-native-remix-icon';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getLeaderboardPodiumStyles } from './styles';
-
-type Player = {
-  id: string;
-  name: string;
-  score: number;
-  position: number;
-  avatar: string;
-};
+import { ILeaderboardUser } from '@/models/UsersLeaderboard';
 
 interface PodiumProps {
-  players: Player[];
+  players: ILeaderboardUser[];
 }
 
 export function LeaderboardPodium({ players }: PodiumProps) {
@@ -49,7 +42,7 @@ export function LeaderboardPodium({ players }: PodiumProps) {
     players.find((p) => p.position === 2),
     players.find((p) => p.position === 1),
     players.find((p) => p.position === 3),
-  ].filter(Boolean) as Player[];
+  ].filter(Boolean) as ILeaderboardUser[];
 
   // Different heights for podium effect
   const heights = [120, 140, 100];
@@ -63,7 +56,7 @@ export function LeaderboardPodium({ players }: PodiumProps) {
         const height = heights[index];
 
         return (
-          <View key={player.id} style={styles.playerContainer}>
+          <View key={player.userId} style={styles.playerContainer}>
             <View style={styles.positionBadge}>
               <Text style={[styles.positionText, { color: positionStyle.color }]}>
                 {actualPosition}
@@ -76,7 +69,7 @@ export function LeaderboardPodium({ players }: PodiumProps) {
             </View>
 
             <View style={[styles.avatarContainer, { borderColor: ribbonColors[0] }]}>
-              <Image source={{ uri: player.avatar }} style={styles.avatar as ImageStyle} />
+              <Image source={{ uri: player.avatarUrl }} style={styles.avatar as ImageStyle} />
               {actualPosition === 1 && (
                 <View style={styles.crownOverlay}>
                   <Icon name="vip-crown-line" size={24} color="#F59E0B" />
@@ -88,7 +81,7 @@ export function LeaderboardPodium({ players }: PodiumProps) {
               <Text style={styles.score}>{player.score.toLocaleString()}</Text>
             </View>
 
-            <Text style={styles.playerName}>{player.name}</Text>
+            <Text style={styles.playerName}>{player.displayName}</Text>
           </View>
         );
       })}

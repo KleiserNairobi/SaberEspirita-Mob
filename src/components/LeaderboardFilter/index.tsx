@@ -1,25 +1,21 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
+import { TimeFilterEnum, TimeFilterLabels, TimeFilter } from '@/models/Filters';
 import { getLeaderboardFilterStyles } from './styles';
-
-type TimeFilter = 'allTime' | 'thisWeek' | 'thisMonth';
 
 interface FilterProps {
   selectedFilter: TimeFilter;
   onFilterChange: (filter: TimeFilter) => void;
 }
 
+const segments = [TimeFilterEnum.ALL, TimeFilterEnum.WEEK, TimeFilterEnum.MONTH] as const;
+
 export function LeaderboardFilter({ selectedFilter, onFilterChange }: FilterProps) {
   const styles = useThemedStyles(getLeaderboardFilterStyles);
-  const segments = [
-    { key: 'allTime', label: 'Desde Sempre' },
-    { key: 'thisWeek', label: 'Esta Semana' },
-    { key: 'thisMonth', label: 'Este Mês' },
-  ] as const;
 
   const animatedStyles = useAnimatedStyle(() => {
-    const index = segments.findIndex((s) => s.key === selectedFilter);
+    const index = segments.findIndex((s) => s === selectedFilter);
     const segmentWidth = 100 / segments.length;
     return {
       width: `${segmentWidth}%`,
@@ -39,15 +35,15 @@ export function LeaderboardFilter({ selectedFilter, onFilterChange }: FilterProp
       <View style={styles.segmentsContainer}>
         {segments.map((segment) => (
           <TouchableOpacity
-            key={segment.key}
+            key={segment}
             style={styles.segment}
-            onPress={() => onFilterChange(segment.key)}>
+            onPress={() => onFilterChange(segment)}>
             <Text
               style={[
                 styles.segmentText,
-                selectedFilter === segment.key && styles.selectedSegmentText,
+                selectedFilter === segment && styles.selectedSegmentText,
               ]}>
-              {segment.label}
+              {TimeFilterLabels[segment]}
             </Text>
           </TouchableOpacity>
         ))}
