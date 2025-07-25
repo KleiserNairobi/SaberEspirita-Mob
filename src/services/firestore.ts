@@ -127,68 +127,6 @@ export async function getUserCompletedSubcategories(
   }
 }
 
-// export async function getUserCompletedSubcategories(
-//   userId: string,
-//   categoryId?: string
-// ): Promise<IUserCompletedSubcategory> {
-//   try {
-//     const userDoc = await firestore().collection('users_completed_subcategories').doc(userId).get();
-
-//     if (!userDoc.exists) {
-//       return { userId, completedSubcategories: {} };
-//     }
-
-//     const allData = userDoc.data() as IUserCompletedSubcategory;
-
-//     // Se categoryId foi especificado, retorne apenas os dados dessa categoria
-//     if (categoryId) {
-//       return {
-//         userId,
-//         completedSubcategories: {
-//           [categoryId]: allData.completedSubcategories[categoryId] || [],
-//         },
-//       };
-//     }
-
-//     // Caso contrário, retorne todos os dados
-//     return allData;
-//   } catch (error) {
-//     console.error('Error getting user subcategories:', error);
-//     return { userId, completedSubcategories: {} };
-//   }
-// }
-
-// export async function getUserCompletedSubcategories(
-//   userId: string,
-//   categoryId?: string
-// ): Promise<IUserCompletedSubcategory | null> {
-//   try {
-//     const userDoc = await firestore().collection('users_completed_subcategories').doc(userId).get();
-
-//     if (!userDoc.exists) {
-//       return null;
-//     }
-
-//     if (!categoryId) {
-//       return userDoc.data() as IUserCompletedSubcategory;
-//     }
-
-//     const subcategories = userDoc.data()?.completedSubcategories?.[categoryId];
-
-//     if (!subcategories) {
-//       return null;
-//     }
-
-//     return {
-//       userId,
-//       completedSubcategories: { [categoryId]: subcategories },
-//     };
-//   } catch (error) {
-//     console.log('Ocorreu um erro ao obter o histórico do usuário:', error);
-//     return null;
-//   }
-// }
-
 export async function saveUserCompletedSubcategories(
   userId: string,
   categoryId: string,
