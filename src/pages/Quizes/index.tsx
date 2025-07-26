@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View, ScrollView, Text, BackHandler, SafeAreaView } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 import firestore from '@react-native-firebase/firestore';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,7 +17,6 @@ import { ButtonActionOutilene } from '@/components/ButtonActionOutilene';
 import { Question } from '@/components/Question';
 import { Loading } from '@/components/Loading';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
-import { IQuizes } from '@/models/Quizes';
 import { IUserHistory } from '@/models/UsersHistory';
 import { IUserAnswer } from '@/models/UserAnswer';
 import { MessageType } from '@/models/Utils';
@@ -37,11 +37,15 @@ export function Quizes() {
   const [stop, setStop] = useState(false);
   const [next, setNext] = useState(false);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [points, setPoints] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [quiz, setQuiz] = useState<IQuizes | null>(null);
   const [userAnswers, setUserAnswers] = useState<IUserAnswer[]>([]);
   const [alternativeSelected, setAlternativeSelected] = useState<null | number>(null);
+  const [isFinishing, setIsFinishing] = useState(false);
+
+  const { data: quiz } = useQuery({
+    queryKey: ['quiz', idSubcategory],
+    queryFn: () => getQuiz(idSubcategory),
+  });
 
   const handleSheetChanges = useCallback((index: number) => {
     setBottomSheetOpen(index === 1);
@@ -85,9 +89,6 @@ export function Quizes() {
       explanation: question.explanation,
     };
     setUserAnswers((prev) => [...prev, newAnswer]);
-    if (selectedIndex !== null && selectedIndex === question.correct) {
-      setPoints((prev) => prev + 1);
-    }
   }
 
   function handleConfirm() {
@@ -108,10 +109,6 @@ export function Quizes() {
     // 2. Atualiza o estado (mas não depende dele)
     setUserAnswers((prev) => [...prev, currentAnswer]);
     setAlternativeSelected(null);
-
-    if (alternativeSelected === question.correct) {
-      setPoints((prev) => prev + 1);
-    }
 
     // 3. Se for a última pergunta, passa TODAS as respostas (incluindo a atual)
     if (quiz && currentQuestion < quiz.questions.length - 1) {
@@ -145,33 +142,34 @@ export function Quizes() {
     if (!quiz) {
       return;
     }
-
-    const totalPoints = allAnswers.filter(
-      (answer) => answer.selectedAnswerIndex === answer.correctAnswerIndex
-    ).length;
-
-    const totalQuestions = quiz.questions.length;
-    const percentage = calculatePercentage(totalPoints, totalQuestions);
-    const level = getLevel(percentage);
-    const score = Math.round(percentage);
-
-    const userHistory: IUserHistory = {
-      userId: user?.uid || '',
-      categoryId: quiz.idCategory,
-      subcategoryId: quiz.idSubcategory,
-      quizId: quiz.id,
-      title: titleCategory,
-      subtitle: titleSubcategory,
-      completed: true,
-      score,
-      totalQuestions,
-      correctAnswers: totalPoints,
-      percentage,
-      level,
-      completedAt: firestore.Timestamp.fromDate(new Date()),
-    };
+    setIsFinishing(true);
 
     try {
+      const totalPoints = allAnswers.filter(
+        (answer) => answer.selectedAnswerIndex === answer.correctAnswerIndex
+      ).length;
+
+      const totalQuestions = quiz.questions.length;
+      const percentage = calculatePercentage(totalPoints, totalQuestions);
+      const level = getLevel(percentage);
+      const score = Math.round(percentage);
+
+      const userHistory: IUserHistory = {
+        userId: user?.uid || '',
+        categoryId: quiz.idCategory,
+        subcategoryId: quiz.idSubcategory,
+        quizId: quiz.id,
+        title: titleCategory,
+        subtitle: titleSubcategory,
+        completed: true,
+        score,
+        totalQuestions,
+        correctAnswers: totalPoints,
+        percentage,
+        level,
+        completedAt: firestore.Timestamp.fromDate(new Date()),
+      };
+
       if (user?.uid) {
         await saveUserCompletedSubcategories(user.uid, quiz.idCategory, quiz.idSubcategory);
         await addUserHistory(userHistory, user.displayName!);
@@ -188,6 +186,8 @@ export function Quizes() {
       });
     } catch (error) {
       console.error('Erro ao salvar o progresso do usuário:', error);
+    } finally {
+      setIsFinishing(false);
     }
   }
 
@@ -208,15 +208,6 @@ export function Quizes() {
     setBottomSheetOpen(false);
     bottomSheetRef.current?.close();
   }
-
-  async function fetchQuiz(idSubcategory: string) {
-    const quiz = await getQuiz(idSubcategory);
-    setQuiz(quiz);
-  }
-
-  useEffect(() => {
-    fetchQuiz(idSubcategory);
-  }, [idSubcategory]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -277,7 +268,7 @@ export function Quizes() {
           </>
         ) : null}
       </SafeAreaView>
-      {(!quiz || quiz.questions.length === 0) && <Loading />}
+      {(!quiz || quiz.questions.length === 0 || isFinishing) && <Loading />}
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}

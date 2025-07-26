@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Audio } from 'expo-av';
 import { ButtonQuiz } from '@/components/ButtonQuiz';
@@ -28,46 +28,69 @@ export function Question({
 }: QuestionType) {
   const styles = useThemedStyles(getQuestionStyles);
   const { isSoundOn } = useAppStore();
-  const [correctSound, setCorrectSound] = useState<Audio.Sound | null>(null);
-  const [wrongSound, setWrongSound] = useState<Audio.Sound | null>(null);
+  const correctSoundRef = useRef<Audio.Sound | null>(null);
+  const wrongSoundRef = useRef<Audio.Sound | null>(null);
+  const [soundsLoaded, setSoundsLoaded] = useState(false);
 
-  // Carrega os sons quando o componente monta
+  // Efeito para carregar os sons uma única vez
   useEffect(() => {
     const loadSounds = async () => {
-      const { sound: correct } = await Audio.Sound.createAsync(
-        require('@/assets/sounds/correct.mp3')
-      );
-      const { sound: wrong } = await Audio.Sound.createAsync(require('@/assets/sounds/wrong.mp3'));
-      setCorrectSound(correct);
-      setWrongSound(wrong);
+      try {
+        // Não tocar ao carregar
+        const { sound: correct } = await Audio.Sound.createAsync(
+          require('@/assets/sounds/correct.mp3'),
+          { shouldPlay: false }
+        );
+        // Não tocar ao carregar
+        const { sound: wrong } = await Audio.Sound.createAsync(
+          require('@/assets/sounds/wrong.mp3'),
+          { shouldPlay: false }
+        );
+        correctSoundRef.current = correct;
+        wrongSoundRef.current = wrong;
+        setSoundsLoaded(true);
+      } catch (error) {
+        console.error('Erro ao carregar sons:', error);
+      }
     };
 
     loadSounds();
 
+    // Função de limpeza para descarregar os sons
     return () => {
-      if (correctSound) {
-        correctSound.unloadAsync();
+      if (correctSoundRef.current) {
+        correctSoundRef.current.unloadAsync();
       }
-      if (wrongSound) {
-        wrongSound.unloadAsync();
+      if (wrongSoundRef.current) {
+        wrongSoundRef.current.unloadAsync();
       }
     };
-  }, []);
+  }, []); // Array de dependências vazio para rodar apenas uma vez
 
   const playSound = useCallback(
     async (isCorrect: boolean) => {
-      if (!isSoundOn) return;
-      const sound = isCorrect ? correctSound : wrongSound;
-      if (!sound) return;
+      if (!isSoundOn || !soundsLoaded) {
+        return;
+      }
+
+      const sound = isCorrect ? correctSoundRef.current : wrongSoundRef.current;
+
+      if (!sound) {
+        console.warn(`Som para ${isCorrect ? 'correto' : 'errado'} não está carregado.`);
+        return;
+      }
+
       try {
         await sound.stopAsync();
         await sound.setPositionAsync(0);
         await sound.playAsync();
       } catch (error) {
         console.error('Erro ao reproduzir som:', error);
+        // Opcional: tentar carregar novamente se o erro for devido a estado inválido
+        // ou considerar um feedback visual para o usuário.
       }
     },
-    [isSoundOn, correctSound, wrongSound]
+    [isSoundOn, soundsLoaded]
   );
 
   const handleSelect = async (index: number) => {
@@ -77,26 +100,6 @@ export function Question({
     setAlternativeSelected?.(index);
   };
 
-  // const correctPlayer = useAudioPlayer(require('@/assets/sounds/correct.mp3'));
-  // const wrongPlayer = useAudioPlayer(require('@/assets/sounds/wrong.mp3'));
-
-  // const playSound = useCallback(
-  //   async (isCorrect: boolean) => {
-  //     if (!isSoundOn) return;
-  //     const player = isCorrect ? correctPlayer : wrongPlayer;
-  //     await player.seekTo(0);
-  //     player.play();
-  //   },
-  //   [isSoundOn, correctPlayer, wrongPlayer]
-  // );
-
-  // const handleSelect = async (index: number) => {
-  //   if (alternativeSelected != null) return;
-  //   const isCorrect = correctIndex === index;
-  //   await playSound(isCorrect);
-  //   setAlternativeSelected?.(index);
-  // };
-
   return (
     <View style={styles.container}>
       {question.alternatives.map((alternative, index) => (
@@ -105,9 +108,8 @@ export function Question({
           title={alternative}
           checked={alternativeSelected === index}
           success={success}
-          disabled={alternativeSelected != null}
+          disabled={alternativeSelected != null || !soundsLoaded}
           onPress={() => handleSelect(index)}
-          // onPress={() => setAlternativeSelected && setAlternativeSelected(index)}
         />
       ))}
     </View>

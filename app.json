@@ -22,7 +22,7 @@
       "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
     },
     "android": {
-      "versionCode": 6,
+      "versionCode": 7,
       "package": "app.saberespirita",
       "googleServicesFile": "./dev/configs/google-services.json",
       "adaptiveIcon": {
