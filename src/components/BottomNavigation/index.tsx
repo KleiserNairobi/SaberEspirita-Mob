@@ -43,13 +43,13 @@ export function BottomNavigation() {
         iconSize={26}
         onPress={() => navigation.navigate('history')}
       />
-      <ButtonNavigation
+      {/* <ButtonNavigation
         active={screen === 'score'}
         title="Placar"
         iconName={screen === 'score' ? 'trophy-fill' : 'trophy-line'}
         iconSize={26}
         onPress={() => navigation.navigate('score')}
-      />
+      /> */}
       <ButtonNavigation
         active={screen === 'menu'}
         title="Mais"

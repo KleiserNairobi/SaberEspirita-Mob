@@ -99,7 +99,7 @@ export function Subcategories() {
     handleBottomSheetClose();
     if (user?.uid) {
       removeUserCompletedSubcategory(user.uid, idCategory, idSubcategoryState);
-      removeUserHistory(user.uid, idSubcategoryState);
+      removeUserHistory(user.uid, user.displayName!, idSubcategoryState);
       goToQuizes(idSubcategoryState, titleSubcategoryState);
     }
   }, [user?.uid, idCategory, idSubcategoryState, titleSubcategoryState, handleBottomSheetClose]);

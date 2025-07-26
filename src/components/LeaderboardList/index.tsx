@@ -16,7 +16,7 @@ export function LeaderboardList({ player }: ListProps) {
       </View>
       <Image source={{ uri: player.avatarUrl }} style={styles.avatar as ImageStyle} />
       <View style={styles.playerInfo}>
-        <Text style={styles.playerName}>{player.displayName}</Text>
+        <Text style={styles.playerName}>{player.userName}</Text>
         <Text style={styles.playerLevel}>Level {player.level}</Text>
       </View>
       <View style={styles.scoreContainer}>

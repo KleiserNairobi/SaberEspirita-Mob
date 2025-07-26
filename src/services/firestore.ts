@@ -199,73 +199,63 @@ export async function removeUserCompletedSubcategory(
 
 export async function getUserHistory(userId: string): Promise<IUserHistory[]> {
   try {
-    const progressSnapshot = await firestore()
-      .collection('users_progress')
+    const historySnapshot = await firestore()
+      .collection('users_history')
       .doc(userId)
-      .collection('progress')
+      .collection('history')
       .orderBy('completedAt', 'desc')
       .get();
-    const userProgress: IUserHistory[] = progressSnapshot.docs.map((doc) => ({
+    const userHistory: IUserHistory[] = historySnapshot.docs.map((doc) => ({
       userId,
       ...doc.data(),
     })) as IUserHistory[];
-    return userProgress;
+    return userHistory;
   } catch (error) {
-    console.log('Ocorreu um erro ao buscar o progresso do usuário:', error);
+    console.log('Ocorreu um erro ao buscar o histórico do usuário:', error);
     throw error;
   }
 }
 
-export async function addUserHistory(userHistory: IUserHistory): Promise<void> {
+export async function addUserHistory(userHistory: IUserHistory, userName: string): Promise<void> {
   try {
-    const userProgressRef = firestore()
-      .collection('users_progress')
+    const userHistoryRef = firestore()
+      .collection('users_history')
       .doc(userHistory.userId)
-      .collection('progress')
+      .collection('history')
       .doc(userHistory.subcategoryId);
-    await userProgressRef.set(userHistory);
-    await updateUserScore(userHistory.userId);
-    console.log('Adicionado progresso e computado score do usuário com sucesso!');
+    await userHistoryRef.set(userHistory);
+    await updateUserScore(userHistory.userId, userName);
+    console.log('Adicionado histórico e computado score do usuário com sucesso!');
   } catch (error) {
-    console.log('Ocorreu um erro ao adicionar o progresso do usuário:', error);
+    console.log('Ocorreu um erro ao adicionar o histórico do usuário:', error);
   }
 }
 
-export async function removeUserHistory(userId: string, subcategoryId: string): Promise<void> {
+export async function removeUserHistory(
+  userId: string,
+  userName: string,
+  subcategoryId: string
+): Promise<void> {
   try {
-    const userProgressRef = firestore()
-      .collection('users_progress')
+    const userHistoryRef = firestore()
+      .collection('users_history')
       .doc(userId)
-      .collection('progress')
+      .collection('history')
       .doc(subcategoryId);
-    await userProgressRef.delete();
-    await updateUserScore(userId);
-    console.log('Removido progresso e computado score do usuário com sucesso!');
+    await userHistoryRef.delete();
+    await updateUserScore(userId, userName);
+    console.log('Removido histórico e computado score do usuário com sucesso!');
   } catch (error) {
-    console.log('Ocorreu um erro ao remover o progresso do usuário:', error);
+    console.log('Ocorreu um erro ao remover o histórico do usuário:', error);
   }
 }
 
-export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Promise<void> {
-  try {
-    const userCreatedQuizRef = firestore()
-      .collection('users_created_quizzes')
-      .doc(userCreatedQuiz.userId)
-      .collection('quizzes')
-      .doc(); // Gera um ID único para o quiz criado
-    await userCreatedQuizRef.set(userCreatedQuiz);
-    console.log('Quiz criado pelo usuário adicionado com sucesso!');
-  } catch (error) {
-    console.log('Ocorreu um erro ao adicionar o quiz criado pelo usuário:', error);
-  }
-}
-
-export async function updateUserScore(userId: string): Promise<void> {
+export async function updateUserScore(userId: string, userName: string): Promise<void> {
   try {
     const historySnapshot = await firestore()
-      .collection('users_progress')
+      .collection('users_history')
       .doc(userId)
-      .collection('progress')
+      .collection('history')
       .get();
 
     const histories = historySnapshot.docs.map((doc) => doc.data() as IUserHistory);
@@ -299,6 +289,7 @@ export async function updateUserScore(userId: string): Promise<void> {
 
     const summary: IUserScore = {
       userId,
+      userName,
       totalAllTime,
       totalThisMonth,
       totalThisWeek,
@@ -331,10 +322,24 @@ export async function getLeaderboard(period: TimeFilter): Promise<ILeaderboardUs
     const data = doc.data();
     return {
       userId: data.userId,
-      displayName: `Usuário ${index + 1}`, // substitua se tiver displayName real
+      userName: data.userName,
       avatarUrl: undefined,
       score: data[field],
       position: index + 1,
     };
   });
+}
+
+export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Promise<void> {
+  try {
+    const userCreatedQuizRef = firestore()
+      .collection('users_created_quizzes')
+      .doc(userCreatedQuiz.userId)
+      .collection('quizzes')
+      .doc(); // Gera um ID único para o quiz criado
+    await userCreatedQuizRef.set(userCreatedQuiz);
+    console.log('Quiz criado pelo usuário adicionado com sucesso!');
+  } catch (error) {
+    console.log('Ocorreu um erro ao adicionar o quiz criado pelo usuário:', error);
+  }
 }

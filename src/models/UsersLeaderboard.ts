@@ -1,6 +1,6 @@
 export interface ILeaderboardUser {
   userId: string; // Identificador único do usuário
-  displayName: string; // Nome para exibição
+  userName: string; // Nome para exibição
   avatarUrl?: string; // URL da imagem de perfil (pode mudar para ImageSourcePropType se for imagem local)
   score: number; // Pontuação total
   position: number; // Posição no ranking

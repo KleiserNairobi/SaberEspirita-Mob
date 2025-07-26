@@ -81,7 +81,7 @@ export function LeaderboardPodium({ players }: PodiumProps) {
               <Text style={styles.score}>{player.score.toLocaleString()}</Text>
             </View>
 
-            <Text style={styles.playerName}>{player.displayName}</Text>
+            <Text style={styles.playerName}>{player.userName}</Text>
           </View>
         );
       })}

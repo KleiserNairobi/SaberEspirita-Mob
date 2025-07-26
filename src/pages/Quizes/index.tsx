@@ -174,7 +174,7 @@ export function Quizes() {
     try {
       if (user?.uid) {
         await saveUserCompletedSubcategories(user.uid, quiz.idCategory, quiz.idSubcategory);
-        await addUserHistory(userHistory);
+        await addUserHistory(userHistory, user.displayName!);
       }
 
       navigation.navigate('finish', {
