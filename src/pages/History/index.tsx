@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { FlatList, ScrollView, View, Text, Image, SafeAreaView } from 'react-native';
+import { FlatList, ScrollView, View, Text, Image, SafeAreaView, ImageStyle } from 'react-native';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from '@/components/Header';
@@ -38,11 +38,11 @@ export function History() {
   ];
 
   const {
-    data: userProgress,
+    data: userHistory,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['userProgress', user?.uid],
+    queryKey: ['userHistory', user?.uid],
     queryFn: () => getUserHistory(user?.uid || ''),
     enabled: !!user?.uid,
   });
@@ -53,7 +53,7 @@ export function History() {
   }
 
   function filterDataByTitle(title: string) {
-    const filtered = userProgress?.filter((item) => item.title === title) || [];
+    const filtered = userHistory?.filter((item) => item.title === title) || [];
     setFilterData(filtered);
     setFilterTitle(title);
   }
@@ -61,7 +61,10 @@ export function History() {
   function flatListEmpty() {
     return (
       <View style={styles.boxFlatListEmpty}>
-        <Image source={require('@/assets/images/Search/Search.png')} style={styles.imageSearch} />
+        <Image
+          source={require('@/assets/images/Search/Search.png')}
+          style={styles.imageSearch as ImageStyle}
+        />
         <Text style={styles.titleFlatListEmpty}>
           Você ainda não testou seus conhecimentos nesta categoria!
         </Text>
@@ -100,14 +103,14 @@ export function History() {
           />
           {!isLoading &&
           !error &&
-          userProgress &&
-          userProgress.length > 0 &&
+          userHistory &&
+          userHistory.length > 0 &&
           filterTitle === 'Todos' ? (
             <>
               <Text style={styles.completedQuizes}>Quizes concluídos</Text>
               <View style={{ height: 500, overflow: 'hidden', paddingBottom: 50 }}>
                 <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1 }}>
-                  {userProgress.map((item) => (
+                  {userHistory.map((item) => (
                     <ProgressListItem
                       key={item.subcategoryId}
                       title={item.subtitle}
@@ -121,7 +124,7 @@ export function History() {
             </>
           ) : !isLoading &&
             !error &&
-            (!userProgress || userProgress.length === 0) &&
+            (!userHistory || userHistory.length === 0) &&
             filterTitle === 'Todos' ? (
             flatListEmpty()
           ) : filterData.length > 0 && filterTitle !== 'Todos' ? (
