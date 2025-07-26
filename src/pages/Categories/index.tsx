@@ -1,5 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import { BackHandler, FlatList, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  BackHandler,
+  FlatList,
+  View,
+  Text,
+  SafeAreaView,
+  ActivityIndicator,
+  ToastAndroid,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -25,6 +33,7 @@ export function Categories() {
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { user } = useAppStore();
   const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
+  const backPressTimestamp = useRef(0);
 
   const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
     queryKey: ['categories'],
@@ -61,13 +70,20 @@ export function Categories() {
     });
   }
 
-  // 1 - Adicionando subscrição
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (navigation.isFocused()) {
+      if (!navigation.isFocused()) return false;
+      const currentTime = new Date().getTime();
+      const timeDiff = currentTime - backPressTimestamp.current;
+      const DOUBLE_PRESS_DELAY = 2000;
+      if (timeDiff < DOUBLE_PRESS_DELAY) {
+        BackHandler.exitApp();
+        return true;
+      } else {
+        backPressTimestamp.current = currentTime;
+        ToastAndroid.show('Pressione novamente para sair', ToastAndroid.SHORT);
         return true;
       }
-      return false;
     });
     return () => {
       backHandler.remove();
