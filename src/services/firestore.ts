@@ -285,7 +285,7 @@ export async function updateUserScore(userId: string, userName: string): Promise
       }
     });
 
-    const userScoreRef = firestore().collection('leaderboard_scores').doc(userId);
+    const userScoreRef = firestore().collection('users_scores').doc(userId);
 
     const summary: IUserScore = {
       userId,
@@ -313,7 +313,7 @@ export async function getLeaderboard(period: TimeFilter): Promise<ILeaderboardUs
   const field = fieldMap[period];
 
   const snapshot = await firestore()
-    .collection('leaderboard_scores')
+    .collection('users_scores')
     .orderBy(field, 'desc')
     .limit(100)
     .get();
