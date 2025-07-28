@@ -4,72 +4,115 @@ import { AppTheme } from '@/themes';
 export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'flex-end',
-      paddingHorizontal: 24,
-      marginTop: 20,
-    },
-    playerContainer: {
-      alignItems: 'center',
       flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 20,
+      backgroundColor: '#f5f5f5',
     },
-    positionBadge: {
-      position: 'relative',
-      marginBottom: 10,
+    title: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      marginBottom: 30,
+      color: '#333',
     },
-    positionText: {
-      fontSize: 24,
-      fontWeight: '700',
+    podium: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      height: 300,
+      marginBottom: 20,
     },
-    crownContainer: {
-      position: 'absolute',
-      top: -15,
-      left: '50%',
-      marginLeft: -10,
+    podiumFirst: {
+      flex: 1,
+      alignItems: 'center',
+      height: '100%',
+      justifyContent: 'flex-end',
+    },
+    podiumSecond: {
+      flex: 1,
+      alignItems: 'center',
+      height: '80%',
+      justifyContent: 'flex-end',
+    },
+    podiumThird: {
+      flex: 1,
+      alignItems: 'center',
+      height: '60%',
+      justifyContent: 'flex-end',
     },
     avatarContainer: {
-      position: 'relative',
       width: 80,
       height: 80,
       borderRadius: 40,
-      borderWidth: 4,
-      padding: 4,
-      backgroundColor: 'white',
-    },
-    avatar: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 36,
-    },
-    crownOverlay: {
-      position: 'absolute',
-      top: -8,
-      left: '50%',
-      marginLeft: -12,
-      backgroundColor: 'white',
-      borderRadius: 12,
-      padding: 2,
-    },
-    ribbon: {
-      width: 80,
-      borderBottomLeftRadius: 8,
-      borderBottomRightRadius: 8,
+      backgroundColor: '#e0e0e0',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 8,
-      position: 'relative',
+      marginBottom: 10,
+      borderWidth: 3,
+      borderColor: '#fff',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      elevation: 5,
     },
-    score: {
-      color: 'white',
+    avatar: {
+      width: 74,
+      height: 74,
+      borderRadius: 37,
+    },
+    avatarText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#555',
+    },
+    scoreBar: {
+      width: '80%',
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 10,
+    },
+    firstPlaceBar: {
+      height: 120,
+      backgroundColor: '#FFD700', // Ouro
+    },
+    secondPlaceBar: {
+      height: 90,
+      backgroundColor: '#C0C0C0', // Prata
+    },
+    thirdPlaceBar: {
+      height: 60,
+      backgroundColor: '#CD7F32', // Bronze
+    },
+    scoreText: {
       fontSize: 18,
-      fontWeight: '700',
+      fontWeight: 'bold',
+      color: '#fff',
     },
-    playerName: {
-      color: 'white',
-      fontSize: 16,
-      fontWeight: '600',
-      marginTop: 12,
+    positionText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    namesContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      width: '100%',
+      paddingHorizontal: 10,
+    },
+    nameText: {
+      flex: 1,
       textAlign: 'center',
+      fontSize: 16,
+      fontWeight: '500',
+      color: '#444',
+      marginHorizontal: 5,
+    },
+    emptyText: {
+      fontSize: 18,
+      color: '#666',
+      textAlign: 'center',
+      marginTop: 20,
     },
   });

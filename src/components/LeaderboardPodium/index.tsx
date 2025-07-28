@@ -1,5 +1,4 @@
 import { View, Text, Image, ImageStyle } from 'react-native';
-import Icon from 'react-native-remix-icon';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getLeaderboardPodiumStyles } from './styles';
 import { ILeaderboardUser } from '@/models/UsersLeaderboard';
@@ -11,80 +10,92 @@ interface PodiumProps {
 export function LeaderboardPodium({ players }: PodiumProps) {
   const styles = useThemedStyles(getLeaderboardPodiumStyles);
 
-  const getPositionStyle = (position: number) => {
-    switch (position) {
-      case 1:
-        return { color: '#EF4444', backgroundColor: '#FEF2F2' };
-      case 2:
-        return { color: '#3B82F6', backgroundColor: '#EFF6FF' };
-      case 3:
-        return { color: '#10B981', backgroundColor: '#F0FDF4' };
-      default:
-        return { color: '#6B7280', backgroundColor: '#F9FAFB' };
-    }
-  };
+  if (!players || players.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Pódio</Text>
+        <Text style={styles.emptyText}>Nenhum jogador disponível</Text>
+      </View>
+    );
+  }
 
-  const getRibbonColor = (position: number) => {
-    switch (position) {
-      case 1:
-        return ['#F472B6', '#EC4899'];
-      case 2:
-        return ['#60A5FA', '#3B82F6'];
-      case 3:
-        return ['#34D399', '#10B981'];
-      default:
-        return ['#9CA3AF', '#6B7280'];
-    }
-  };
+  const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
 
-  // Reorganize players: 2nd, 1st, 3rd
-  const arrangedPlayers = [
-    players.find((p) => p.position === 2),
-    players.find((p) => p.position === 1),
-    players.find((p) => p.position === 3),
-  ].filter(Boolean) as ILeaderboardUser[];
-
-  // Different heights for podium effect
-  const heights = [120, 140, 100];
+  // Pega os primeiros colocados (pode ter menos de 3)
+  const firstPlace = sortedPlayers[0];
+  const secondPlace = sortedPlayers[1];
+  const thirdPlace = sortedPlayers[2];
 
   return (
     <View style={styles.container}>
-      {arrangedPlayers.map((player, index) => {
-        const actualPosition = player.position;
-        const positionStyle = getPositionStyle(actualPosition);
-        const ribbonColors = getRibbonColor(actualPosition);
-        const height = heights[index];
+      <Text style={styles.title}>Pódio</Text>
 
-        return (
-          <View key={player.userId} style={styles.playerContainer}>
-            <View style={styles.positionBadge}>
-              <Text style={[styles.positionText, { color: positionStyle.color }]}>
-                {actualPosition}
-              </Text>
-              {actualPosition === 1 && (
-                <View style={styles.crownContainer}>
-                  {/* <Icon name="vip-crown-line" size={20} color="#F59E0B" /> */}
-                </View>
-              )}
-            </View>
-
-            <View style={[styles.avatarContainer, { borderColor: ribbonColors[0] }]}>
-              <Image source={{ uri: player.avatarUrl }} style={styles.avatar as ImageStyle} />
-              {actualPosition === 1 && (
-                <View style={styles.crownOverlay}>
-                  <Icon name="vip-crown-line" size={24} color="#F59E0B" />
-                </View>
-              )}
-            </View>
-
-            <View style={[styles.ribbon, { height, backgroundColor: ribbonColors[0] }]}>
-              <Text style={styles.score}>{player.score.toLocaleString()}</Text>
-            </View>
-
-            <Text style={styles.playerName}>{player.userName}</Text>
+      <View style={styles.podium}>
+        {/* Segundo lugar (esquerda) */}
+        <View style={styles.podiumSecond}>
+          <View style={styles.avatarContainer}>
+            {secondPlace ? (
+              secondPlace.avatarUrl ? (
+                <Image
+                  source={{ uri: secondPlace.avatarUrl }}
+                  style={styles.avatar as ImageStyle}
+                />
+              ) : (
+                <Text style={styles.avatarText}>
+                  {secondPlace.userName.substring(0, 2).toUpperCase()}
+                </Text>
+              )
+            ) : null}
           </View>
-        );
-      })}
+          <View style={[styles.scoreBar, styles.secondPlaceBar]}>
+            <Text style={styles.scoreText}>{secondPlace.score}</Text>
+          </View>
+          <Text style={styles.positionText}>2º</Text>
+        </View>
+
+        {/* Primeiro lugar (centro) */}
+        <View style={styles.podiumFirst}>
+          <View style={styles.avatarContainer}>
+            {firstPlace.avatarUrl ? (
+              <Image source={{ uri: firstPlace.avatarUrl }} style={styles.avatar as ImageStyle} />
+            ) : (
+              <Text style={styles.avatarText}>
+                {firstPlace.userName.substring(0, 2).toUpperCase()}
+              </Text>
+            )}
+          </View>
+          <View style={[styles.scoreBar, styles.firstPlaceBar]}>
+            <Text style={styles.scoreText}>{firstPlace.score}</Text>
+          </View>
+          <Text style={styles.positionText}>1º</Text>
+        </View>
+
+        {/* Terceiro lugar (direita) */}
+        <View style={styles.podiumThird}>
+          <View style={styles.avatarContainer}>
+            {thirdPlace ? (
+              thirdPlace.avatarUrl ? (
+                <Image source={{ uri: thirdPlace.avatarUrl }} style={styles.avatar as ImageStyle} />
+              ) : (
+                <Text style={styles.avatarText}>
+                  {thirdPlace.userName.substring(0, 2).toUpperCase()}
+                </Text>
+              )
+            ) : null}
+          </View>
+          <View style={[styles.scoreBar, styles.thirdPlaceBar]}>
+            <Text style={styles.scoreText}>{thirdPlace.score}</Text>
+          </View>
+          <Text style={styles.positionText}>3º</Text>
+        </View>
+      </View>
+
+      {/* Nomes dos jogadores abaixo do pódio */}
+      <View style={styles.namesContainer}>
+        {secondPlace && <Text style={styles.nameText}>{secondPlace.userName}</Text>}
+        <Text style={styles.nameText}>{firstPlace.userName}</Text>
+        {thirdPlace && <Text style={styles.nameText}>{thirdPlace.userName}</Text>}
+      </View>
     </View>
   );
 }
