@@ -14,11 +14,15 @@ export const getScoreStyles = (theme: AppTheme) =>
       paddingBottom: 250,
     },
     playersList: {
-      backgroundColor: 'white',
-      marginTop: 40,
+      marginTop: 20,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
-      paddingTop: 24,
+      paddingTop: 10,
       minHeight: 500,
+
+      borderWidth: 1,
+      borderRadius: 8,
+      borderColor: theme.colors.cardQuizBorder,
+      backgroundColor: theme.colors.cardQuizBackground,
     },
   });

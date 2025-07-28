@@ -33,11 +33,12 @@ export function Score() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContent}>
             <LeaderboardPodium players={topThree} />
-
             <View style={styles.playersList}>
-              {restOfPlayers.map((player, index) => (
-                <LeaderboardList key={player.userId} player={player} />
-              ))}
+              <ScrollView showsVerticalScrollIndicator={true}>
+                {restOfPlayers.map((player, index) => (
+                  <LeaderboardList key={player.userId} player={player} />
+                ))}
+              </ScrollView>
             </View>
           </ScrollView>
         </View>

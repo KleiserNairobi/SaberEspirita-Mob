@@ -8,19 +8,12 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
       alignItems: 'center',
       justifyContent: 'center',
       padding: 20,
-      backgroundColor: '#f5f5f5',
-    },
-    title: {
-      fontSize: 32,
-      fontWeight: 'bold',
-      marginBottom: 30,
-      color: '#333',
     },
     podium: {
       flexDirection: 'row',
       alignItems: 'flex-end',
-      height: 300,
-      marginBottom: 20,
+      height: 236,
+      marginBottom: 10,
     },
     podiumFirst: {
       flex: 1,
@@ -37,24 +30,19 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
     podiumThird: {
       flex: 1,
       alignItems: 'center',
-      height: '60%',
+      height: '80%',
       justifyContent: 'flex-end',
     },
     avatarContainer: {
       width: 80,
       height: 80,
       borderRadius: 40,
-      backgroundColor: '#e0e0e0',
+      backgroundColor: theme.colors.buttonBack,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 10,
       borderWidth: 3,
-      borderColor: '#fff',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      elevation: 5,
+      borderColor: theme.colors.primary,
     },
     avatar: {
       width: 74,
@@ -62,9 +50,9 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
       borderRadius: 37,
     },
     avatarText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#555',
+      fontSize: theme.fontSizes.xl,
+      fontFamily: theme.fontFamily.semibold,
+      color: theme.colors.titleBold,
     },
     scoreBar: {
       width: '80%',
@@ -75,25 +63,25 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
     },
     firstPlaceBar: {
       height: 120,
-      backgroundColor: '#FFD700', // Ouro
+      backgroundColor: theme.colors.cardProgressPrimary,
     },
     secondPlaceBar: {
       height: 90,
-      backgroundColor: '#C0C0C0', // Prata
+      backgroundColor: theme.colors.cardProgressSecondary,
     },
     thirdPlaceBar: {
-      height: 60,
-      backgroundColor: '#CD7F32', // Bronze
+      height: 90,
+      backgroundColor: theme.colors.cardProgressBorder,
     },
     scoreText: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#fff',
+      fontSize: theme.fontSizes.md,
+      fontFamily: theme.fontFamily.bold,
+      color: theme.colors.titleBlack,
     },
     positionText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: '#333',
+      fontSize: theme.fontSizes.md,
+      fontFamily: theme.fontFamily.bold,
+      color: theme.colors.titleBold,
     },
     namesContainer: {
       flexDirection: 'row',
@@ -104,15 +92,15 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
     nameText: {
       flex: 1,
       textAlign: 'center',
-      fontSize: 16,
-      fontWeight: '500',
-      color: '#444',
+      fontSize: theme.fontSizes.sm,
+      fontFamily: theme.fontFamily.semibold,
+      color: theme.colors.titleBold,
       marginHorizontal: 5,
     },
     emptyText: {
-      fontSize: 18,
-      color: '#666',
-      textAlign: 'center',
       marginTop: 20,
+      textAlign: 'center',
+      fontSize: theme.fontSizes.md,
+      color: theme.colors.titleNormal,
     },
   });

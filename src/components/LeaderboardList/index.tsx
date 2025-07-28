@@ -14,10 +14,19 @@ export function LeaderboardList({ player }: ListProps) {
       <View style={styles.positionContainer}>
         <Text style={styles.positionText}>{player.position}</Text>
       </View>
-      <Image source={{ uri: player.avatarUrl }} style={styles.avatar as ImageStyle} />
+
+      <View style={styles.avatarContainer}>
+        {player ? (
+          player.avatarUrl ? (
+            <Image source={{ uri: player.avatarUrl }} style={styles.avatar as ImageStyle} />
+          ) : (
+            <Text style={styles.avatarText}>{player.userName.substring(0, 2).toUpperCase()}</Text>
+          )
+        ) : null}
+      </View>
       <View style={styles.playerInfo}>
         <Text style={styles.playerName}>{player.userName}</Text>
-        <Text style={styles.playerLevel}>Level {player.level}</Text>
+        {/* <Text style={styles.playerLevel}>Level {player.level}</Text> */}
       </View>
       <View style={styles.scoreContainer}>
         <Text style={styles.score}>{player.score.toLocaleString()}</Text>

@@ -13,8 +13,7 @@ export function LeaderboardPodium({ players }: PodiumProps) {
   if (!players || players.length === 0) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Pódio</Text>
-        <Text style={styles.emptyText}>Nenhum jogador disponível</Text>
+        <Text style={styles.emptyText}>Nenhum placar disponível</Text>
       </View>
     );
   }
@@ -28,8 +27,6 @@ export function LeaderboardPodium({ players }: PodiumProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pódio</Text>
-
       <View style={styles.podium}>
         {/* Segundo lugar (esquerda) */}
         <View style={styles.podiumSecond}>
