@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { AppTheme } from '@/themes';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
   StyleSheet.create({
@@ -7,13 +8,13 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 20,
+      paddingHorizontal: scale(20),
     },
     podium: {
       flexDirection: 'row',
       alignItems: 'flex-end',
-      height: 236,
-      marginBottom: 10,
+      height: verticalScale(210),
+      marginBottom: verticalScale(10),
     },
     podiumFirst: {
       flex: 1,
@@ -34,23 +35,23 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
       justifyContent: 'flex-end',
     },
     avatarContainer: {
-      width: 80,
-      height: 80,
-      borderRadius: 40,
+      width: scale(60),
+      height: scale(60),
+      borderRadius: scale(30),
       backgroundColor: theme.colors.buttonBack,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 10,
+      marginBottom: verticalScale(10),
       borderWidth: 3,
       borderColor: theme.colors.primary,
     },
     avatar: {
-      width: 74,
-      height: 74,
-      borderRadius: 37,
+      width: scale(60),
+      height: scale(60),
+      borderRadius: scale(30),
     },
     avatarText: {
-      fontSize: theme.fontSizes.xl,
+      fontSize: theme.fontSizes.lg,
       fontFamily: theme.fontFamily.semibold,
       color: theme.colors.titleBold,
     },
@@ -59,19 +60,19 @@ export const getLeaderboardPodiumStyles = (theme: AppTheme) =>
       borderRadius: 10,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 10,
+      marginBottom: verticalScale(10),
     },
     firstPlaceBar: {
-      height: 120,
-      backgroundColor: theme.colors.cardProgressPrimary,
+      height: verticalScale(100),
+      backgroundColor: theme.colors.firstPlace,
     },
     secondPlaceBar: {
-      height: 90,
-      backgroundColor: theme.colors.cardProgressSecondary,
+      height: verticalScale(70),
+      backgroundColor: theme.colors.secondPlace,
     },
     thirdPlaceBar: {
-      height: 90,
-      backgroundColor: theme.colors.cardProgressBorder,
+      height: verticalScale(70),
+      backgroundColor: theme.colors.thirdPlace,
     },
     scoreText: {
       fontSize: theme.fontSizes.md,
