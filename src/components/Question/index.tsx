@@ -69,7 +69,13 @@ export function Question({
 
   const playSound = useCallback(
     async (isCorrect: boolean) => {
-      if (!isSoundOn || !soundsLoaded) {
+      if (!isSoundOn) {
+        console.log('Sons desativados nas configurações');
+        return;
+      }
+
+      if (!soundsLoaded) {
+        console.warn('Sons ainda não carregados');
         return;
       }
 
@@ -81,13 +87,31 @@ export function Question({
       }
 
       try {
+        // Verifica se o som ainda está carregado
+        const status = await sound.getStatusAsync();
+        if (!status.isLoaded) {
+          console.warn('Som foi descarregado, recarregando...');
+          await sound.loadAsync(
+            isCorrect
+              ? require('@/assets/sounds/correct.mp3')
+              : require('@/assets/sounds/wrong.mp3')
+          );
+        }
+
+        // Para qualquer reprodução atual
         await sound.stopAsync();
+        // Reinicia a posição
         await sound.setPositionAsync(0);
+        // Toca o som
         await sound.playAsync();
+
+        console.log(`Som ${isCorrect ? 'correto' : 'errado'} tocado com sucesso`);
       } catch (error) {
         console.error('Erro ao reproduzir som:', error);
-        // Opcional: tentar carregar novamente se o erro for devido a estado inválido
-        // ou considerar um feedback visual para o usuário.
+        // Tenta recarregar o som na próxima vez
+        if (sound) {
+          sound.unloadAsync().catch((e) => console.error('Erro ao descarregar som:', e));
+        }
       }
     },
     [isSoundOn, soundsLoaded]

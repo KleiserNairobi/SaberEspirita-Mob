@@ -119,22 +119,34 @@ export function Quizes() {
   }
 
   function handleSkipConfirm() {
-    saveAnswer(null);
     setNext(true);
     setBottomSheetOpen(true);
     bottomSheetRef.current?.expand();
   }
 
   function handleNextQuestion() {
+    // 1. Cria a resposta atual ANTES de atualizar o estado
+    const question = quiz!.questions[currentQuestion];
+    const currentAnswer: IUserAnswer = {
+      question: question.title,
+      alternatives: question.alternatives,
+      correctAnswerIndex: question.correct,
+      selectedAnswerIndex: null,
+      explanation: question.explanation,
+    };
+
+    // 2. Atualiza o estado (mas não depende dele)
+    setUserAnswers((prev) => [...prev, currentAnswer]);
     setStop(false);
     setNext(false);
     setBottomSheetOpen(false);
     bottomSheetRef.current?.close();
 
+    // 3. Se for a última pergunta, passa TODAS as respostas (incluindo a atual)
     if (quiz && currentQuestion < quiz.questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      handleFinished(userAnswers);
+      handleFinished([...userAnswers, currentAnswer]); // Resposta atual já inclusa!
     }
   }
 
