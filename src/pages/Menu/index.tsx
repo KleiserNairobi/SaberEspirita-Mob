@@ -147,7 +147,6 @@ export function Menu() {
           <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} />
           <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </View>
-
         <View style={styles.boxItems}>
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Emitir som</Text>
@@ -177,7 +176,6 @@ export function Menu() {
               />
             </View>
           </View>
-
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Alterar tema</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -206,11 +204,15 @@ export function Menu() {
               />
             </View>
           </View>
+          <View style={styles.row}>
+            <Text style={styles.rowTitle}>Versão</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.rowTitle}>1.0.0</Text>
+            </View>
+          </View>
         </View>
       </SafeAreaView>
-
       <BottomNavigation />
-
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
