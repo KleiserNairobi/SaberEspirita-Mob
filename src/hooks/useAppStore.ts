@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { Audio } from 'expo-av';
 import { load, save, remove } from '@/utils/Storage';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
@@ -10,12 +11,23 @@ interface AppState {
   isSoundOn: boolean;
   user: FirebaseAuthTypes.User | null;
   isLoading: boolean;
+
+  // Novos estados para os objetos de som
+  correctSound: Audio.Sound | null;
+  wrongSound: Audio.Sound | null;
+  soundsLoaded: boolean;
+
   toggleTheme: () => void;
   toggleSound: () => void;
   setUser: (user: FirebaseAuthTypes.User | null) => void;
   finishLoading: () => void;
+
+  // Novas ações para carregar e descarregar os sons
+  loadSounds: () => Promise<void>;
+  unloadSounds: () => Promise<void>;
 }
 
+// Omitimos os sons da persistência, pois eles não são serializáveis
 type PersistAppState = Omit<AppState, 'toggleTheme' | 'toggleSound' | 'setUser' | 'finishLoading'>;
 
 const storage = {
@@ -33,21 +45,58 @@ const storage = {
 
 export const useAppStore = create<AppState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       theme: 'dark',
       isSoundOn: true,
       user: null,
       isLoading: true,
+      correctSound: null,
+      wrongSound: null,
+      soundsLoaded: false,
+
       toggleTheme: () =>
         set((state) => ({
           theme: state.theme === 'light' ? 'dark' : 'light',
         })),
+
       toggleSound: () =>
         set((state) => ({
           isSoundOn: !state.isSoundOn,
         })),
+
       setUser: (user) => set({ user }),
+
       finishLoading: () => set({ isLoading: false }),
+
+      // Implementação da ação de carregar os sons
+      loadSounds: async () => {
+        try {
+          const { sound: correct } = await Audio.Sound.createAsync(
+            require('@/assets/sounds/correct.mp3'),
+            { shouldPlay: false }
+          );
+          const { sound: wrong } = await Audio.Sound.createAsync(
+            require('@/assets/sounds/wrong.mp3'),
+            { shouldPlay: false }
+          );
+          set({ correctSound: correct, wrongSound: wrong, soundsLoaded: true });
+        } catch (error) {
+          console.error('Erro ao carregar sons:', error);
+          set({ soundsLoaded: false });
+        }
+      },
+
+      // Implementação da ação de descarregar os sons
+      unloadSounds: async () => {
+        const { correctSound, wrongSound } = get();
+        if (correctSound) {
+          await correctSound.unloadAsync();
+        }
+        if (wrongSound) {
+          await wrongSound.unloadAsync();
+        }
+        set({ correctSound: null, wrongSound: null, soundsLoaded: false });
+      },
     }),
     {
       name: 'app-storage',

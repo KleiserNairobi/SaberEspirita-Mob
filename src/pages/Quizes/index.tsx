@@ -32,7 +32,8 @@ export function Quizes() {
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '36%'], []);
-  const { user } = useAppStore();
+  const { user, isSoundOn } = useAppStore();
+  const { correctSound, wrongSound, soundsLoaded, loadSounds, unloadSounds } = useAppStore();
   const { idSubcategory, titleCategory, titleSubcategory } = route.params;
   const [stop, setStop] = useState(false);
   const [next, setNext] = useState(false);
@@ -74,21 +75,6 @@ export function Quizes() {
     } else {
       navigation.goBack();
     }
-  }
-
-  function saveAnswer(selectedIndex: number | null) {
-    if (!quiz) {
-      return;
-    }
-    const question = quiz.questions[currentQuestion];
-    const newAnswer: IUserAnswer = {
-      question: question.title,
-      alternatives: question.alternatives,
-      correctAnswerIndex: question.correct,
-      selectedAnswerIndex: selectedIndex,
-      explanation: question.explanation,
-    };
-    setUserAnswers((prev) => [...prev, newAnswer]);
   }
 
   function handleConfirm() {
@@ -221,6 +207,33 @@ export function Quizes() {
     bottomSheetRef.current?.close();
   }
 
+  const playSound = useCallback(
+    async (isCorrect: boolean) => {
+      if (!isSoundOn || !soundsLoaded) {
+        return;
+      }
+
+      const sound = isCorrect ? correctSound : wrongSound;
+      if (!sound) return;
+
+      try {
+        await sound.stopAsync();
+        await sound.setPositionAsync(0);
+        await sound.playAsync();
+      } catch (error) {
+        console.error('Erro ao reproduzir som:', error);
+      }
+    },
+    [isSoundOn, soundsLoaded, correctSound, wrongSound]
+  );
+
+  useEffect(() => {
+    loadSounds();
+    return () => {
+      unloadSounds();
+    };
+  }, [loadSounds, unloadSounds]);
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       if (navigation.isFocused()) {
@@ -253,7 +266,7 @@ export function Quizes() {
             title={titleSubcategory}
           />
         )}
-        {quiz && quiz.questions.length > 0 ? (
+        {quiz && quiz.questions.length > 0 && soundsLoaded ? (
           <>
             <Text style={styles.quiz}>{quiz.questions[currentQuestion].title}</Text>
             <ScrollView style={styles.scroll}>
@@ -263,6 +276,7 @@ export function Quizes() {
                 correctIndex={quiz.questions[currentQuestion].correct}
                 alternativeSelected={alternativeSelected}
                 setAlternativeSelected={setAlternativeSelected}
+                playSound={playSound}
               />
               <View style={styles.buttonBox}>
                 <View style={styles.boxBackButton}>

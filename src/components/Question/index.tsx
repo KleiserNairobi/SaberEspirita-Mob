@@ -1,9 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
-import { Audio } from 'expo-av';
 import { ButtonQuiz } from '@/components/ButtonQuiz';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
-import { useAppStore } from '@/hooks/useAppStore';
 import { getQuestionStyles } from './styles';
 
 type QuestionProps = {
@@ -17,6 +14,7 @@ type QuestionType = {
   correctIndex: number;
   alternativeSelected?: number | null;
   setAlternativeSelected?: (value: number) => void;
+  playSound: (isCorrect: boolean) => Promise<void>;
 };
 
 export function Question({
@@ -25,97 +23,9 @@ export function Question({
   correctIndex,
   alternativeSelected,
   setAlternativeSelected,
+  playSound,
 }: QuestionType) {
   const styles = useThemedStyles(getQuestionStyles);
-  const { isSoundOn } = useAppStore();
-  const correctSoundRef = useRef<Audio.Sound | null>(null);
-  const wrongSoundRef = useRef<Audio.Sound | null>(null);
-  const [soundsLoaded, setSoundsLoaded] = useState(false);
-
-  // Efeito para carregar os sons uma única vez
-  useEffect(() => {
-    const loadSounds = async () => {
-      try {
-        // Não tocar ao carregar
-        const { sound: correct } = await Audio.Sound.createAsync(
-          require('@/assets/sounds/correct.mp3'),
-          { shouldPlay: false }
-        );
-        // Não tocar ao carregar
-        const { sound: wrong } = await Audio.Sound.createAsync(
-          require('@/assets/sounds/wrong.mp3'),
-          { shouldPlay: false }
-        );
-        correctSoundRef.current = correct;
-        wrongSoundRef.current = wrong;
-        setSoundsLoaded(true);
-      } catch (error) {
-        console.error('Erro ao carregar sons:', error);
-      }
-    };
-
-    loadSounds();
-
-    // Função de limpeza para descarregar os sons
-    return () => {
-      if (correctSoundRef.current) {
-        correctSoundRef.current.unloadAsync();
-      }
-      if (wrongSoundRef.current) {
-        wrongSoundRef.current.unloadAsync();
-      }
-    };
-  }, []); // Array de dependências vazio para rodar apenas uma vez
-
-  const playSound = useCallback(
-    async (isCorrect: boolean) => {
-      if (!isSoundOn) {
-        console.log('Sons desativados nas configurações');
-        return;
-      }
-
-      if (!soundsLoaded) {
-        console.warn('Sons ainda não carregados');
-        return;
-      }
-
-      const sound = isCorrect ? correctSoundRef.current : wrongSoundRef.current;
-
-      if (!sound) {
-        console.warn(`Som para ${isCorrect ? 'correto' : 'errado'} não está carregado.`);
-        return;
-      }
-
-      try {
-        // Verifica se o som ainda está carregado
-        const status = await sound.getStatusAsync();
-        if (!status.isLoaded) {
-          console.warn('Som foi descarregado, recarregando...');
-          await sound.loadAsync(
-            isCorrect
-              ? require('@/assets/sounds/correct.mp3')
-              : require('@/assets/sounds/wrong.mp3')
-          );
-        }
-
-        // Para qualquer reprodução atual
-        await sound.stopAsync();
-        // Reinicia a posição
-        await sound.setPositionAsync(0);
-        // Toca o som
-        await sound.playAsync();
-
-        console.log(`Som ${isCorrect ? 'correto' : 'errado'} tocado com sucesso`);
-      } catch (error) {
-        console.error('Erro ao reproduzir som:', error);
-        // Tenta recarregar o som na próxima vez
-        if (sound) {
-          sound.unloadAsync().catch((e) => console.error('Erro ao descarregar som:', e));
-        }
-      }
-    },
-    [isSoundOn, soundsLoaded]
-  );
 
   const handleSelect = async (index: number) => {
     if (alternativeSelected != null) return;
@@ -132,7 +42,7 @@ export function Question({
           title={alternative}
           checked={alternativeSelected === index}
           success={success}
-          disabled={alternativeSelected != null || !soundsLoaded}
+          disabled={alternativeSelected != null}
           onPress={() => handleSelect(index)}
         />
       ))}
