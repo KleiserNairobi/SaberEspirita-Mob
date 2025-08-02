@@ -11,8 +11,6 @@ interface AppState {
   isSoundOn: boolean;
   user: FirebaseAuthTypes.User | null;
   isLoading: boolean;
-
-  // Novos estados para os objetos de som
   correctSound: Audio.Sound | null;
   wrongSound: Audio.Sound | null;
   soundsLoaded: boolean;
@@ -21,8 +19,6 @@ interface AppState {
   toggleSound: () => void;
   setUser: (user: FirebaseAuthTypes.User | null) => void;
   finishLoading: () => void;
-
-  // Novas ações para carregar e descarregar os sons
   loadSounds: () => Promise<void>;
   unloadSounds: () => Promise<void>;
 }
@@ -68,7 +64,6 @@ export const useAppStore = create<AppState>()(
 
       finishLoading: () => set({ isLoading: false }),
 
-      // Implementação da ação de carregar os sons
       loadSounds: async () => {
         try {
           const { sound: correct } = await Audio.Sound.createAsync(
@@ -86,7 +81,6 @@ export const useAppStore = create<AppState>()(
         }
       },
 
-      // Implementação da ação de descarregar os sons
       unloadSounds: async () => {
         const { correctSound, wrongSound } = get();
         if (correctSound) {
