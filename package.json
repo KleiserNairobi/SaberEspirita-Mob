@@ -1,6 +1,6 @@
 {
   "name": "saber-espirita",
-  "version": "1.0.0",
+  "version": "1.0.10",
   "scripts": {
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -26,9 +26,11 @@
     "axios": "^1.10.0",
     "date-fns": "^4.1.0",
     "expo": "^53.0.13",
+    "expo-constants": "~17.1.7",
     "expo-dev-client": "^5.2.4",
     "expo-font": "~13.3.2",
     "expo-linear-gradient": "~14.1.5",
+    "expo-localization": "~16.1.6",
     "expo-mail-composer": "~14.1.5",
     "expo-splash-screen": "~0.30.9",
     "expo-status-bar": "~2.2.3",
@@ -49,9 +51,11 @@
     "react-native-size-matters": "^0.4.2",
     "react-native-svg": "15.11.2",
     "react-native-toggle-element": "^2.1.1",
+    "react-native-version-check-expo": "^3.5.0",
     "react-native-webview": "13.13.5",
     "zustand": "^4.5.1",
-    "expo-av": "~15.1.7"
+    "expo-audio": "~0.4.8",
+    "expo-asset": "~11.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

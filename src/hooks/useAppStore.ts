@@ -1,8 +1,14 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Audio } from 'expo-av';
 import { load, save, remove } from '@/utils/Storage';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import {
+  // AudioModule,
+  createAudioPlayer,
+  setAudioModeAsync,
+  AudioPlayer,
+  AudioSource,
+} from 'expo-audio';
 
 type Theme = 'light' | 'dark';
 
@@ -11,20 +17,33 @@ interface AppState {
   isSoundOn: boolean;
   user: FirebaseAuthTypes.User | null;
   isLoading: boolean;
-  correctSound: Audio.Sound | null;
-  wrongSound: Audio.Sound | null;
   soundsLoaded: boolean;
+  correctPlayer: AudioPlayer | null;
+  wrongPlayer: AudioPlayer | null;
 
-  toggleTheme: () => void;
-  toggleSound: () => void;
-  setUser: (user: FirebaseAuthTypes.User | null) => void;
-  finishLoading: () => void;
-  loadSounds: () => Promise<void>;
-  unloadSounds: () => Promise<void>;
+  toggleTheme(): void;
+  toggleSound(): void;
+  setUser(user: FirebaseAuthTypes.User | null): void;
+  finishLoading(): void;
+
+  loadSounds(): Promise<void>;
+  unloadSounds(): void;
+  playCorrect(): void;
+  playWrong(): void;
 }
 
-// Omitimos os sons da persistência, pois eles não são serializáveis
-type PersistAppState = Omit<AppState, 'toggleTheme' | 'toggleSound' | 'setUser' | 'finishLoading'>;
+// Não serializamos os players no persist
+type PersistAppState = Omit<
+  AppState,
+  | 'toggleTheme'
+  | 'toggleSound'
+  | 'setUser'
+  | 'finishLoading'
+  | 'playCorrect'
+  | 'playWrong'
+  | 'loadSounds'
+  | 'unloadSounds'
+>;
 
 const storage = {
   getItem: async (name: string) => {
@@ -39,6 +58,9 @@ const storage = {
   },
 };
 
+const correctSrc: AudioSource = require('@/assets/sounds/correct.mp3');
+const wrongSrc: AudioSource = require('@/assets/sounds/wrong.mp3');
+
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
@@ -46,52 +68,79 @@ export const useAppStore = create<AppState>()(
       isSoundOn: true,
       user: null,
       isLoading: true,
-      correctSound: null,
-      wrongSound: null,
       soundsLoaded: false,
+      correctPlayer: null,
+      wrongPlayer: null,
 
       toggleTheme: () =>
         set((state) => ({
           theme: state.theme === 'light' ? 'dark' : 'light',
         })),
 
-      toggleSound: () =>
-        set((state) => ({
-          isSoundOn: !state.isSoundOn,
-        })),
+      toggleSound: () => set((state) => ({ isSoundOn: !state.isSoundOn })),
 
       setUser: (user) => set({ user }),
 
       finishLoading: () => set({ isLoading: false }),
 
+      // pre‑carrega os players
       loadSounds: async () => {
         try {
-          const { sound: correct } = await Audio.Sound.createAsync(
-            require('@/assets/sounds/correct.mp3'),
-            { shouldPlay: false }
-          );
-          const { sound: wrong } = await Audio.Sound.createAsync(
-            require('@/assets/sounds/wrong.mp3'),
-            { shouldPlay: false }
-          );
-          set({ correctSound: correct, wrongSound: wrong, soundsLoaded: true });
+          // opcional: configura comportamento global de áudio
+          await setAudioModeAsync({
+            playsInSilentMode: true,
+            interruptionModeAndroid: 'duckOthers',
+          });
+
+          const correct = createAudioPlayer(correctSrc);
+          const wrong = createAudioPlayer(wrongSrc);
+
+          set({
+            correctPlayer: correct,
+            wrongPlayer: wrong,
+            soundsLoaded: true,
+          });
         } catch (error) {
-          console.error('Erro ao carregar sons:', error);
+          console.error('Erro ao carregar sons com expo-audio:', error);
           set({ soundsLoaded: false });
         }
       },
 
-      unloadSounds: async () => {
-        const { correctSound, wrongSound } = get();
-        if (correctSound) {
-          await correctSound.unloadAsync();
+      // libera os recursos
+      unloadSounds: () => {
+        const { correctPlayer, wrongPlayer } = get();
+        try {
+          correctPlayer?.remove();
+        } catch {}
+        try {
+          wrongPlayer?.remove();
+        } catch {}
+        set({
+          correctPlayer: null,
+          wrongPlayer: null,
+          soundsLoaded: false,
+        });
+      },
+
+      // Funções para tocar efeitos
+      playCorrect: () => {
+        const { correctPlayer, isSoundOn } = get();
+        if (isSoundOn && correctPlayer) {
+          // expo-audio *não* reinicia posição automaticamente no fim
+          correctPlayer.seekTo(0);
+          correctPlayer.play();
         }
-        if (wrongSound) {
-          await wrongSound.unloadAsync();
+      },
+
+      playWrong: () => {
+        const { wrongPlayer, isSoundOn } = get();
+        if (isSoundOn && wrongPlayer) {
+          wrongPlayer.seekTo(0);
+          wrongPlayer.play();
         }
-        set({ correctSound: null, wrongSound: null, soundsLoaded: false });
       },
     }),
+
     {
       name: 'app-storage',
       storage: createJSONStorage(() => storage),

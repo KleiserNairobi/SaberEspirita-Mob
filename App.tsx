@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useCallback, useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Alert, Linking, Platform, Text } from 'react-native';
+import VersionCheck from 'react-native-version-check-expo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { initializeFirebaseApp } from './src/libs/firebase';
 import * as SplashScreen from 'expo-splash-screen';
@@ -20,6 +21,34 @@ SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
+function useCheckUpdate() {
+  useEffect(() => {
+    VersionCheck.needUpdate({
+      provider: Platform.OS === 'android' ? 'playStore' : 'appStore',
+    })
+      .then((res: { isNeeded: any; latestVersion: any; currentVersion: any; storeUrl: string }) => {
+        if (res.isNeeded) {
+          Alert.alert(
+            'Atualização disponível',
+            `Nova versão ${res.latestVersion} (Você: ${res.currentVersion})`,
+            [
+              {
+                text: 'Atualizar',
+                onPress: () => Linking.openURL(res.storeUrl),
+              },
+              {
+                text: 'Agora não',
+                style: 'cancel',
+              },
+            ],
+            { cancelable: false }
+          );
+        }
+      })
+      .catch(console.warn);
+  }, []);
+}
+
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [firebaseError, setFirebaseError] = useState<Error | null>(null);
@@ -32,11 +61,13 @@ export default function App() {
     Nunito_700Bold,
   });
 
+  if (!__DEV__) {
+    useCheckUpdate();
+  }
+
   useEffect(() => {
     async function prepare() {
       try {
-        // await initializeFirebaseApp();
-
         if (fontsLoaded) {
           // Adicione aqui qualquer outra inicialização assíncrona
           await new Promise((resolve) => setTimeout(resolve, 500));

@@ -33,7 +33,7 @@ export function Quizes() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '36%'], []);
   const { user, isSoundOn } = useAppStore();
-  const { correctSound, wrongSound, soundsLoaded, loadSounds, unloadSounds } = useAppStore();
+  const { soundsLoaded, loadSounds, unloadSounds, playCorrect, playWrong } = useAppStore();
   const { idSubcategory, titleCategory, titleSubcategory } = route.params;
   const [stop, setStop] = useState(false);
   const [next, setNext] = useState(false);
@@ -209,22 +209,15 @@ export function Quizes() {
 
   const playSound = useCallback(
     async (isCorrect: boolean) => {
-      if (!isSoundOn || !soundsLoaded) {
-        return;
-      }
+      if (!isSoundOn || !soundsLoaded) return;
 
-      const sound = isCorrect ? correctSound : wrongSound;
-      if (!sound) return;
-
-      try {
-        await sound.stopAsync();
-        await sound.setPositionAsync(0);
-        await sound.playAsync();
-      } catch (error) {
-        console.error('Erro ao reproduzir som:', error);
+      if (isCorrect) {
+        playCorrect();
+      } else {
+        playWrong();
       }
     },
-    [isSoundOn, soundsLoaded, correctSound, wrongSound]
+    [isSoundOn, soundsLoaded, playCorrect, playWrong]
   );
 
   useEffect(() => {
