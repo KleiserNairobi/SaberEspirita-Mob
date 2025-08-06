@@ -207,7 +207,7 @@ export function Menu() {
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Versão</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.rowTitle}>1.0.0</Text>
+              <Text style={styles.rowTitle}>1.0.11</Text>
             </View>
           </View>
         </View>
