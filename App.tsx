@@ -12,6 +12,7 @@ import { Courgette_400Regular } from '@expo-google-fonts/courgette';
 
 import {
   Nunito_400Regular,
+  Nunito_400Regular_Italic,
   Nunito_500Medium,
   Nunito_600SemiBold,
   Nunito_700Bold,
@@ -56,6 +57,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Courgette_400Regular,
     Nunito_400Regular,
+    Nunito_400Regular_Italic,
     Nunito_500Medium,
     Nunito_600SemiBold,
     Nunito_700Bold,

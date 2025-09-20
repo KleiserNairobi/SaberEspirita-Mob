@@ -92,6 +92,7 @@ export const darkTheme: ThemeType = {
   fontLogo: { regular: 'Courgette_400Regular' },
   fontFamily: {
     regular: 'Nunito_400Regular',
+    regularItalic: 'Nunito_400Regular_Italic',
     medium: 'Nunito_500Medium',
     semibold: 'Nunito_600SemiBold',
     bold: 'Nunito_700Bold',

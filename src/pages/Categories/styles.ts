@@ -29,7 +29,7 @@ export const getCategoriesStyles = (theme: AppTheme) =>
     category: {
       marginLeft: theme.hSpacings.md,
       marginRight: theme.hSpacings.md,
-      marginTop: theme.vSpacings.md,
+      marginTop: theme.vSpacings.xs,
       color: theme.colors.titleBold,
       fontSize: theme.fontSizes.xl,
       fontFamily: theme.fontFamily.bold,

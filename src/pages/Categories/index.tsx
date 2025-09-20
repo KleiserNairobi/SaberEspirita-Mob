@@ -24,6 +24,14 @@ import { getCategories, getUserCompletedSubcategories } from '@/services/firesto
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { getCategoriesStyles } from './styles';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
+import { messages } from '@/assets/messages';
+import { DailyMessage } from '@/components/DailyMessage';
+
+function getDailyMessage() {
+  const today = new Date();
+  const idx = today.getDate() % messages.length;
+  return messages[idx];
+}
 
 export function Categories() {
   const theme = useTheme();
@@ -34,6 +42,7 @@ export function Categories() {
   const { user } = useAppStore();
   const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
   const backPressTimestamp = useRef(0);
+  const message = getDailyMessage();
 
   const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
     queryKey: ['categories'],
@@ -120,7 +129,10 @@ export function Categories() {
         <View style={styles.greetingBox}>
           <Text style={styles.greeting}>Oi, {user?.displayName || 'amigo(a)'}!</Text>
         </View>
-        <Text style={styles.title}>Escolha uma categoria para começar</Text>
+        {/* <Text style={styles.title}>Escolha uma categoria para começar</Text> */}
+
+        <DailyMessage title="✨ Mensagem do Dia" content={message} />
+
         <Text style={styles.category}>Categorias</Text>
 
         {isLoadingCategories || isLoadingCompleted ? (
