@@ -1,14 +1,16 @@
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, Linking, Platform, Text } from 'react-native';
-import VersionCheck from 'react-native-version-check-expo';
+import { Text } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { initializeFirebaseApp } from './src/libs/firebase';
 import * as SplashScreen from 'expo-splash-screen';
 import { Routes } from './src/routes';
 import { useFonts } from 'expo-font';
 import { Courgette_400Regular } from '@expo-google-fonts/courgette';
+import { useVersionControl } from './src/hooks/useVersionControl';
+import { useUpdateModal } from './src/hooks/useUpdateModal';
+import { Update } from './src/pages/Update';
 
 import {
   Nunito_400Regular,
@@ -22,32 +24,34 @@ SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
-function useCheckUpdate() {
+function useCheckUpdate(appIsReady: boolean) {
+  const { versionData, loading, error, checkVersion } = useVersionControl();
+  const { modalVisible, modalConfig, showModal, hideModal } = useUpdateModal();
+  const [hasChecked, setHasChecked] = useState(false);
+
   useEffect(() => {
-    VersionCheck.needUpdate({
-      provider: Platform.OS === 'android' ? 'playStore' : 'appStore',
-    })
-      .then((res: { isNeeded: any; latestVersion: any; currentVersion: any; storeUrl: string }) => {
-        if (res.isNeeded) {
-          Alert.alert(
-            'Atualização disponível',
-            `Nova versão ${res.latestVersion} (Você: ${res.currentVersion})`,
-            [
-              {
-                text: 'Atualizar',
-                onPress: () => Linking.openURL(res.storeUrl),
-              },
-              {
-                text: 'Agora não',
-                style: 'cancel',
-              },
-            ],
-            { cancelable: false }
-          );
-        }
-      })
-      .catch(console.warn);
-  }, []);
+    // Só executa a verificação quando o app estiver pronto e ainda não tiver verificado
+    if (appIsReady && !hasChecked && !loading && versionData) {
+      const versionCheck = checkVersion();
+
+      if (versionCheck.needUpdate) {
+        showModal({
+          critical: versionCheck.critical,
+          maintenance: versionCheck.maintenance,
+          message: versionCheck.message,
+          updateUrl: versionCheck.updateUrl,
+        });
+      }
+
+      setHasChecked(true);
+    }
+  }, [appIsReady, hasChecked, loading, versionData, checkVersion, showModal]);
+
+  return {
+    modalVisible,
+    modalConfig,
+    hideModal,
+  };
 }
 
 export default function App() {
@@ -63,9 +67,7 @@ export default function App() {
     Nunito_700Bold,
   });
 
-  if (!__DEV__) {
-    useCheckUpdate();
-  }
+  const { modalVisible, modalConfig, hideModal } = useCheckUpdate(appIsReady);
 
   useEffect(() => {
     async function prepare() {
@@ -113,6 +115,14 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <QueryClientProvider client={queryClient}>
         <Routes />
+        <Update
+          visible={modalVisible}
+          critical={modalConfig.critical}
+          maintenance={modalConfig.maintenance}
+          message={modalConfig.message}
+          updateUrl={modalConfig.updateUrl}
+          onClose={hideModal}
+        />
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

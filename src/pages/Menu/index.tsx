@@ -22,7 +22,8 @@ const TITLE = 'Saber Espírita';
 const MESSAGE = `Desafie sua mente e aprofunde seus conhecimentos sobre espiritismo! ${'\n'}
 O app Saber Espírita traz quizzes incríveis para você. ${'\n'}
 Baixe agora e compartilhe com seus amigos: ${'\n'}
-https://play.google.com/store/apps/details?id=app.saberespirita`;
+https://play.google.com/store/apps/details?id=app.saberespirita ${'\n'}
+https://apps.apple.com/br/app/saber-esp%C3%ADrita/id6751443526`;
 
 export function Menu() {
   const styles = useThemedStyles(getMenuStyles);

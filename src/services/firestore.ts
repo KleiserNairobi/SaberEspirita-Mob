@@ -18,6 +18,9 @@ const imageMapping: { [key: string]: any } = {
   DIVERSOS: require('@/assets/images/Categories/Stories.png'),
 };
 
+const VERSION_CONTROL_DOC = 'version_control';
+const APP_SETTINGS_COLLECTION = 'app_settings';
+
 export async function getCategories(): Promise<ICategory[]> {
   try {
     const categoriesSnapshot = await firestore().collection('categories').get();
@@ -341,5 +344,75 @@ export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Pro
     console.log('Quiz criado pelo usuário adicionado com sucesso!');
   } catch (error) {
     console.log('Ocorreu um erro ao adicionar o quiz criado pelo usuário:', error);
+  }
+}
+
+// Buscar dados atuais
+export async function getVersionControlData() {
+  try {
+    const doc = await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .get();
+    return doc.exists() ? doc.data() : null;
+  } catch (error) {
+    console.error('Erro ao buscar dados:', error);
+    throw error;
+  }
+}
+
+// Atualizar configurações de versão para uma plataforma
+export async function updatePlatformVersion(platform: any, data: any) {
+  try {
+    const updateData = {
+      [platform]: data,
+      updated_at: new Date().toISOString(),
+    };
+    await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .set(updateData, { merge: true });
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao atualizar versão:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Atualizar mensagens
+export async function updateMessages(messages: any) {
+  try {
+    const updateData = {
+      message: messages,
+      updated_at: new Date().toISOString(),
+    };
+    await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .set(updateData, { merge: true });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao atualizar mensagens:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Alternar modo de manutenção
+export async function toggleMaintenanceMode(enabled: boolean, message = '') {
+  try {
+    const updateData = {
+      maintenance_mode: enabled,
+      maintenance_message: message,
+      updated_at: new Date().toISOString(),
+    };
+    await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .set(updateData, { merge: true });
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao alternar modo de manutenção:', error);
+    return { success: false, error: error.message };
   }
 }
