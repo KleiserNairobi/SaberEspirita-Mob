@@ -19,14 +19,14 @@ export const getUpdateStyles = (theme: AppTheme) =>
     },
     title: {
       color: theme.colors.titleBold,
-      fontSize: theme.fontSizes.lg,
+      fontSize: theme.fontSizes.xl2,
       fontFamily: theme.fontFamily.bold,
       marginBottom: 12,
       textAlign: 'center',
     },
     body: {
       color: theme.colors.titleNormal,
-      fontSize: theme.fontSizes.xs,
+      fontSize: theme.fontSizes.sm,
       lineHeight: 22,
       marginBottom: theme.vSpacings.lg,
       textAlign: 'center',
@@ -55,12 +55,12 @@ export const getUpdateStyles = (theme: AppTheme) =>
     },
     secondaryButtonText: {
       color: theme.colors.titleBold,
-      fontSize: theme.fontSizes.xs,
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.semibold,
     },
     buttonText: {
       color: theme.colors.titleBlack,
-      fontSize: theme.fontSizes.xs,
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.semibold,
     },
 

@@ -148,7 +148,7 @@ export const useAppStore = create<AppState>()(
         ({
           theme: state.theme,
           isSoundOn: state.isSoundOn,
-          user: state.user,
+          // user NÃO deve ser persistido - deixar o Firebase gerenciar a autenticação
         }) as PersistAppState,
     }
   )

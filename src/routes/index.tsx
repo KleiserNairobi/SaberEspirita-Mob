@@ -22,23 +22,6 @@ export function Routes() {
       finishLoading();
     });
     return unsubscribe;
-  }, [setUser, finishLoading]);
-
-  useEffect(() => {
-    if (user) {
-      finishLoading();
-    }
-    const unsubscribe = auth().onAuthStateChanged((loggedUser: FirebaseAuthTypes.User | null) => {
-      if (
-        (user && !loggedUser) ||
-        (!user && loggedUser) ||
-        (user && loggedUser && user.uid !== loggedUser.uid)
-      ) {
-        setUser(loggedUser);
-      }
-      finishLoading();
-    });
-    return unsubscribe;
   }, [user, setUser, finishLoading]);
 
   if (isLoading) {
