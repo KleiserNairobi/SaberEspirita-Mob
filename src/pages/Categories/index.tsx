@@ -1,13 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  BackHandler,
-  FlatList,
-  View,
-  Text,
-  SafeAreaView,
-  ActivityIndicator,
-  ToastAndroid,
-} from 'react-native';
+import { BackHandler, FlatList, View, Text } from 'react-native';
+import { SafeAreaView, ActivityIndicator, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -129,10 +122,8 @@ export function Categories() {
         <View style={styles.greetingBox}>
           <Text style={styles.greeting}>Oi, {user?.displayName || 'amigo(a)'}!</Text>
         </View>
-        {/* <Text style={styles.title}>Escolha uma categoria para começar</Text> */}
 
         <DailyMessage title="✨ Mensagem do Dia" content={message} />
-
         <Text style={styles.category}>Categorias</Text>
 
         {isLoadingCategories || isLoadingCompleted ? (

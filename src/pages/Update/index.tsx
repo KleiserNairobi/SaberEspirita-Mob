@@ -1,5 +1,8 @@
 import { View, Text, Modal, TouchableOpacity, Linking, Platform } from 'react-native';
-import { styles } from './styles';
+import Icon from 'react-native-remix-icon';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
+import { getUpdateStyles } from './styles';
+import { GradientContainer } from '@/components/GradientContainer';
 
 type UpdateModalProps = {
   visible: boolean;
@@ -24,6 +27,8 @@ export function Update({
   onClose,
   maintenance,
 }: UpdateModalProps) {
+  const styles = useThemedStyles(getUpdateStyles);
+
   const handleUpdate = () => {
     if (updateUrl) {
       // Para iOS, usar schema itms-apps:// para melhor experiência
@@ -49,11 +54,14 @@ export function Update({
   return (
     <Modal
       visible={visible}
-      transparent={true}
+      transparent={false}
       animationType="fade"
       onRequestClose={critical ? undefined : onClose}>
-      <View style={styles.overlay}>
-        <View style={styles.modal}>
+      <GradientContainer>
+        <View style={styles.overlay}>
+          <View style={styles.boxIcon}>
+            <Icon name="download-2-fill" size={64} color="#F6BB0B" />
+          </View>
           <Text style={styles.title}>
             {maintenance
               ? 'Manutenção em Andamento'
@@ -70,24 +78,24 @@ export function Update({
                 ? message.body || 'Uma nova versão do aplicativo está disponível.'
                 : 'Uma nova versão do aplicativo está disponível.'}
           </Text>
-          <View style={styles.buttonsContainer}>
-            {!critical && !maintenance && (
-              <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={onClose}>
-                <Text style={styles.secondaryButtonText}>Depois</Text>
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity style={styles.button} onPress={handleUpdate}>
-              <Text style={styles.buttonText}>
-                {maintenance
-                  ? 'Entendido'
-                  : typeof message === 'object' && message !== null
-                    ? message.button_text || 'Atualizar Agora'
-                    : 'Atualizar Agora'}
-              </Text>
+          {/* <View style={styles.buttonsContainer}> */}
+          {!critical && !maintenance && (
+            <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={onClose}>
+              <Text style={styles.secondaryButtonText}>Depois</Text>
             </TouchableOpacity>
-          </View>
+          )}
+          <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+            <Text style={styles.buttonText}>
+              {maintenance
+                ? 'Entendido'
+                : typeof message === 'object' && message !== null
+                  ? message.button_text || 'Atualizar Agora'
+                  : 'Atualizar Agora'}
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
+        {/* </View> */}
+      </GradientContainer>
     </Modal>
   );
 }

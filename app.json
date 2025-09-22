@@ -2,7 +2,7 @@
   "expo": {
     "name": "Saber Espírita",
     "slug": "saber-espirita",
-    "version": "1.0.0",
+    "version": "1.0.11",
     "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,7 @@
       "backgroundColor": "#0C1624"
     },
     "ios": {
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.11",
       "supportsTablet": true,
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
