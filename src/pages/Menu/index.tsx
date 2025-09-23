@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { View, Text, Share, Alert, SafeAreaView, Switch, Platform } from 'react-native';
+import * as Application from 'expo-application';
 import * as MailComposer from 'expo-mail-composer';
 import Icon from 'react-native-remix-icon';
 import auth from '@react-native-firebase/auth';
@@ -208,7 +209,7 @@ export function Menu() {
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Versão</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.rowTitle}>1.0.11</Text>
+              <Text style={styles.rowTitle}>{Application.nativeApplicationVersion}</Text>
             </View>
           </View>
         </View>

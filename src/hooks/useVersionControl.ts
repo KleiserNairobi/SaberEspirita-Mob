@@ -9,9 +9,6 @@ import {
   toggleMaintenanceMode,
 } from '@/services/firestore';
 
-const VERSION_CONTROL_DOC = 'version_control';
-const APP_SETTINGS_COLLECTION = 'app_settings';
-
 interface VersionControlData {
   ios?: {
     minimum_required_version: string;
