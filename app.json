@@ -2,7 +2,7 @@
   "expo": {
     "name": "Saber Espírita",
     "slug": "saber-espirita",
-    "version": "1.0.0",
+    "version": "1.0.12",
     "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,13 +16,13 @@
       "backgroundColor": "#0C1624"
     },
     "ios": {
-      "buildNumber": "1.0.0",
+      "buildNumber": "14",
       "supportsTablet": false,
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 13,
       "package": "app.saberespirita",
       "googleServicesFile": "./dev/configs/google-services.json",
       "adaptiveIcon": {
@@ -43,11 +43,25 @@
         {
           "ios": {
             "useFrameworks": "static"
+          },
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0",
+            "minSdkVersion": 24,
+            "packagingOptions": {
+              "jniLibs": {
+                "useLegacyPackaging": true
+              }
+            }
           }
         }
       ],
       "expo-font",
-      "expo-mail-composer"
+      "expo-mail-composer",
+      "expo-localization",
+      "expo-audio",
+      "expo-asset"
     ]
   }
 }

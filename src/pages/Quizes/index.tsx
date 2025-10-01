@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View, ScrollView, Text, BackHandler, SafeAreaView } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 import firestore from '@react-native-firebase/firestore';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,11 +17,10 @@ import { ButtonActionOutilene } from '@/components/ButtonActionOutilene';
 import { Question } from '@/components/Question';
 import { Loading } from '@/components/Loading';
 import { BottomSheetMessage } from '@/components/BottomSheetMessage';
-import { IQuizes } from '@/models/Quizes';
-import { IUserProgress } from '@/models/UsersProgress';
+import { IUserHistory } from '@/models/UsersHistory';
 import { IUserAnswer } from '@/models/UserAnswer';
 import { MessageType } from '@/models/Utils';
-import { addUserProgress, getQuiz, saveUserCompletedSubcategories } from '@/services/firestore';
+import { addUserHistory, getQuiz, saveUserCompletedSubcategories } from '@/services/firestore';
 import { getQuizesStyles } from './styles';
 
 type QuizesRouteProp = RouteProp<PrivateStackParamList, 'quizes'>;
@@ -32,16 +32,21 @@ export function Quizes() {
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '36%'], []);
-  const { user } = useAppStore();
+  const { user, isSoundOn } = useAppStore();
+  const { soundsLoaded, loadSounds, unloadSounds, playCorrect, playWrong } = useAppStore();
   const { idSubcategory, titleCategory, titleSubcategory } = route.params;
   const [stop, setStop] = useState(false);
   const [next, setNext] = useState(false);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [points, setPoints] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [quiz, setQuiz] = useState<IQuizes | null>(null);
   const [userAnswers, setUserAnswers] = useState<IUserAnswer[]>([]);
   const [alternativeSelected, setAlternativeSelected] = useState<null | number>(null);
+  const [isFinishing, setIsFinishing] = useState(false);
+
+  const { data: quiz } = useQuery({
+    queryKey: ['quiz', idSubcategory],
+    queryFn: () => getQuiz(idSubcategory),
+  });
 
   const handleSheetChanges = useCallback((index: number) => {
     setBottomSheetOpen(index === 1);
@@ -72,24 +77,6 @@ export function Quizes() {
     }
   }
 
-  function saveAnswer(selectedIndex: number | null) {
-    if (!quiz) {
-      return;
-    }
-    const question = quiz.questions[currentQuestion];
-    const newAnswer: IUserAnswer = {
-      question: question.title,
-      alternatives: question.alternatives,
-      correctAnswerIndex: question.correct,
-      selectedAnswerIndex: selectedIndex,
-      explanation: question.explanation,
-    };
-    setUserAnswers((prev) => [...prev, newAnswer]);
-    if (selectedIndex !== null && selectedIndex === question.correct) {
-      setPoints((prev) => prev + 1);
-    }
-  }
-
   function handleConfirm() {
     if (alternativeSelected === null) {
       return handleSkipConfirm();
@@ -109,10 +96,6 @@ export function Quizes() {
     setUserAnswers((prev) => [...prev, currentAnswer]);
     setAlternativeSelected(null);
 
-    if (alternativeSelected === question.correct) {
-      setPoints((prev) => prev + 1);
-    }
-
     // 3. Se for a última pergunta, passa TODAS as respostas (incluindo a atual)
     if (quiz && currentQuestion < quiz.questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
@@ -122,22 +105,34 @@ export function Quizes() {
   }
 
   function handleSkipConfirm() {
-    saveAnswer(null);
     setNext(true);
     setBottomSheetOpen(true);
     bottomSheetRef.current?.expand();
   }
 
   function handleNextQuestion() {
+    // 1. Cria a resposta atual ANTES de atualizar o estado
+    const question = quiz!.questions[currentQuestion];
+    const currentAnswer: IUserAnswer = {
+      question: question.title,
+      alternatives: question.alternatives,
+      correctAnswerIndex: question.correct,
+      selectedAnswerIndex: null,
+      explanation: question.explanation,
+    };
+
+    // 2. Atualiza o estado (mas não depende dele)
+    setUserAnswers((prev) => [...prev, currentAnswer]);
     setStop(false);
     setNext(false);
     setBottomSheetOpen(false);
     bottomSheetRef.current?.close();
 
+    // 3. Se for a última pergunta, passa TODAS as respostas (incluindo a atual)
     if (quiz && currentQuestion < quiz.questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      handleFinished(userAnswers);
+      handleFinished([...userAnswers, currentAnswer]); // Resposta atual já inclusa!
     }
   }
 
@@ -145,36 +140,37 @@ export function Quizes() {
     if (!quiz) {
       return;
     }
-
-    const totalPoints = allAnswers.filter(
-      (answer) => answer.selectedAnswerIndex === answer.correctAnswerIndex
-    ).length;
-
-    const totalQuestions = quiz.questions.length;
-    const percentage = calculatePercentage(totalPoints, totalQuestions);
-    const level = getLevel(percentage);
-    const score = Math.round(percentage);
-
-    const userProgress: IUserProgress = {
-      userId: user?.uid || '',
-      categoryId: quiz.idCategory,
-      subcategoryId: quiz.idSubcategory,
-      quizId: quiz.id,
-      title: titleCategory,
-      subtitle: titleSubcategory,
-      completed: true,
-      score,
-      totalQuestions,
-      correctAnswers: totalPoints,
-      percentage,
-      level,
-      completedAt: firestore.Timestamp.fromDate(new Date()),
-    };
+    setIsFinishing(true);
 
     try {
+      const totalPoints = allAnswers.filter(
+        (answer) => answer.selectedAnswerIndex === answer.correctAnswerIndex
+      ).length;
+
+      const totalQuestions = quiz.questions.length;
+      const percentage = calculatePercentage(totalPoints, totalQuestions);
+      const level = getLevel(percentage);
+      const score = Math.round(percentage);
+
+      const userHistory: IUserHistory = {
+        userId: user?.uid || '',
+        categoryId: quiz.idCategory,
+        subcategoryId: quiz.idSubcategory,
+        quizId: quiz.id,
+        title: titleCategory,
+        subtitle: titleSubcategory,
+        completed: true,
+        score,
+        totalQuestions,
+        correctAnswers: totalPoints,
+        percentage,
+        level,
+        completedAt: firestore.Timestamp.fromDate(new Date()),
+      };
+
       if (user?.uid) {
         await saveUserCompletedSubcategories(user.uid, quiz.idCategory, quiz.idSubcategory);
-        await addUserProgress(userProgress);
+        await addUserHistory(userHistory, user.displayName!);
       }
 
       navigation.navigate('finish', {
@@ -188,6 +184,8 @@ export function Quizes() {
       });
     } catch (error) {
       console.error('Erro ao salvar o progresso do usuário:', error);
+    } finally {
+      setIsFinishing(false);
     }
   }
 
@@ -209,14 +207,25 @@ export function Quizes() {
     bottomSheetRef.current?.close();
   }
 
-  async function fetchQuiz(idSubcategory: string) {
-    const quiz = await getQuiz(idSubcategory);
-    setQuiz(quiz);
-  }
+  const playSound = useCallback(
+    async (isCorrect: boolean) => {
+      if (!isSoundOn || !soundsLoaded) return;
+
+      if (isCorrect) {
+        playCorrect();
+      } else {
+        playWrong();
+      }
+    },
+    [isSoundOn, soundsLoaded, playCorrect, playWrong]
+  );
 
   useEffect(() => {
-    fetchQuiz(idSubcategory);
-  }, [idSubcategory]);
+    loadSounds();
+    return () => {
+      unloadSounds();
+    };
+  }, [loadSounds, unloadSounds]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -250,7 +259,7 @@ export function Quizes() {
             title={titleSubcategory}
           />
         )}
-        {quiz && quiz.questions.length > 0 ? (
+        {quiz && quiz.questions.length > 0 && soundsLoaded ? (
           <>
             <Text style={styles.quiz}>{quiz.questions[currentQuestion].title}</Text>
             <ScrollView style={styles.scroll}>
@@ -260,6 +269,7 @@ export function Quizes() {
                 correctIndex={quiz.questions[currentQuestion].correct}
                 alternativeSelected={alternativeSelected}
                 setAlternativeSelected={setAlternativeSelected}
+                playSound={playSound}
               />
               <View style={styles.buttonBox}>
                 <View style={styles.boxBackButton}>
@@ -277,7 +287,7 @@ export function Quizes() {
           </>
         ) : null}
       </SafeAreaView>
-      {(!quiz || quiz.questions.length === 0) && <Loading />}
+      {(!quiz || quiz.questions.length === 0 || isFinishing) && <Loading />}
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}

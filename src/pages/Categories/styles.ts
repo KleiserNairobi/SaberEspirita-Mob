@@ -10,7 +10,7 @@ export const getCategoriesStyles = (theme: AppTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: Platform.OS === 'android' ? theme.vSpacings.xl3 : theme.vSpacings.md,
+      marginTop: Platform.OS === 'android' ? theme.vSpacings.xl2 : 0,
       marginLeft: theme.hSpacings.md,
       marginRight: theme.hSpacings.md,
     },
@@ -29,7 +29,7 @@ export const getCategoriesStyles = (theme: AppTheme) =>
     category: {
       marginLeft: theme.hSpacings.md,
       marginRight: theme.hSpacings.md,
-      marginTop: theme.vSpacings.md,
+      marginTop: theme.vSpacings.xs,
       color: theme.colors.titleBold,
       fontSize: theme.fontSizes.xl,
       fontFamily: theme.fontFamily.bold,

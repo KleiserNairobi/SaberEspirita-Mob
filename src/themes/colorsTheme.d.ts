@@ -47,6 +47,9 @@ export type ThemeType = {
     toggleBorderInActive: string;
     inputPlaceholder: string;
     background: string;
+    firstPlace: string;
+    secondPlace: string;
+    thirdPlace: string;
   };
   vSpacings: {
     xs: number;
@@ -83,5 +86,11 @@ export type ThemeType = {
     xl7: number;
   };
   fontLogo: { regular: string };
-  fontFamily: { regular: string; medium: string; semibold: string; bold: string };
+  fontFamily: {
+    regular: string;
+    regularItalic: string;
+    medium: string;
+    semibold: string;
+    bold: string;
+  };
 };

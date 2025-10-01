@@ -37,11 +37,18 @@ export function BottomNavigation() {
         onPress={() => navigation.navigate('categories')}
       />
       <ButtonNavigation
-        active={screen === 'progress'}
-        title="Progresso"
-        iconName={screen === 'progress' ? 'trophy-fill' : 'trophy-line'}
+        active={screen === 'history'}
+        title="Histórico"
+        iconName={screen === 'history' ? 'history-fill' : 'history-line'}
         iconSize={26}
-        onPress={() => navigation.navigate('progress')}
+        onPress={() => navigation.navigate('history')}
+      />
+      <ButtonNavigation
+        active={screen === 'score'}
+        title="Placar"
+        iconName={screen === 'score' ? 'trophy-fill' : 'trophy-line'}
+        iconSize={26}
+        onPress={() => navigation.navigate('score')}
       />
       <ButtonNavigation
         active={screen === 'menu'}

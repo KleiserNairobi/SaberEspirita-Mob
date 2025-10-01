@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { View, Text, Share, Alert, SafeAreaView, Switch, Platform } from 'react-native';
+import * as Application from 'expo-application';
 import * as MailComposer from 'expo-mail-composer';
 import Icon from 'react-native-remix-icon';
 import auth from '@react-native-firebase/auth';
@@ -22,7 +23,8 @@ const TITLE = 'Saber Espírita';
 const MESSAGE = `Desafie sua mente e aprofunde seus conhecimentos sobre espiritismo! ${'\n'}
 O app Saber Espírita traz quizzes incríveis para você. ${'\n'}
 Baixe agora e compartilhe com seus amigos: ${'\n'}
-https://play.google.com/store/apps/details?id=app.saberespirita`;
+https://play.google.com/store/apps/details?id=app.saberespirita ${'\n'}
+https://apps.apple.com/br/app/saber-esp%C3%ADrita/id6751443526`;
 
 export function Menu() {
   const styles = useThemedStyles(getMenuStyles);
@@ -147,7 +149,6 @@ export function Menu() {
           <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} />
           <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </View>
-
         <View style={styles.boxItems}>
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Emitir som</Text>
@@ -177,7 +178,6 @@ export function Menu() {
               />
             </View>
           </View>
-
           <View style={styles.row}>
             <Text style={styles.rowTitle}>Alterar tema</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -206,11 +206,15 @@ export function Menu() {
               />
             </View>
           </View>
+          <View style={styles.row}>
+            <Text style={styles.rowTitle}>Versão</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.rowTitle}>{Application.nativeApplicationVersion}</Text>
+            </View>
+          </View>
         </View>
       </SafeAreaView>
-
       <BottomNavigation />
-
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}

@@ -1,11 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
+import { Update } from '@/pages/Update';
 
 export type PublicStackParamList = {
   login: undefined;
   register: undefined;
   WebViewScreen: { url: string; title: string };
+  Update: undefined;
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<PublicStackParamList>();
@@ -15,6 +17,7 @@ export function PublicStack() {
     <Navigator initialRouteName={'login'} screenOptions={{ headerShown: false }}>
       <Screen name="login" component={Login} />
       <Screen name="register" component={Register} />
+      <Screen name="Update" component={Update} />
     </Navigator>
   );
 }

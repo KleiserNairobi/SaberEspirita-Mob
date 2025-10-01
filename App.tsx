@@ -8,9 +8,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Routes } from './src/routes';
 import { useFonts } from 'expo-font';
 import { Courgette_400Regular } from '@expo-google-fonts/courgette';
+import { useVersionControl } from './src/hooks/useVersionControl';
+import { useUpdateModal } from './src/hooks/useUpdateModal';
+import { Update } from './src/pages/Update';
 
 import {
   Nunito_400Regular,
+  Nunito_400Regular_Italic,
   Nunito_500Medium,
   Nunito_600SemiBold,
   Nunito_700Bold,
@@ -20,6 +24,36 @@ SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
+function useCheckUpdate(appIsReady: boolean) {
+  const { versionData, loading, error, checkVersion } = useVersionControl();
+  const { modalVisible, modalConfig, showModal, hideModal } = useUpdateModal();
+  const [hasChecked, setHasChecked] = useState(false);
+
+  useEffect(() => {
+    // Só executa a verificação quando o app estiver pronto e ainda não tiver verificado
+    if (appIsReady && !hasChecked && !loading && versionData) {
+      const versionCheck = checkVersion();
+
+      if (versionCheck.needUpdate) {
+        showModal({
+          critical: versionCheck.critical,
+          maintenance: versionCheck.maintenance,
+          message: versionCheck.message,
+          updateUrl: versionCheck.updateUrl,
+        });
+      }
+
+      setHasChecked(true);
+    }
+  }, [appIsReady, hasChecked, loading, versionData, checkVersion, showModal]);
+
+  return {
+    modalVisible,
+    modalConfig,
+    hideModal,
+  };
+}
+
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [firebaseError, setFirebaseError] = useState<Error | null>(null);
@@ -27,16 +61,17 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Courgette_400Regular,
     Nunito_400Regular,
+    Nunito_400Regular_Italic,
     Nunito_500Medium,
     Nunito_600SemiBold,
     Nunito_700Bold,
   });
 
+  const { modalVisible, modalConfig, hideModal } = useCheckUpdate(appIsReady);
+
   useEffect(() => {
     async function prepare() {
       try {
-        // await initializeFirebaseApp();
-
         if (fontsLoaded) {
           // Adicione aqui qualquer outra inicialização assíncrona
           await new Promise((resolve) => setTimeout(resolve, 500));
@@ -80,6 +115,14 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <QueryClientProvider client={queryClient}>
         <Routes />
+        <Update
+          visible={modalVisible}
+          critical={modalConfig.critical}
+          maintenance={modalConfig.maintenance}
+          message={modalConfig.message}
+          updateUrl={modalConfig.updateUrl}
+          onClose={hideModal}
+        />
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

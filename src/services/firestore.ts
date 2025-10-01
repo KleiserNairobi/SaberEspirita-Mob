@@ -2,9 +2,12 @@ import firestore from '@react-native-firebase/firestore';
 import { ICategory } from '@/models/Categories';
 import { ISubcategory } from '@/models/Subcategories';
 import { IQuizes } from '@/models/Quizes';
-import { IUserProgress } from '@/models/UsersProgress';
+import { IUserHistory } from '@/models/UsersHistory';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
 import { IUserCreatedQuiz } from '@/models/UserCreatedQuiz';
+import { IUserScore } from '@/models/UsersScores';
+import { ILeaderboardUser } from '@/models/UsersLeaderboard';
+import { TimeFilterEnum, TimeFilter } from '@/models/Filters';
 
 const imageMapping: { [key: string]: any } = {
   CONCEITOS: require('@/assets/images/Categories/Concepts.png'),
@@ -14,6 +17,9 @@ const imageMapping: { [key: string]: any } = {
   ESPÍRITOS: require('@/assets/images/Categories/Spirits.png'),
   DIVERSOS: require('@/assets/images/Categories/Stories.png'),
 };
+
+const VERSION_CONTROL_DOC = 'version_control';
+const APP_SETTINGS_COLLECTION = 'app_settings';
 
 export async function getCategories(): Promise<ICategory[]> {
   try {
@@ -127,68 +133,6 @@ export async function getUserCompletedSubcategories(
   }
 }
 
-// export async function getUserCompletedSubcategories(
-//   userId: string,
-//   categoryId?: string
-// ): Promise<IUserCompletedSubcategory> {
-//   try {
-//     const userDoc = await firestore().collection('users_completed_subcategories').doc(userId).get();
-
-//     if (!userDoc.exists) {
-//       return { userId, completedSubcategories: {} };
-//     }
-
-//     const allData = userDoc.data() as IUserCompletedSubcategory;
-
-//     // Se categoryId foi especificado, retorne apenas os dados dessa categoria
-//     if (categoryId) {
-//       return {
-//         userId,
-//         completedSubcategories: {
-//           [categoryId]: allData.completedSubcategories[categoryId] || [],
-//         },
-//       };
-//     }
-
-//     // Caso contrário, retorne todos os dados
-//     return allData;
-//   } catch (error) {
-//     console.error('Error getting user subcategories:', error);
-//     return { userId, completedSubcategories: {} };
-//   }
-// }
-
-// export async function getUserCompletedSubcategories(
-//   userId: string,
-//   categoryId?: string
-// ): Promise<IUserCompletedSubcategory | null> {
-//   try {
-//     const userDoc = await firestore().collection('users_completed_subcategories').doc(userId).get();
-
-//     if (!userDoc.exists) {
-//       return null;
-//     }
-
-//     if (!categoryId) {
-//       return userDoc.data() as IUserCompletedSubcategory;
-//     }
-
-//     const subcategories = userDoc.data()?.completedSubcategories?.[categoryId];
-
-//     if (!subcategories) {
-//       return null;
-//     }
-
-//     return {
-//       userId,
-//       completedSubcategories: { [categoryId]: subcategories },
-//     };
-//   } catch (error) {
-//     console.log('Ocorreu um erro ao obter o histórico do usuário:', error);
-//     return null;
-//   }
-// }
-
 export async function saveUserCompletedSubcategories(
   userId: string,
   categoryId: string,
@@ -256,51 +200,137 @@ export async function removeUserCompletedSubcategory(
   }
 }
 
-export async function getUserProgress(userId: string): Promise<IUserProgress[]> {
+export async function getUserHistory(userId: string): Promise<IUserHistory[]> {
   try {
-    const progressSnapshot = await firestore()
-      .collection('users_progress')
+    const historySnapshot = await firestore()
+      .collection('users_history')
       .doc(userId)
-      .collection('progress')
+      .collection('history')
       .orderBy('completedAt', 'desc')
       .get();
-    const userProgress: IUserProgress[] = progressSnapshot.docs.map((doc) => ({
+    const userHistory: IUserHistory[] = historySnapshot.docs.map((doc) => ({
       userId,
       ...doc.data(),
-    })) as IUserProgress[];
-    return userProgress;
+    })) as IUserHistory[];
+    return userHistory;
   } catch (error) {
-    console.log('Ocorreu um erro ao buscar o progresso do usuário:', error);
+    console.log('Ocorreu um erro ao buscar o histórico do usuário:', error);
     throw error;
   }
 }
 
-export async function addUserProgress(userProgress: IUserProgress): Promise<void> {
+export async function addUserHistory(userHistory: IUserHistory, userName: string): Promise<void> {
   try {
-    const userProgressRef = firestore()
-      .collection('users_progress')
-      .doc(userProgress.userId)
-      .collection('progress')
-      .doc(userProgress.subcategoryId);
-    await userProgressRef.set(userProgress);
-    console.log('Progresso do usuário adicionado com sucesso!');
+    const userHistoryRef = firestore()
+      .collection('users_history')
+      .doc(userHistory.userId)
+      .collection('history')
+      .doc(userHistory.subcategoryId);
+    await userHistoryRef.set(userHistory);
+    await updateUserScore(userHistory.userId, userName);
+    console.log('Adicionado histórico e computado score do usuário com sucesso!');
   } catch (error) {
-    console.log('Ocorreu um erro ao adicionar o progresso do usuário:', error);
+    console.log('Ocorreu um erro ao adicionar o histórico do usuário:', error);
   }
 }
 
-export async function removeUserProgress(userId: string, subcategoryId: string): Promise<void> {
+export async function removeUserHistory(
+  userId: string,
+  userName: string,
+  subcategoryId: string
+): Promise<void> {
   try {
-    const userProgressRef = firestore()
-      .collection('users_progress')
+    const userHistoryRef = firestore()
+      .collection('users_history')
       .doc(userId)
-      .collection('progress')
+      .collection('history')
       .doc(subcategoryId);
-    await userProgressRef.delete();
-    console.log('Progresso do usuário removido com sucesso!');
+    await userHistoryRef.delete();
+    await updateUserScore(userId, userName);
+    console.log('Removido histórico e computado score do usuário com sucesso!');
   } catch (error) {
-    console.log('Ocorreu um erro ao remover o progresso do usuário:', error);
+    console.log('Ocorreu um erro ao remover o histórico do usuário:', error);
   }
+}
+
+export async function updateUserScore(userId: string, userName: string): Promise<void> {
+  try {
+    const historySnapshot = await firestore()
+      .collection('users_history')
+      .doc(userId)
+      .collection('history')
+      .get();
+
+    const histories = historySnapshot.docs.map((doc) => doc.data() as IUserHistory);
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfWeek = new Date(now);
+
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    let totalAllTime = 0;
+    let totalThisMonth = 0;
+    let totalThisWeek = 0;
+
+    histories.forEach((history) => {
+      const completedDate = history.completedAt.toDate();
+      const score = history.score;
+
+      totalAllTime += score;
+
+      if (completedDate >= startOfMonth) {
+        totalThisMonth += score;
+      }
+
+      if (completedDate >= startOfWeek) {
+        totalThisWeek += score;
+      }
+    });
+
+    const userScoreRef = firestore().collection('users_scores').doc(userId);
+
+    const summary: IUserScore = {
+      userId,
+      userName,
+      totalAllTime,
+      totalThisMonth,
+      totalThisWeek,
+      lastUpdated: firestore.FieldValue.serverTimestamp() as any,
+    };
+
+    await userScoreRef.set(summary);
+    console.log('Resumo de score atualizado com sucesso!');
+  } catch (error) {
+    console.error('Erro ao atualizar resumo de score do usuário:', error);
+  }
+}
+
+export async function getLeaderboard(period: TimeFilter): Promise<ILeaderboardUser[]> {
+  const fieldMap: Record<TimeFilterEnum, string> = {
+    [TimeFilterEnum.WEEK]: 'totalThisWeek',
+    [TimeFilterEnum.MONTH]: 'totalThisMonth',
+    [TimeFilterEnum.ALL]: 'totalAllTime',
+  };
+
+  const field = fieldMap[period];
+
+  const snapshot = await firestore()
+    .collection('users_scores')
+    .orderBy(field, 'desc')
+    .limit(100)
+    .get();
+
+  return snapshot.docs.map((doc, index) => {
+    const data = doc.data();
+    return {
+      userId: data.userId,
+      userName: data.userName,
+      avatarUrl: undefined,
+      score: data[field],
+      position: index + 1,
+    };
+  });
 }
 
 export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Promise<void> {
@@ -314,5 +344,75 @@ export async function addUserCreatedQuiz(userCreatedQuiz: IUserCreatedQuiz): Pro
     console.log('Quiz criado pelo usuário adicionado com sucesso!');
   } catch (error) {
     console.log('Ocorreu um erro ao adicionar o quiz criado pelo usuário:', error);
+  }
+}
+
+// Buscar dados atuais
+export async function getVersionControlData() {
+  try {
+    const doc = await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .get();
+    return doc.exists() ? doc.data() : null;
+  } catch (error) {
+    console.error('Erro ao buscar dados:', error);
+    throw error;
+  }
+}
+
+// Atualizar configurações de versão para uma plataforma
+export async function updatePlatformVersion(platform: any, data: any) {
+  try {
+    const updateData = {
+      [platform]: data,
+      updated_at: new Date().toISOString(),
+    };
+    await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .set(updateData, { merge: true });
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao atualizar versão:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Atualizar mensagens
+export async function updateMessages(messages: any) {
+  try {
+    const updateData = {
+      message: messages,
+      updated_at: new Date().toISOString(),
+    };
+    await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .set(updateData, { merge: true });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao atualizar mensagens:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Alternar modo de manutenção
+export async function toggleMaintenanceMode(enabled: boolean, message = '') {
+  try {
+    const updateData = {
+      maintenance_mode: enabled,
+      maintenance_message: message,
+      updated_at: new Date().toISOString(),
+    };
+    await firestore()
+      .collection(APP_SETTINGS_COLLECTION)
+      .doc(VERSION_CONTROL_DOC)
+      .set(updateData, { merge: true });
+    return { success: true };
+  } catch (error: any) {
+    console.error('Erro ao alternar modo de manutenção:', error);
+    return { success: false, error: error.message };
   }
 }

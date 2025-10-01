@@ -51,6 +51,9 @@ export const lightTheme: ThemeType = {
     toggleBorderInActive: '#FDE168',
     inputPlaceholder: '#798391',
     background: '#0C1624',
+    firstPlace: '#F6BB0B',
+    secondPlace: '#F8CF55',
+    thirdPlace: '#FADD85',
   },
   vSpacings: {
     xs: verticalScale(8),
@@ -89,6 +92,7 @@ export const lightTheme: ThemeType = {
   fontLogo: { regular: 'Courgette_400Regular' },
   fontFamily: {
     regular: 'Nunito_400Regular',
+    regularItalic: 'Nunito_400Regular_Italic',
     medium: 'Nunito_500Medium',
     semibold: 'Nunito_600SemiBold',
     bold: 'Nunito_700Bold',

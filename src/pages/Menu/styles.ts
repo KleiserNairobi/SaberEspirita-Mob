@@ -14,7 +14,7 @@ export const getMenuStyles = (theme: AppTheme) =>
     },
     boxItems: {
       flexDirection: 'column',
-      marginTop: 30,
+      marginTop: 20,
     },
     boxVersion: {
       flexDirection: 'column',

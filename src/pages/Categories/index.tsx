@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
-import { BackHandler, FlatList, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { BackHandler, FlatList, View, Text } from 'react-native';
+import { SafeAreaView, ActivityIndicator, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -16,6 +17,14 @@ import { getCategories, getUserCompletedSubcategories } from '@/services/firesto
 import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { getCategoriesStyles } from './styles';
 import { IUserCompletedSubcategory } from '@/models/UsersCompletedSubcategories';
+import { messages } from '@/assets/messages';
+import { DailyMessage } from '@/components/DailyMessage';
+
+function getDailyMessage() {
+  const today = new Date();
+  const idx = today.getDate() % messages.length;
+  return messages[idx];
+}
 
 export function Categories() {
   const theme = useTheme();
@@ -25,6 +34,8 @@ export function Categories() {
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const { user } = useAppStore();
   const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
+  const backPressTimestamp = useRef(0);
+  const message = getDailyMessage();
 
   const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
     queryKey: ['categories'],
@@ -61,13 +72,20 @@ export function Categories() {
     });
   }
 
-  // 1 - Adicionando subscrição
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (navigation.isFocused()) {
+      if (!navigation.isFocused()) return false;
+      const currentTime = new Date().getTime();
+      const timeDiff = currentTime - backPressTimestamp.current;
+      const DOUBLE_PRESS_DELAY = 2000;
+      if (timeDiff < DOUBLE_PRESS_DELAY) {
+        BackHandler.exitApp();
+        return true;
+      } else {
+        backPressTimestamp.current = currentTime;
+        ToastAndroid.show('Pressione novamente para sair', ToastAndroid.SHORT);
         return true;
       }
-      return false;
     });
     return () => {
       backHandler.remove();
@@ -104,7 +122,8 @@ export function Categories() {
         <View style={styles.greetingBox}>
           <Text style={styles.greeting}>Oi, {user?.displayName || 'amigo(a)'}!</Text>
         </View>
-        <Text style={styles.title}>Escolha uma categoria para começar</Text>
+
+        <DailyMessage title="✨ Mensagem do Dia" content={message} />
         <Text style={styles.category}>Categorias</Text>
 
         {isLoadingCategories || isLoadingCompleted ? (

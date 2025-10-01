@@ -3,13 +3,14 @@ import { Categories } from '@/pages/Categories';
 import { Subcategories } from '@/pages/Subcategories';
 import { Quizes } from '@/pages/Quizes';
 import { Finish } from '@/pages/Finish';
-import { Progress } from '@/pages/Progress';
+import { History } from '@/pages/History';
 import { Menu } from '@/pages/Menu';
 import { Help } from '@/pages/Help';
 import { Terms } from '@/pages/Terms';
 import { Privacy } from '@/pages/Privacy';
 import { CreateQuiz } from '@/pages/Create';
 import { Answers } from '@/pages/Answers';
+import { Score } from '@/pages/Score';
 import { IUserAnswer } from '@/models/UserAnswer';
 
 export type PrivateStackParamList = {
@@ -34,7 +35,7 @@ export type PrivateStackParamList = {
     level: string;
     userAnswers: IUserAnswer[];
   };
-  progress: undefined;
+  history: undefined;
   menu: undefined;
   help: undefined;
   terms: undefined;
@@ -49,6 +50,7 @@ export type PrivateStackParamList = {
     level: string;
     userAnswers: IUserAnswer[];
   };
+  score: undefined;
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<PrivateStackParamList>();
@@ -60,13 +62,14 @@ export function PrivateStack() {
       <Screen name="subcategories" component={Subcategories} />
       <Screen name="quizes" component={Quizes} options={{ gestureEnabled: false }} />
       <Screen name="finish" component={Finish} options={{ gestureEnabled: false }} />
-      <Screen name="progress" component={Progress} />
+      <Screen name="history" component={History} />
       <Screen name="menu" component={Menu} />
       <Screen name="help" component={Help} />
       <Screen name="terms" component={Terms} />
       <Screen name="privacy" component={Privacy} />
       <Screen name="create" component={CreateQuiz} />
       <Screen name="answers" component={Answers} />
+      <Screen name="score" component={Score} />
     </Navigator>
   );
 }
