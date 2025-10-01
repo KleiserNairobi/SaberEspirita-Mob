@@ -16,8 +16,8 @@
       "backgroundColor": "#0C1624"
     },
     "ios": {
-      "buildNumber": "13",
-      "supportsTablet": true,
+      "buildNumber": "14",
+      "supportsTablet": false,
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
     },
