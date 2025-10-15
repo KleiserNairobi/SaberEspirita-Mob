@@ -25,7 +25,7 @@
       },
       "entitlements": {
         "aps-environment": "development",
-        "com.apple.security.application-groups": ["group.${ios.bundleIdentifier}.onesignal"]
+        "com.apple.security.application-groups": ["group.app.saberespirita.onesignal"]
       }
     },
     "android": {
