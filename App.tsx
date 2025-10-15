@@ -11,6 +11,7 @@ import { Courgette_400Regular } from '@expo-google-fonts/courgette';
 import { useVersionControl } from './src/hooks/useVersionControl';
 import { useUpdateModal } from './src/hooks/useUpdateModal';
 import { Update } from './src/pages/Update';
+import { OneSignal } from 'react-native-onesignal';
 
 import {
   Nunito_400Regular,
@@ -68,6 +69,11 @@ export default function App() {
   });
 
   const { modalVisible, modalConfig, hideModal } = useCheckUpdate(appIsReady);
+
+  useEffect(() => {
+    OneSignal.initialize('10a5e77f-2de1-43ed-8bdb-817d357df2d9');
+    OneSignal.Notifications.requestPermission(false);
+  }, []);
 
   useEffect(() => {
     async function prepare() {
