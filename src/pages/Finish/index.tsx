@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ImageStyle } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -31,33 +31,36 @@ export function Finish() {
   } = route.params;
 
   function getPerformanceMessage(percentage: number): any {
+    // Parabéns, querido estudante!
+    let title = `O verdadeiro prêmio\n é o conhecimento.`;
+    let message = `Revise as explicações para\n consolidar seu aprendizado.`;
     if (percentage >= 90) {
       return {
         image: FourStars,
-        title: 'Parabéns, querido estudante!',
-        message:
-          'Seu desempenho foi verdadeiramente notável, refletindo o brilho da luz do conhecimento. Continue aprofundando seus estudos, pois a jornada do entendimento espiritual é infinita e recompensadora.',
+        title: title,
+        message: message,
+        // "Seu entendimento é brilhante! Revisite as explicações para solidificar ainda mais este conhecimento e adicioná-lo à sua biblioteca."
       };
     } else if (percentage >= 70) {
       return {
         image: ThreeStars,
-        title: 'Muito bem, caro amigo do conhecimento espiritual!',
-        message:
-          'Seu desempenho foi admirável, demonstrando dedicação e empenho. Continue seguindo adiante, pois cada passo no aprendizado espiritual nos aproxima da verdade.',
+        title: title,
+        message: message,
+        // "Bom trabalho! Aproveite para revisar os detalhes e salvar os conceitos mais importantes na sua biblioteca para estudo futuro."
       };
     } else if (percentage >= 50) {
       return {
         image: TwoStars,
-        title: 'Seu esforço é louvável, nobre buscador da verdade!',
-        message:
-          'Seu desempenho foi razoável, e como diria, "Perseverança é a chave". Continue estudando e refletindo, pois a jornada espiritual é trilhada com paciência e determinação.',
+        title: title,
+        message: message,
+        // Ótimo exercício de aprendizado! Esta é uma oportunidade perfeita para estudar as explicações e enriquecer sua biblioteca pessoal."
       };
     } else {
       return {
         image: OneStar,
-        title: 'Não se deixe abater, querido aprendiz!',
-        message:
-          'O conhecimento espiritual é como um rio que flui constantemente. Seu desempenho pode não ter sido o desejado, mas lembre-se de que cada passo em direção à luz é valioso. Continue estudando e buscando a compreensão.',
+        title: title,
+        message: message,
+        // "A jornada do conhecimento começa com um passo. Explore as explicações doutrinárias - cada uma que você salvar é um tesouro para sua evolução."
       };
     }
   }
@@ -85,7 +88,11 @@ export function Finish() {
     <GradientContainer>
       <View style={styles.container}>
         {pathImage && (
-          <Image source={pathImage} style={styles.starsAndBooks} resizeMode="stretch" />
+          <Image
+            source={pathImage}
+            style={styles.starsAndBooks as ImageStyle}
+            resizeMode="stretch"
+          />
         )}
         <Text style={styles.subcategory}>{titleSubcategory}</Text>
         <Text style={styles.category}>{titleCategory}</Text>
@@ -101,18 +108,20 @@ export function Finish() {
             <Text style={styles.titlePoints}>Percentual de acertos</Text>
           </View>
         </View>
+        <Text style={styles.titleExplanation}>
+          Você desbloqueou {totalQuestions} explicações doutrinárias
+        </Text>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
-        <View style={styles.boxButton}>
-          <TouchableOpacity
-            style={styles.buttonSecondary}
-            onPress={() => navigation.navigate('categories')}>
-            <Text style={styles.titleButtonSecondary}>Continuar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonPrimary} onPress={goToFeedback}>
-            <Text style={styles.titleButtonPrimary}>Respostas</Text>
-          </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity
+          style={styles.buttonSecondary}
+          onPress={() => navigation.navigate('categories')}>
+          <Text style={styles.titleButtonSecondary}>Continuar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonPrimary} onPress={goToFeedback}>
+          <Text style={styles.titleButtonPrimary}>Revisar e Aprender</Text>
+        </TouchableOpacity>
       </View>
     </GradientContainer>
   );

@@ -50,6 +50,13 @@ export const getFinishStyles = (theme: AppTheme) =>
       fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.medium,
     },
+    titleExplanation: {
+      textAlign: 'center',
+      color: theme.colors.cardProgressPrimary,
+      fontSize: theme.fontSizes.xs,
+      fontFamily: theme.fontFamily.medium,
+      marginTop: scale(4),
+    },
     title: {
       marginTop: theme.vSpacings.lg,
       marginBottom: 8,
@@ -71,15 +78,16 @@ export const getFinishStyles = (theme: AppTheme) =>
       flexDirection: 'row',
     },
     buttonSecondary: {
-      width: scale(120),
+      width: '100%',
       padding: 8,
       borderWidth: 2,
       borderRadius: 18,
       alignItems: 'center',
       borderColor: theme.colors.buttonActionOutileneBorder,
+      marginBottom: theme.vSpacings.xs,
     },
     buttonPrimary: {
-      width: scale(120),
+      width: '100%',
       padding: 8,
       borderRadius: 18,
       alignItems: 'center',

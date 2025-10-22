@@ -9,6 +9,7 @@ import { BottomNavigation } from '@/components/BottomNavigation';
 import { ProgressListItem } from '@/components/ProgressListItem';
 import { ButtonFilterProgress } from '@/components/ButtonFilterProgress';
 import { ButtonAction } from '@/components/ButtonAction';
+import { Loading } from '@/components/Loading';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getProgressStyles } from './styles';
 import { IUserHistory } from '@/models/UsersHistory';
@@ -78,6 +79,56 @@ export function History() {
     );
   }
 
+  // Estado de carregamento
+  if (isLoading) {
+    return (
+      <GradientContainer>
+        <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
+          <View style={styles.wrapper}>
+            <Header onPress={() => navigation.goBack()} title="Histórico" />
+            <Loading />
+          </View>
+        </SafeAreaView>
+      </GradientContainer>
+    );
+  }
+
+  // Estado de erro
+  if (error) {
+    return (
+      <GradientContainer>
+        <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
+          <View style={styles.wrapper}>
+            <Header onPress={() => navigation.goBack()} title="Histórico" />
+            <Text style={styles.subtitle}>
+              Selecione uma categoria para conferir o seu progresso nos quizes
+            </Text>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={categories}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={{ height: 40, marginBottom: 25 }}>
+                  <ButtonFilterProgress
+                    active={filterTitle === item.title}
+                    title={item.title}
+                    onPress={() => filterDataByTitle(item.title)}
+                  />
+                </View>
+              )}
+            />
+            <View style={styles.boxFlatListEmpty}>
+              <Text style={styles.titleFlatListEmpty}>Ocorreu um erro ao carregar o histórico</Text>
+              <Text style={styles.subtitleFlatListEmpty}>Tente novamente mais tarde</Text>
+            </View>
+          </View>
+          <BottomNavigation />
+        </SafeAreaView>
+      </GradientContainer>
+    );
+  }
+
   return (
     <GradientContainer>
       <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
@@ -101,11 +152,7 @@ export function History() {
               </View>
             )}
           />
-          {!isLoading &&
-          !error &&
-          userHistory &&
-          userHistory.length > 0 &&
-          filterTitle === 'Todos' ? (
+          {userHistory && userHistory.length > 0 && filterTitle === 'Todos' ? (
             <>
               <Text style={styles.completedQuizes}>Quizes concluídos</Text>
               <View style={{ height: 500, overflow: 'hidden', paddingBottom: 50 }}>
@@ -122,10 +169,7 @@ export function History() {
                 </ScrollView>
               </View>
             </>
-          ) : !isLoading &&
-            !error &&
-            (!userHistory || userHistory.length === 0) &&
-            filterTitle === 'Todos' ? (
+          ) : (!userHistory || userHistory.length === 0) && filterTitle === 'Todos' ? (
             flatListEmpty()
           ) : filterData.length > 0 && filterTitle !== 'Todos' ? (
             <>
