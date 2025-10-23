@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { FlatList, ScrollView, View, Text, Image, SafeAreaView, ImageStyle } from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  ImageStyle,
+  ActivityIndicator,
+} from 'react-native';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from '@/components/Header';
@@ -13,6 +22,7 @@ import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getProgressStyles } from './styles';
 import { IUserHistory } from '@/models/UsersHistory';
 import { getUserHistory } from '@/services/firestore';
+import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -20,6 +30,7 @@ import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function History() {
+  const theme = useTheme();
   const styles = useThemedStyles(getProgressStyles);
   const insets = useSafeAreaInsets();
   const { user } = useAppStore();
@@ -78,6 +89,62 @@ export function History() {
     );
   }
 
+  // Estado de carregamento
+  if (isLoading) {
+    return (
+      <GradientContainer>
+        <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
+          <View style={styles.wrapper}>
+            <Header onPress={() => navigation.goBack()} title="Histórico" />
+            <Text style={styles.subtitle}>
+              Selecione uma categoria para conferir o seu progresso nos quizes
+            </Text>
+            <View style={{ height: 500, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator color={theme.colors.primary} size="large" />
+            </View>
+          </View>
+          <BottomNavigation />
+        </SafeAreaView>
+      </GradientContainer>
+    );
+  }
+
+  // Estado de erro
+  if (error) {
+    return (
+      <GradientContainer>
+        <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
+          <View style={styles.wrapper}>
+            <Header onPress={() => navigation.goBack()} title="Histórico" />
+            <Text style={styles.subtitle}>
+              Selecione uma categoria para conferir o seu progresso nos quizes
+            </Text>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={categories}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={{ height: 40, marginBottom: 25 }}>
+                  <ButtonFilterProgress
+                    active={filterTitle === item.title}
+                    title={item.title}
+                    onPress={() => filterDataByTitle(item.title)}
+                  />
+                </View>
+              )}
+            />
+            <View style={styles.boxFlatListEmpty}>
+              <Text style={styles.titleFlatListEmpty}>Ocorreu um erro ao carregar o histórico</Text>
+              <Text style={styles.subtitleFlatListEmpty}>Tente novamente mais tarde</Text>
+            </View>
+          </View>
+          <BottomNavigation />
+        </SafeAreaView>
+      </GradientContainer>
+    );
+  }
+
   return (
     <GradientContainer>
       <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
@@ -101,11 +168,7 @@ export function History() {
               </View>
             )}
           />
-          {!isLoading &&
-          !error &&
-          userHistory &&
-          userHistory.length > 0 &&
-          filterTitle === 'Todos' ? (
+          {userHistory && userHistory.length > 0 && filterTitle === 'Todos' ? (
             <>
               <Text style={styles.completedQuizes}>Quizes concluídos</Text>
               <View style={{ height: 500, overflow: 'hidden', paddingBottom: 50 }}>
@@ -122,10 +185,7 @@ export function History() {
                 </ScrollView>
               </View>
             </>
-          ) : !isLoading &&
-            !error &&
-            (!userHistory || userHistory.length === 0) &&
-            filterTitle === 'Todos' ? (
+          ) : (!userHistory || userHistory.length === 0) && filterTitle === 'Todos' ? (
             flatListEmpty()
           ) : filterData.length > 0 && filterTitle !== 'Todos' ? (
             <>

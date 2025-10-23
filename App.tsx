@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useCallback, useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Text, Platform } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { initializeFirebaseApp } from './src/libs/firebase';
 import * as SplashScreen from 'expo-splash-screen';
@@ -11,6 +11,7 @@ import { Courgette_400Regular } from '@expo-google-fonts/courgette';
 import { useVersionControl } from './src/hooks/useVersionControl';
 import { useUpdateModal } from './src/hooks/useUpdateModal';
 import { Update } from './src/pages/Update';
+import { OneSignal } from 'react-native-onesignal';
 
 import {
   Nunito_400Regular,
@@ -21,6 +22,14 @@ import {
 } from '@expo-google-fonts/nunito';
 
 SplashScreen.preventAutoHideAsync();
+
+const oneSignalAppId =
+  Platform.OS === 'ios'
+    ? '53fdc0bb-07b5-49c2-822e-963720610ebd'
+    : '10a5e77f-2de1-43ed-8bdb-817d357df2d9';
+
+OneSignal.initialize(oneSignalAppId);
+OneSignal.Notifications.requestPermission(true);
 
 const queryClient = new QueryClient();
 

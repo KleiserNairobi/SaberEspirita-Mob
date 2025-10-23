@@ -19,7 +19,14 @@
       "buildNumber": "14",
       "supportsTablet": false,
       "bundleIdentifier": "app.saberespirita",
-      "googleServicesFile": "./dev/configs/GoogleService-Info.plist"
+      "googleServicesFile": "./dev/configs/GoogleService-Info.plist",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"]
+      },
+      "entitlements": {
+        "aps-environment": "development",
+        "com.apple.security.application-groups": ["group.app.saberespirita.onesignal"]
+      }
     },
     "android": {
       "versionCode": 13,
@@ -36,6 +43,12 @@
       }
     },
     "plugins": [
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ],
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       [
