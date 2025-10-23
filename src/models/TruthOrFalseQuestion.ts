@@ -5,5 +5,5 @@ export interface ITruthOrFalseQuestion {
   correct: boolean;
   explanation: string;
   reference: string;
-  difficulty: 'fácil' | 'médio' | 'difícil';
+  difficulty: 'Fácil' | 'Médio' | 'Difícil';
 }

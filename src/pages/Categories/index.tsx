@@ -55,7 +55,6 @@ export function Categories() {
   const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
   const [showTruthOrFalse, setShowTruthOrFalse] = useState(false);
   const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
-  // const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const backPressTimestamp = useRef(0);
   const message = getDailyMessage();
   const questionToday = getTodayQuestion();
@@ -86,16 +85,6 @@ export function Categories() {
     },
     enabled: !!user?.uid,
   });
-
-  // Handlers
-  // const handleBottomSheetChanges = useCallback((index: number) => {
-  //   setTruthOrFalseResponse(index === 1);
-  // }, []);
-
-  // const handleBottomSheetClose = useCallback(() => {
-  //   setTruthOrFalseResponse(false);
-  //   bottomSheetRef.current?.close();
-  // }, []);
 
   function goToSubcategories(id: string, title: string, description: string) {
     navigation.navigate('subcategories', {
@@ -152,9 +141,7 @@ export function Categories() {
   function handleAnswer(userAnswer: boolean) {
     const correct = questionToday.correct;
     const isCorrect = userAnswer === correct;
-
     setUserAnswer(userAnswer);
-    // setIsCorrect(isCorrect);
 
     // Salvar resposta no TruthOrFalseManager
     if (user?.uid) {
@@ -173,12 +160,10 @@ export function Categories() {
 
   function handleCloseExplanation() {
     setUserAnswer(null);
-    // setIsCorrect(null);
     setShowTruthOrFalse(false);
     bottomSheetRef.current?.close();
   }
 
-  // Controla a exibição do bottom sheet baseado na resposta do usuário
   useFocusEffect(
     useCallback(() => {
       const hasResponded = TruthOrFalseManager.hasRespondedToday();
@@ -189,7 +174,6 @@ export function Categories() {
         // Garantir que o bottom sheet esteja fechado
         bottomSheetRef.current?.close();
       }
-
       // Cleanup: quando a tela perde foco, garantir que o bottom sheet esteja fechado
       return () => {
         bottomSheetRef.current?.close();
@@ -280,7 +264,6 @@ export function Categories() {
               difficulty={questionToday.difficulty}
               reference={questionToday.reference}
               userAnswer={userAnswer}
-              // isCorrect={isCorrect}
               onAnswer={handleAnswer}
               onClose={handleCloseExplanation}
             />

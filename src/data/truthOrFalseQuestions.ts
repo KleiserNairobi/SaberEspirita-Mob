@@ -9,7 +9,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Jesus revela que ninguém é infalível e que a verdadeira justiça nasce da misericórdia e do arrependimento.',
     reference: 'João 8:1-11 / O Evangelho Segundo o Espiritismo, cap. X',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Perdão e misericórdia',
   },
   {
@@ -19,7 +19,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A reencarnação é principalmente um processo de aprendizado e evolução espiritual, não apenas de punição.',
     reference: 'O Livro dos Espíritos, q. 166-167',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Reencarnação',
   },
   {
@@ -29,7 +29,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A evolução espiritual depende do esforço, escolhas e aprendizado de cada espírito, variando entre encarnações.',
     reference: 'O Livro dos Espíritos, q. 155',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Evolução espiritual',
   },
   {
@@ -40,7 +40,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Segundo Kardec, todos os espíritos possuem algum grau de mediunidade, mas ela se manifesta conforme afinidade e preparo.',
     reference: 'O Livro dos Médiuns, cap. I',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade',
   },
   {
@@ -50,7 +50,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O perispírito é um corpo semimaterial que liga o espírito ao corpo físico, mas não é o próprio corpo físico.',
     reference: 'O Livro dos Espíritos, q. 42',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Perispírito',
   },
   {
@@ -60,7 +60,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A prática do bem e da caridade é um dos caminhos para o aprimoramento moral e evolução do espírito.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XI',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução espiritual',
   },
   {
@@ -70,7 +70,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Espíritos menos evoluídos podem influenciar os encarnados, seja por sugestões, obsessões ou perturbações morais.',
     reference: 'O Livro dos Espíritos, q. 178',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade',
   },
   {
@@ -80,7 +80,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Kardec defende a harmonia entre ciência, filosofia e religião, sendo o espiritismo racional e experimental.',
     reference: 'O Livro dos Espíritos, Prefácio',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Ciência e Espiritismo',
   },
   {
@@ -91,7 +91,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Os fluidos universais podem ser dirigidos pelos pensamentos e sentimentos, influenciando pessoas e ambientes.',
     reference: 'A Gênese, cap. XXIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Fluidos',
   },
   {
@@ -101,7 +101,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Espíritos evoluídos frequentemente se comunicam para ensinar, orientar e consolar os encarnados.',
     reference: 'O Livro dos Médiuns, cap. XXIV',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade',
   },
   {
@@ -111,7 +111,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A felicidade real decorre do equilíbrio moral, do esforço espiritual e da prática do bem, não apenas de posses.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. V',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução espiritual',
   },
   {
@@ -121,7 +121,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Qualquer pessoa pode sofrer influência de espíritos obsessores, independente de nível mediúnico.',
     reference: 'O Livro dos Médiuns, cap. XXV',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade',
   },
   {
@@ -131,7 +131,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O estudo espírita da Bíblia visa compreender os ensinamentos morais de Jesus e aplicá-los na vida cotidiana.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. I',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Bíblia',
   },
   {
@@ -141,7 +141,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Espíritos podem assumir formas perceptíveis aos encarnados, mas não precisam ter aparência física igual à humana.',
     reference: 'O Livro dos Espíritos, q. 47',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Espíritos',
   },
   {
@@ -151,7 +151,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Todos os espíritos possuem livre-arbítrio, mas as consequências de suas escolhas variam conforme a evolução moral.',
     reference: 'O Livro dos Espíritos, q. 625',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Livre-arbítrio',
   },
   {
@@ -161,7 +161,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     correct: true,
     explanation: 'A doutrina espírita enfatiza o aprendizado através da prática consciente do bem.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. VI',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Moral prática',
   },
   {
@@ -172,7 +172,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Kardec enfatiza que a fé deve ser complementada pelo estudo racional e observação dos fenômenos.',
     reference: 'O Livro dos Espíritos, Prefácio',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Ciência e Espiritismo',
   },
   {
@@ -182,7 +182,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Ações de amor e caridade fortalecem o perispírito e contribuem para a evolução moral do espírito.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XI',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Perispírito',
   },
   {
@@ -192,7 +192,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Espíritos possuem consciência, vontade e sentimentos, que evoluem conforme seu progresso moral.',
     reference: 'O Livro dos Espíritos, q. 33',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Espíritos',
   },
   {
@@ -202,7 +202,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A mediunidade deve ser usada com responsabilidade, para aprendizado, auxílio e serviço ao próximo.',
     reference: 'O Livro dos Médiuns, cap. I',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade',
   },
   {
@@ -213,7 +213,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Jesus ensina que as provas tornam-se leves quando suportadas com fé e confiança na bondade divina.',
     reference: 'Mateus 11:30 / O Evangelho Segundo o Espiritismo, cap. VI',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Consolo e Esperança',
   },
   {
@@ -223,7 +223,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O progresso do espírito ocorre gradualmente através do aprendizado, prática do bem e experiências sucessivas.',
     reference: 'O Livro dos Espíritos, q. 158',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -233,7 +233,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O espírito progride gradualmente; cada encarnação oferece oportunidades de aprendizado e evolução moral.',
     reference: 'O Livro dos Espíritos, q. 159',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Evolução Espiritual',
   },
   {
@@ -243,7 +243,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A obsessão pode ocorrer por espíritos inferiores ou até por espíritos que não estão plenamente conscientes, e depende da sintonia do encarnado.',
     reference: 'O Livro dos Médiuns, cap. XXV',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Mediunidade',
   },
   {
@@ -253,7 +253,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Pensamentos negativos geram alterações nos fluidos e no perispírito, influenciando também a saúde física e emocional.',
     reference: 'A Gênese, cap. XXIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Fluidos',
   },
   {
@@ -263,7 +263,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O espiritismo valoriza a fé raciocinada e o estudo, aliando razão e sentimento para compreender os ensinamentos.',
     reference: 'O Livro dos Espíritos, Prefácio',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Ciência e Espiritismo',
   },
   {
@@ -273,7 +273,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A mediunidade é uma faculdade natural, mas o nível moral do médium pode variar, exigindo cuidado e disciplina.',
     reference: 'O Livro dos Médiuns, cap. I',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade',
   },
   {
@@ -283,7 +283,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Espíritos possuem sentimentos e consciência, evoluindo moralmente através de suas experiências.',
     reference: 'O Livro dos Espíritos, q. 33',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Espíritos',
   },
   {
@@ -293,7 +293,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A prática da caridade beneficia tanto quem recebe quanto quem pratica, fortalecendo o espírito e o perispírito.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XI',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -304,7 +304,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Mesmo diante da dor, Jesus expressou compaixão pelos que o feriam, ensinando o perdão em seu grau mais elevado.',
     reference: 'Lucas 23:34 / O Evangelho Segundo o Espiritismo, cap. X',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Amor e Perdão',
   },
   {
@@ -315,7 +315,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Todas as escolhas exercidas pelo livre-arbítrio têm consequências morais e espirituais, influenciando a evolução.',
     reference: 'O Livro dos Espíritos, q. 625',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Livre-arbítrio',
   },
   {
@@ -325,7 +325,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A mediunidade de cura exige disciplina, estudo e preparação moral, além de sintonia espiritual.',
     reference: 'O Livro dos Médiuns, cap. XIX',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade',
   },
   {
@@ -335,7 +335,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Espíritos podem se comunicar de diversas formas: sonhos, intuições, sinais e, claro, através da mediunidade.',
     reference: 'O Livro dos Médiuns, cap. III',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade',
   },
   {
@@ -345,7 +345,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A evolução depende da prática moral, aprendizado das experiências e esforços conscientes do espírito.',
     reference: 'O Livro dos Espíritos, q. 158',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -356,7 +356,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A frase adverte sobre a incompatibilidade entre a ambição material e a dedicação sincera aos valores espirituais.',
     reference: 'Mateus 6:24 / O Evangelho Segundo o Espiritismo, cap. XVI',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Desapego Material',
   },
   {
@@ -367,7 +367,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O perispírito é veículo de energias que podem afetar tanto o médium quanto outras pessoas, conforme a sintonia moral e emocional.',
     reference: 'A Gênese, cap. XXIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Perispírito',
   },
   {
@@ -378,7 +378,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A fé deve ser acompanhada de ação, esforço e perseverança na busca do crescimento moral e espiritual.',
     reference: 'Mateus 7:7 / O Evangelho Segundo o Espiritismo, cap. XIX',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Fé Raciocinada',
   },
   {
@@ -388,7 +388,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O estudo é fundamental, mas a prática do bem e a transformação moral são essenciais para a evolução.',
     reference: 'O Livro dos Espíritos, q. 628',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -399,7 +399,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Os fluidos podem ser dirigidos pelo pensamento e pela ação moral, influenciando o ambiente e as pessoas.',
     reference: 'A Gênese, cap. XXIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Fluidos',
   },
   {
@@ -410,7 +410,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O estudo espírita da Bíblia visa compreender ensinamentos morais aplicáveis à vida cotidiana.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. I',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Bíblia',
   },
   {
@@ -420,7 +420,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O espírito mantém sua individualidade, consciência e sentimentos após a desencarnação.',
     reference: 'O Livro dos Espíritos, q. 33',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Espíritos',
   },
   {
@@ -430,7 +430,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A mediunidade se desenvolve com estudo, disciplina, prática moral e sintonia espiritual.',
     reference: 'O Livro dos Médiuns, cap. I',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade',
   },
   {
@@ -441,7 +441,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O exercício da caridade e do bem promove equilíbrio moral, fluídico e energético, beneficiando a si e aos outros.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XI',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Perispírito',
   },
   {
@@ -451,7 +451,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O espiritismo recomenda a fé raciocinada, unindo razão e sentimento para compreender os ensinamentos.',
     reference: 'O Livro dos Espíritos, Prefácio',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Ciência e Espiritismo',
   },
   {
@@ -462,7 +462,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O estudo consciente e a reflexão sobre o próprio comportamento aceleram o progresso do espírito.',
     reference: 'O Livro dos Espíritos, q. 158',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -473,7 +473,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Jesus falava da libertação espiritual, alcançada pelo conhecimento da verdade divina e pela vivência moral.',
     reference: 'João 8:32 / O Evangelho Segundo o Espiritismo, cap. VI',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Interpretação Espiritual',
   },
   {
@@ -484,7 +484,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Jesus mostra que o verdadeiro próximo é aquele que pratica o amor e a compaixão, sem distinções.',
     reference: 'Lucas 10:25-37 / O Evangelho Segundo o Espiritismo, cap. XV',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Amor ao Próximo',
   },
   {
@@ -495,7 +495,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Na visão espírita, o Reino dos Céus é um estado íntimo de elevação moral e espiritual, não um local geográfico.',
     reference: 'Lucas 17:21 / O Céu e o Inferno, cap. II',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Vida Espiritual',
   },
   {
@@ -506,7 +506,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Ela simboliza o retorno do espírito ao caminho do bem após seus desvios, sempre acolhido pelo amor divino.',
     reference: 'Lucas 15:11-32 / O Evangelho Segundo o Espiritismo, cap. V',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Arrependimento e Perdão',
   },
   {
@@ -516,7 +516,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'As curas também têm sentido simbólico: representam a iluminação interior e a libertação da ignorância espiritual.',
     reference: 'João 9:1-41 / A Gênese, cap. XV',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Curas de Jesus',
   },
   {
@@ -527,7 +527,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Jesus ensinava a mansidão como força moral e domínio interior, não como fraqueza ou submissão.',
     reference: 'Mateus 5:5 / O Evangelho Segundo o Espiritismo, cap. IX',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Sermão do Monte',
   },
   {
@@ -538,7 +538,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Cada talento representa dons e oportunidades que devem ser utilizados para o bem e o progresso.',
     reference: 'Mateus 25:14-30 / O Evangelho Segundo o Espiritismo, cap. XVI',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Responsabilidade Espiritual',
   },
   {
@@ -549,7 +549,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Jesus referia-se à natureza espiritual de sua missão, que transcende o poder material e político.',
     reference: 'João 18:36 / O Evangelho Segundo o Espiritismo, cap. II',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Reino de Deus',
   },
   {
@@ -560,7 +560,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Mais que um milagre material, é uma lição sobre solidariedade e confiança na providência divina.',
     reference: 'Mateus 14:13-21 / A Gênese, cap. XV',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Milagres de Jesus',
   },
   {
@@ -571,7 +571,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Esse gesto ensina que a verdadeira grandeza está em servir com amor e simplicidade.',
     reference: 'João 13:1-17 / O Evangelho Segundo o Espiritismo, cap. XIII',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Humildade e Serviço',
   },
   {
@@ -582,7 +582,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O sal representa o valor moral e a pureza do espírito que deve preservar o mundo do egoísmo e da corrupção.',
     reference: 'Mateus 5:13 / O Evangelho Segundo o Espiritismo, cap. V',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Moral Evangélica',
   },
   {
@@ -593,7 +593,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Cada tipo de solo representa o coração humano e sua receptividade à palavra de Deus.',
     reference: 'Mateus 13:1-23 / O Evangelho Segundo o Espiritismo, cap. XVII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Ensinos Morais',
   },
   {
@@ -603,7 +603,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Ele ensinou o amor universal, que combate o mal com o bem, sem alimentar o ódio ou o desejo de vingança.',
     reference: 'Mateus 5:44 / O Evangelho Segundo o Espiritismo, cap. XII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Amor e Perdão',
   },
   {
@@ -614,7 +614,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A cruz simboliza o dever moral, o sacrifício consciente e a superação das provas com amor e resignação.',
     reference: 'Mateus 16:24 / O Evangelho Segundo o Espiritismo, cap. VI',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Provas e Expiações',
   },
   {
@@ -625,7 +625,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O azeite representa a luz interior, a vigilância moral e o preparo espiritual para o chamado divino.',
     reference: 'Mateus 25:1-13 / O Evangelho Segundo o Espiritismo, cap. XVIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Vigilância Espiritual',
   },
   {
@@ -635,7 +635,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O Espiritismo se apresenta como ciência de observação e se apoia na razão e na experimentação dos fenômenos espirituais.',
     reference: 'O Livro dos Médiuns, Introdução',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Ciência e Espiritismo',
   },
   {
@@ -646,7 +646,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Kardec defendia o método experimental na análise dos fenômenos espirituais, baseando-se na observação e na repetição dos fatos.',
     reference: 'O Livro dos Médiuns, cap. I',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Método Científico',
   },
   {
@@ -656,7 +656,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A Doutrina Espírita ensina que os milagres não existem como exceções, mas são manifestações de leis naturais ainda não compreendidas.',
     reference: 'A Gênese, cap. XIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Leis Naturais',
   },
   {
@@ -667,7 +667,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Os fluidos são elementos do mundo espiritual e podem ser modificados pela vontade e pelo pensamento, conforme os ensinos de Kardec.',
     reference: 'A Gênese, cap. XIV',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Fluidos Espirituais',
   },
   {
@@ -677,7 +677,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A mediunidade é um fenômeno natural, resultante da interação entre o mundo espiritual e o corporal através de leis universais.',
     reference: 'O Livro dos Médiuns, cap. II',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade',
   },
   {
@@ -688,7 +688,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Ambas as evoluções estão interligadas; o progresso do corpo acompanha o aperfeiçoamento do Espírito.',
     reference: 'A Gênese, cap. XI',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -699,7 +699,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O perispírito é um envoltório semimaterial formado pelos elementos do fluido universal, adaptados a cada mundo.',
     reference: 'O Livro dos Espíritos, q. 93-95',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Perispírito',
   },
   {
@@ -709,7 +709,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A fé espírita é racional e baseada na compreensão das leis divinas e na verificação dos fatos observáveis.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XIX',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Fé raciocinada',
   },
   {
@@ -720,7 +720,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Kardec interpreta a criação divina como um processo contínuo, em harmonia com as descobertas científicas.',
     reference: 'A Gênese, cap. VI',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Criação e Ciência',
   },
   {
@@ -731,7 +731,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Esses fenômenos são reais e podem ser observados sob certas condições fluídicas, segundo as leis naturais descritas por Kardec.',
     reference: 'A Gênese, cap. XIV',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Fenômenos Mediúnicos',
   },
   {
@@ -742,7 +742,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O magnetismo é a base de muitos fenômenos espíritas, pois o pensamento e a vontade atuam sobre os fluidos vitais.',
     reference: 'O Livro dos Médiuns, cap. IV',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Magnetismo e Fluido Vital',
   },
   {
@@ -753,7 +753,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O Espiritismo não busca provar Deus materialmente, mas demonstrar Sua existência pelas leis morais e pela ordem universal.',
     reference: 'A Gênese, cap. II',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Deus e Leis Naturais',
   },
   {
@@ -764,7 +764,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O Espiritismo apresenta a reencarnação como lei natural que explica as desigualdades e aptidões entre os homens.',
     reference: 'O Livro dos Espíritos, q. 171',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Reencarnação',
   },
   {
@@ -775,7 +775,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A Doutrina Espírita valoriza a ciência e entende que a verdade é progressiva, harmonizando moral e razão.',
     reference: 'A Gênese, cap. I',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Ciência e Moral',
   },
   {
@@ -786,7 +786,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O pensamento é força criadora e atua sobre os fluidos, moldando as formas e influenciando ambientes espirituais e físicos.',
     reference: 'A Gênese, cap. XIV',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Poder do Pensamento',
   },
   {
@@ -797,7 +797,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Os Espíritos são seres dotados de um corpo fluídico, sujeitos a leis próprias do mundo espiritual, que também é regido por ordem e harmonia.',
     reference: 'O Livro dos Espíritos, q. 82-85',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Natureza dos Espíritos',
   },
   {
@@ -807,7 +807,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A sintonia moral e psíquica do médium interfere diretamente na qualidade das comunicações espirituais.',
     reference: 'O Livro dos Médiuns, cap. XX',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade',
   },
   {
@@ -818,7 +818,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A Doutrina Espírita ensina que ambos caminham juntos e que o progresso moral é necessário para o bom uso do progresso científico.',
     reference: 'A Gênese, cap. XVIII',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Progresso da Humanidade',
   },
   {
@@ -829,7 +829,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A partir da análise sistemática dos fenômenos mediúnicos, Kardec estabeleceu princípios racionais sobre a vida espiritual.',
     reference: 'O Livro dos Médiuns, Introdução',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Leis Espirituais',
   },
   {
@@ -840,7 +840,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Kardec previu que fé e razão caminharão juntas, pois ambas buscam a verdade sob aspectos complementares.',
     reference: 'A Gênese, cap. I',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Ciência e Fé',
   },
   {
@@ -851,7 +851,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O perispírito é o envoltório semimaterial que liga o Espírito à matéria, mas não é idêntico ao corpo físico (é fluídico e etéreo) e é normalmente invisível aos olhos carnais, exceto em certas manifestações mediúnicas ou por clarividência.',
     reference: 'O Livro dos Espíritos, q. 93; A Gênese, cap. XIV, itens 1-3',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Fluidos e Perispírito',
   },
   {
@@ -862,7 +862,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O Espírito conserva seu livre-arbítrio mesmo na erraticidade, sendo ele quem escolhe o gênero de provas que julga mais apropriado para o seu progresso, podendo, no entanto, errar na escolha. Uma vez encarnado, o livre-arbítrio manifesta-se a todo instante nas decisões morais do dia a dia.',
     reference: 'O Livro dos Espíritos, q. 258, 843',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Reencarnação e Leis Morais',
   },
   {
@@ -873,7 +873,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Existe a mediunidade "mecânica" ou "inconsciente", na qual o médium não tem consciência do que escreve, atuando apenas como um instrumento. Na mediunidade "intuitiva" ou "semimecânica", há um maior envolvimento da mente do médium, mas na pura psicografia mecânica, ele não compreende a mensagem.',
     reference: 'O Livro dos Médiuns, cap. XV, itens 179-181',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Mediunidade e Suas Nuances',
   },
   {
@@ -884,7 +884,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A máxima "Fora da caridade não há salvação" é interpretada por Kardec como benevolência para com todos, indulgência para as imperfeições alheias e perdão das ofensas. A caridade material é apenas uma de suas formas.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XV, item 5',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -893,9 +893,9 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
       'Os Espíritos mais evoluídos só se comunicam por meio de médiuns que alcançaram a mesma pureza moral?',
     correct: false,
     explanation:
-      'Embora a sintonia moral seja crucial, Espíritos superiores podem se comunicar por intermédio de médiuns imperfeitos, se for para o bem geral ou para a instrução. No entanto, o médium moralizado atrai comunicações mais elevadas de forma mais consistente.',
+      'Embora a sintonia moral seja crucial, Espíritos superiores podem se comunicar por interMédio de médiuns imperfeitos, se for para o bem geral ou para a instrução. No entanto, o médium moralizado atrai comunicações mais elevadas de forma mais consistente.',
     reference: 'O Livro dos Médiuns, cap. XX, item 228',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade e Suas Nuances',
   },
   {
@@ -906,7 +906,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O Espiritismo é contrário à pena de morte, argumentando que a reencarnação é um meio de progresso e que a morte prematura, por punição, impede a reparação e o arrependimento nesta vida, transferindo o problema para a vida espiritual em vez de resolvê-lo na Terra.',
     reference: 'O Livro dos Espíritos, q. 763',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Reencarnação e Leis Morais',
   },
   {
@@ -917,7 +917,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O perispírito é o agente de transmissão de sensações e o depositário das impressões. Ele sofre o reflexo do estado moral e mental do Espírito, podendo gerar estigmas, lesões (doenças) ou influenciar o corpo físico. O pensamento atua sobre os fluidos e o perispírito.',
     reference: 'A Gênese, cap. XIV, item 36; cap. XV, item 3-5',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Fluidos e Perispírito',
   },
   {
@@ -928,7 +928,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Embora o termo não seja amplamente usado por Kardec, o conceito de Espíritos reunidos por simpatia ou para expiações e tarefas mútuas (como nações, famílias, grupos em calamidades) está implícito nos estudos sobre a afinidade e as provas coletivas.',
     reference: 'O Livro dos Espíritos, q. 379; Obras Póstumas, A Reencarnação',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Reencarnação e Leis Morais',
   },
   {
@@ -939,7 +939,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Embora a fraqueza moral (falhas e vícios) seja a "porta aberta" para a obsessão, ela é um fenômeno complexo que exige a ação malévola de um Espírito obsessor. É uma ação recíproca, mas não depende *exclusivamente* da moral do obsediado.',
     reference: 'O Livro dos Médiuns, cap. XXIII, itens 237, 246',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Mediunidade e Suas Nuances',
   },
   {
@@ -951,7 +951,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
       'Kardec define o Espiritismo como "ciência e filosofia", mas com consequências morais que o elevam à categoria de religião. O Espiritismo é um "corpo de Doutrina que tem uma base científica (fenômenos), filosófica (moral e destino) e religiosa (crença em Deus e imortalidade)".',
     reference:
       'O Evangelho Segundo o Espiritismo, Introdução; Obras Póstumas, "O Espiritismo e a Religião"',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Relação Ciência-Religião-Filosofia',
   },
   {
@@ -962,7 +962,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A mediunidade (faculdade) independe da moralidade. Um médium pode possuir a faculdade de cura (em geral, por fluidos) e não ter uma moral ilibada, embora a moralidade seja essencial para ser um "bom" médium e atrair Espíritos elevados.',
     reference: 'O Livro dos Médiuns, cap. XIV, item 166; cap. XX, item 228',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade e Suas Nuances',
   },
   {
@@ -973,7 +973,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Os Espíritos influenciam nossos pensamentos e ações muito mais do que imaginamos, dirigindo-os, muitas vezes, sem que tenhamos consciência. Eles se misturam à nossa vida e nos aconselham para o bem ou para o mal.',
     reference: 'O Livro dos Espíritos, q. 459',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Mediunidade e Suas Nuances',
   },
   {
@@ -984,7 +984,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A reparação é proporcional à falta. Se as faltas foram graves ou prolongadas, o resgate pode exigir diversas existências e provas variadas, refletindo a justiça e a misericórdia de Deus.',
     reference: 'O Livro dos Espíritos, q. 1000',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Reencarnação e Leis Morais',
   },
   {
@@ -995,7 +995,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O fluido vital é uma modificação do Fluido Cósmico Universal, servindo de princípio de vida. Ele pode ser transmitido ou retirado e é manipulado pelos Espíritos para curas e fenômenos de efeitos físicos, como o passe magnético.',
     reference: 'A Gênese, cap. VI, itens 10, 11, 14, 15',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Fluidos e Perispírito',
   },
   {
@@ -1006,7 +1006,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O pensamento e a vontade atuam sobre os fluidos espirituais, modificando-os e transmitindo-os. A oração, como ato de pensamento, atrai a assistência de Espíritos benfeitores e atua sobre os fluidos curadores.',
     reference: 'A Gênese, cap. XIV, itens 17, 30; cap. XV, itens 3-5',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Aplicação na Vida Cotidiana',
   },
   {
@@ -1017,7 +1017,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O progresso é individual e a velocidade depende do livre-arbítrio e dos esforços do Espírito. Não há um número fixo ou predeterminado de reencarnações, nem um limite para o progresso moral e intelectual.',
     reference: 'O Livro dos Espíritos, q. 115, 120',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Evolução Espiritual',
   },
   {
@@ -1028,7 +1028,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'A interpretação espírita é que se deve honrar as leis da sociedade (César), mas sem que estas contrariem a Lei de Deus. O dever principal do Espírito é para com Deus, e os deveres sociais e espirituais se entrelaçam na prática da moral no dia a dia.',
     reference: 'O Evangelho Segundo o Espiritismo, cap. XX, item 6 ("Dai a César...")',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Interpretação Espírita da Bíblia',
   },
   {
@@ -1039,7 +1039,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O progresso é duplo: intelectual e moral. Enquanto o conhecimento liberta o Espírito, a moralidade o purifica. Para a perfeição, é necessário o equilíbrio, sendo o progresso moral o mais importante para a felicidade e o ingresso nas ordens superiores.',
     reference: 'O Livro dos Espíritos, q. 112, 114, 117',
-    difficulty: 'médio',
+    difficulty: 'Médio',
     topic: 'Evolução Espiritual',
   },
   {
@@ -1050,7 +1050,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'Os Espíritos respondem claramente que o Espírito, uma vez atingido o grau humano, não retrocede jamais. O caminho de progressão é único e, após o reino animal, a alma passa ao estágio humano, não havendo possibilidade de regressão.',
     reference: 'O Livro dos Espíritos, q. 607',
-    difficulty: 'fácil',
+    difficulty: 'Fácil',
     topic: 'Reencarnação e Leis Morais',
   },
   {
@@ -1061,7 +1061,7 @@ export const truthOrFalseQuestions: ITruthOrFalseQuestion[] = [
     explanation:
       'O fluido cósmico universal é o elemento primordial, a substância elementar de onde provém toda a matéria e os fluidos. Ele se condensa e se modifica, formando o perispírito (fluido espiritual) e a matéria tangível.',
     reference: 'A Gênese, cap. VI, item 10',
-    difficulty: 'difícil',
+    difficulty: 'Difícil',
     topic: 'Fluidos e Perispírito',
   },
 ];

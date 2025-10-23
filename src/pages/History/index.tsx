@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { FlatList, ScrollView, View, Text, Image, SafeAreaView, ImageStyle } from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  ImageStyle,
+  ActivityIndicator,
+} from 'react-native';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from '@/components/Header';
@@ -9,11 +18,11 @@ import { BottomNavigation } from '@/components/BottomNavigation';
 import { ProgressListItem } from '@/components/ProgressListItem';
 import { ButtonFilterProgress } from '@/components/ButtonFilterProgress';
 import { ButtonAction } from '@/components/ButtonAction';
-import { Loading } from '@/components/Loading';
 import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { getProgressStyles } from './styles';
 import { IUserHistory } from '@/models/UsersHistory';
 import { getUserHistory } from '@/services/firestore';
+import { useTheme } from '@/hooks/useTheme';
 import { useAppStore } from '@/hooks/useAppStore';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -21,6 +30,7 @@ import { PrivateStackParamList } from '@/routes/PrivateStack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function History() {
+  const theme = useTheme();
   const styles = useThemedStyles(getProgressStyles);
   const insets = useSafeAreaInsets();
   const { user } = useAppStore();
@@ -86,8 +96,14 @@ export function History() {
         <SafeAreaView style={[styles.container, { paddingBottom: insets.bottom }]}>
           <View style={styles.wrapper}>
             <Header onPress={() => navigation.goBack()} title="Histórico" />
-            <Loading />
+            <Text style={styles.subtitle}>
+              Selecione uma categoria para conferir o seu progresso nos quizes
+            </Text>
+            <View style={{ height: 500, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator color={theme.colors.primary} size="large" />
+            </View>
           </View>
+          <BottomNavigation />
         </SafeAreaView>
       </GradientContainer>
     );

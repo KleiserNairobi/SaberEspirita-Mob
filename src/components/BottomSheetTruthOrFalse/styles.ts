@@ -21,7 +21,7 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       fontFamily: theme.fontFamily.semibold,
     },
     topic: {
-      color: theme.colors.titleLight,
+      color: theme.colors.cardSubcategorySubtitle,
       fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.medium,
     },
@@ -33,20 +33,21 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       fontFamily: theme.fontFamily.regular,
     },
     boxButton: {
-      marginTop: theme.vSpacings.md,
+      marginTop: theme.vSpacings.lg,
       justifyContent: 'center',
       flexDirection: 'row',
     },
     button: {
-      width: scale(100),
+      width: scale(120),
       padding: scale(6),
       borderRadius: 18,
       alignItems: 'center',
       marginLeft: 10,
-      backgroundColor: theme.colors.primary,
+      borderWidth: 2,
+      borderColor: theme.colors.firstPlace,
     },
     titleButton: {
-      color: theme.colors.titleBlack,
+      color: theme.colors.firstPlace,
       fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },
@@ -64,14 +65,20 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
     },
     response: {
       color: theme.colors.titleNormal,
-      fontSize: theme.fontSizes.md,
+      fontSize: theme.fontSizes.sm,
       fontFamily: theme.fontFamily.medium,
+    },
+    boxReference: {
+      flexDirection: 'row',
+      marginTop: theme.vSpacings.sm,
+      alignItems: 'center',
+      paddingHorizontal: theme.hSpacings.xs,
     },
     reference: {
       marginTop: theme.vSpacings.xs,
       paddingHorizontal: theme.hSpacings.xs,
       color: theme.colors.cardSubcategorySubtitle,
-      fontSize: theme.fontSizes.sm,
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.regularItalic,
     },
     boxDifficulty: {
@@ -84,9 +91,21 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       marginBottom: 4,
     },
     difficulty: {
-      // paddingTop: 4,
       color: theme.colors.cardSubcategorySubtitle,
-      fontSize: theme.fontSizes.sm,
+      fontSize: theme.fontSizes.xs,
       fontFamily: theme.fontFamily.regular,
+    },
+    btnDifficulty: {
+      width: scale(120),
+      padding: scale(6),
+      borderRadius: 18,
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: theme.colors.toggleBorderActive,
+    },
+    txtDifficulty: {
+      color: theme.colors.toggleBorderActive,
+      fontSize: theme.fontSizes.md,
+      fontFamily: theme.fontFamily.medium,
     },
   });

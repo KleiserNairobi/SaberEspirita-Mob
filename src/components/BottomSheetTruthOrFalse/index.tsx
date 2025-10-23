@@ -11,10 +11,9 @@ type Props = {
   question: string;
   correct: boolean;
   explanation: string;
-  difficulty: 'fácil' | 'médio' | 'difícil';
+  difficulty: 'Fácil' | 'Médio' | 'Difícil';
   reference: string;
   userAnswer: boolean | null;
-  // isCorrect: boolean | null;
   onAnswer?: (userAnswer: boolean) => void;
   onClose?: () => void;
 };
@@ -28,7 +27,6 @@ export function BottomSheetTruthOrFalse({
   difficulty,
   reference,
   userAnswer,
-  // isCorrect,
   onAnswer,
   onClose,
 }: Props) {
@@ -73,7 +71,19 @@ export function BottomSheetTruthOrFalse({
         // Mostra o resultado (usuário já respondeu)
         <>
           <View style={[styles.row, { marginTop: 10 }]}>
-            <Icon name="question-fill" size={scale(46)} color={theme.colors.primary} />
+            {userAnswer === correct ? (
+              <Icon
+                name="checkbox-circle-line"
+                color={theme.colors.optionSuccessBorder}
+                size={scale(42)}
+              />
+            ) : (
+              <Icon
+                name="close-circle-line"
+                color={theme.colors.optionErrorBorder}
+                size={scale(42)}
+              />
+            )}
             <View style={styles.column}>
               <View style={styles.answerSummary}>
                 <Text style={styles.response}>
@@ -92,14 +102,19 @@ export function BottomSheetTruthOrFalse({
             </View>
           </View>
           <Text style={styles.explanation}>{explanation}</Text>
-          <Text style={styles.reference}>{reference}</Text>
 
-          <View style={styles.boxDifficulty}>
-            <View style={styles.separator} />
-            <Text style={styles.difficulty}>Nível: {difficulty}</Text>
+          <View style={styles.boxReference}>
+            <Icon
+              name="git-repository-line"
+              color={theme.colors.cardSubcategorySubtitle}
+              size={scale(20)}
+            />
+            <Text style={styles.reference}>{reference}</Text>
           </View>
-
           <View style={styles.boxButton}>
+            <View style={styles.btnDifficulty}>
+              <Text style={styles.txtDifficulty}>Nível: {difficulty}</Text>
+            </View>
             <TouchableOpacity style={styles.button} onPress={onClose}>
               <Text style={styles.titleButton}>Fechar</Text>
             </TouchableOpacity>
