@@ -31,36 +31,34 @@ export function Finish() {
   } = route.params;
 
   function getPerformanceMessage(percentage: number): any {
-    // Parabéns, querido estudante!
-    let title = `O verdadeiro prêmio\n é o conhecimento.`;
-    let message = `Revise as explicações para\n consolidar seu aprendizado.`;
+    let title = `Parabéns, querido estudante!`;
+
     if (percentage >= 90) {
       return {
         image: FourStars,
         title: title,
-        message: message,
-        // "Seu entendimento é brilhante! Revisite as explicações para solidificar ainda mais este conhecimento e adicioná-lo à sua biblioteca."
+        message:
+          'Seu entendimento é brilhante! Revisite as explicações para solidificar ainda mais este conhecimento.',
       };
     } else if (percentage >= 70) {
       return {
         image: ThreeStars,
         title: title,
-        message: message,
-        // "Bom trabalho! Aproveite para revisar os detalhes e salvar os conceitos mais importantes na sua biblioteca para estudo futuro."
+        message: 'Bom trabalho! Aproveite para revisar os detalhes dos conceitos mais importantes.',
       };
     } else if (percentage >= 50) {
       return {
         image: TwoStars,
         title: title,
-        message: message,
-        // Ótimo exercício de aprendizado! Esta é uma oportunidade perfeita para estudar as explicações e enriquecer sua biblioteca pessoal."
+        message:
+          'Ótimo exercício de aprendizado! Esta é uma oportunidade perfeita para estudar as explicações.',
       };
     } else {
       return {
         image: OneStar,
         title: title,
-        message: message,
-        // "A jornada do conhecimento começa com um passo. Explore as explicações doutrinárias - cada uma que você salvar é um tesouro para sua evolução."
+        message:
+          'A jornada do conhecimento começa com um passo. Explore as explicações doutrinárias para sua evolução.',
       };
     }
   }

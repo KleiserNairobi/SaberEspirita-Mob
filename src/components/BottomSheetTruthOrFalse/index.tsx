@@ -113,7 +113,7 @@ export function BottomSheetTruthOrFalse({
           </View>
           <View style={styles.boxButton}>
             <View style={styles.btnDifficulty}>
-              <Text style={styles.txtDifficulty}>Nível: {difficulty}</Text>
+              <Text style={styles.txtDifficulty}>Nível | {difficulty}</Text>
             </View>
             <TouchableOpacity style={styles.button} onPress={onClose}>
               <Text style={styles.titleButton}>Fechar</Text>

@@ -38,7 +38,7 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       flexDirection: 'row',
     },
     button: {
-      width: scale(120),
+      width: scale(140),
       padding: scale(6),
       borderRadius: 18,
       alignItems: 'center',
@@ -72,10 +72,11 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       flexDirection: 'row',
       marginTop: theme.vSpacings.sm,
       alignItems: 'center',
+      justifyContent: 'flex-start',
       paddingHorizontal: theme.hSpacings.xs,
     },
     reference: {
-      marginTop: theme.vSpacings.xs,
+      // marginTop: theme.vSpacings.xs,
       paddingHorizontal: theme.hSpacings.xs,
       color: theme.colors.cardSubcategorySubtitle,
       fontSize: theme.fontSizes.xs,
@@ -96,7 +97,7 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       fontFamily: theme.fontFamily.regular,
     },
     btnDifficulty: {
-      width: scale(120),
+      width: scale(140),
       padding: scale(6),
       borderRadius: 18,
       alignItems: 'center',
