@@ -29,7 +29,7 @@
       }
     },
     "android": {
-      "versionCode": 14,
+      "versionCode": 15,
       "package": "app.saberespirita",
       "googleServicesFile": "./dev/configs/google-services.json",
       "adaptiveIcon": {
@@ -46,7 +46,7 @@
       [
         "onesignal-expo-plugin",
         {
-          "mode": "development"
+          "mode": "production"
         }
       ],
       "@react-native-firebase/app",
