@@ -92,7 +92,7 @@ android {
         applicationId 'app.saberespirita'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14
+        versionCode 15
         versionName "1.0.13"
     }
     signingConfigs {
