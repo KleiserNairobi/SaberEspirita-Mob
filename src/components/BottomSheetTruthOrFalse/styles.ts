@@ -9,6 +9,13 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       marginHorizontal: theme.hSpacings.xs,
       flexDirection: 'column',
     },
+    closeButton: {
+      position: 'absolute',
+      top: -24,
+      right: 0,
+      zIndex: 1,
+      padding: scale(8),
+    },
     row: {
       flexDirection: 'row',
       paddingHorizontal: theme.hSpacings.xs,
@@ -44,10 +51,10 @@ export const getBottomSheetMessageStyles = (theme: AppTheme) =>
       alignItems: 'center',
       marginLeft: 10,
       borderWidth: 2,
-      borderColor: theme.colors.firstPlace,
+      borderColor: theme.colors.primary,
     },
     titleButton: {
-      color: theme.colors.firstPlace,
+      color: theme.colors.primary,
       fontSize: theme.fontSizes.md,
       fontFamily: theme.fontFamily.semibold,
     },

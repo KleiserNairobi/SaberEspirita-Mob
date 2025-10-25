@@ -41,15 +41,16 @@ export function BottomSheetTruthOrFalse({
     return answer ? 'Verdade' : 'Mentira';
   }
 
-  function getAnswerColor(answer: boolean) {
-    return answer ? theme.colors.optionSuccessBorder : theme.colors.optionErrorBorder;
-  }
-
   return (
     <View style={styles.container}>
       {userAnswer === null ? (
         // Mostra a pergunta (usuário ainda não respondeu)
         <>
+          {/* Botão fechar fixo no canto superior direito */}
+          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            <Icon name="close-line" size={scale(24)} color={theme.colors.titleNormal} />
+          </TouchableOpacity>
+
           <View style={[styles.row, { marginTop: 10 }]}>
             <Icon name="question-fill" size={scale(46)} color={theme.colors.primary} />
             <View style={styles.column}>
@@ -87,16 +88,10 @@ export function BottomSheetTruthOrFalse({
             <View style={styles.column}>
               <View style={styles.answerSummary}>
                 <Text style={styles.response}>
-                  Você escolheu:{' '}
-                  <Text style={[styles.response, { color: getAnswerColor(userAnswer) }]}>
-                    {getAnswerText(userAnswer)}
-                  </Text>
+                  Você escolheu: <Text style={[styles.response]}>{getAnswerText(userAnswer)}</Text>
                 </Text>
                 <Text style={styles.response}>
-                  Resposta correta:{' '}
-                  <Text style={[styles.response, { color: getAnswerColor(correct) }]}>
-                    {getAnswerText(correct)}
-                  </Text>
+                  Resposta correta: <Text style={[styles.response]}>{getAnswerText(correct)}</Text>
                 </Text>
               </View>
             </View>
