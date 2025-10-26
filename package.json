@@ -7,8 +7,8 @@
     "start": "expo start",
     "prebuild": "expo prebuild",
     "postprebuild": "node dev/scripts/patch-android-signature.js",
-    "build:apk": "expo prebuild && cd android && ./gradlew assembleRelease",
-    "build:aab": "expo prebuild && cd android && ./gradlew bundleRelease",
+    "build:apk": "expo prebuild --platform android && cd android && ./gradlew assembleRelease",
+    "build:aab": "expo prebuild --platform android && cd android && ./gradlew bundleRelease",
     "rename:aab": "node dev/scripts/rename-aab.js"
   },
   "dependencies": {
