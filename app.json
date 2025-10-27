@@ -2,7 +2,7 @@
   "expo": {
     "name": "Saber Espírita",
     "slug": "saber-espirita",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,20 +16,21 @@
       "backgroundColor": "#0C1624"
     },
     "ios": {
-      "buildNumber": "14",
+      "buildNumber": "17",
       "supportsTablet": false,
       "bundleIdentifier": "app.saberespirita",
       "googleServicesFile": "./dev/configs/GoogleService-Info.plist",
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": ["remote-notification"],
+        "NSLocationWhenInUseUsageDescription": "Permita sua localização em uso para receber notificações personalizadas sobre o Saber Espírita."
       },
       "entitlements": {
-        "aps-environment": "development",
+        "aps-environment": "production",
         "com.apple.security.application-groups": ["group.app.saberespirita.onesignal"]
       }
     },
     "android": {
-      "versionCode": 13,
+      "versionCode": 16,
       "package": "app.saberespirita",
       "googleServicesFile": "./dev/configs/google-services.json",
       "adaptiveIcon": {
@@ -46,7 +47,7 @@
       [
         "onesignal-expo-plugin",
         {
-          "mode": "development"
+          "mode": "production"
         }
       ],
       "@react-native-firebase/app",

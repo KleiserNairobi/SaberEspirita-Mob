@@ -50,7 +50,7 @@ export function Categories() {
   const queryClient = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<PrivateStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['1%', '50%'], []);
+  const snapPoints = useMemo(() => ['1%', '54%'], []);
   const { user } = useAppStore();
   const [categoriesWithCompletion, setCategoriesWithCompletion] = useState<ICategory[]>([]);
   const [showTruthOrFalse, setShowTruthOrFalse] = useState(false);
