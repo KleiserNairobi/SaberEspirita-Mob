@@ -147,6 +147,13 @@ export function Menu() {
             onPress={() => navigation.navigate('create')}
           />
           <MenuMore iconName="share-line" title="Compartilhar com amigos" onPress={handleShared} />
+
+          <MenuMore
+            iconName="emotion-happy-line"
+            title="Chat Emocional"
+            onPress={() => navigation.navigate('emotionalChat')}
+          />
+
           <MenuMore iconName="logout-box-r-line" title="Sair" onPress={handleLogout} />
         </View>
         <View style={styles.boxItems}>

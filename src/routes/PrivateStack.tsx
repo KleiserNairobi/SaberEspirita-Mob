@@ -12,6 +12,7 @@ import { CreateQuiz } from '@/pages/Create';
 import { Answers } from '@/pages/Answers';
 import { Score } from '@/pages/Score';
 import { IUserAnswer } from '@/models/UserAnswer';
+import { EmotionalChatScreen } from '@/pages/EmotionalChat';
 
 export type PrivateStackParamList = {
   categories: undefined;
@@ -51,6 +52,7 @@ export type PrivateStackParamList = {
     userAnswers: IUserAnswer[];
   };
   score: undefined;
+  emotionalChat: undefined;
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<PrivateStackParamList>();
@@ -70,6 +72,7 @@ export function PrivateStack() {
       <Screen name="create" component={CreateQuiz} />
       <Screen name="answers" component={Answers} />
       <Screen name="score" component={Score} />
+      <Screen name="emotionalChat" component={EmotionalChatScreen} />
     </Navigator>
   );
 }
