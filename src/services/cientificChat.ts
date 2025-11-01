@@ -1,31 +1,37 @@
-import { loadPromptFromFile } from './promptLoader';
-import { streamCompletion } from './streaming';
+import { ChatService } from '@/models/Chat';
+import { streamDeepSeekChat } from './deepseek';
+import { ChatType } from './promptService';
 
-export async function cientificChatService(
+export const cientificChatService: ChatService = async (
   userMessage: string,
   onChunkReceived: (chunk: string) => void,
   onComplete: (fullResponse: string) => void
-): Promise<void> {
-  try {
-    const sistemaPrompt = await loadPromptFromFile('cientific');
+): Promise<void> => {
+  console.log('🔵 cientificService: Processando mensagem');
 
-    const messages = [
-      {
-        role: 'system',
-        content: sistemaPrompt,
-      },
+  try {
+    const history = [
       {
         role: 'user',
         content: userMessage,
-      },
+      } as const,
     ];
 
-    await streamCompletion(messages, onChunkReceived, onComplete, {
-      temperature: 0.3,
-      max_tokens: 1000,
-    });
+    const stream = await streamDeepSeekChat(history, ChatType.SCIENTIFIC);
+
+    let fullResponse = '';
+
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content || '';
+      if (content) {
+        fullResponse += content;
+        onChunkReceived(content);
+      }
+    }
+
+    onComplete(fullResponse);
   } catch (error) {
-    console.error('Erro no serviço do Allan:', error);
+    console.error('❌ Erro na API DeepSeek:', error);
     throw error;
   }
-}
+};

@@ -49,6 +49,7 @@ export type UseDeepSeekChat = {
   isLoading: boolean;
   error: string | null;
   sendMessage: (message: string) => Promise<void>;
+  clearChat?: () => void;
 };
 
 // Defina seu modelo DeepSeek aqui
