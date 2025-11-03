@@ -37,11 +37,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0C1624"
       },
-      "edgeToEdgeEnabled": true,
-      "edgeToEdge": {
-        "statusBarStyle": "dark",
-        "navigationBarStyle": "dark"
-      }
+      "edgeToEdgeEnabled": true
     },
     "plugins": [
       [

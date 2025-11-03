@@ -99,7 +99,10 @@ export function Subcategories() {
     handleBottomSheetClose();
     if (user?.uid) {
       removeUserCompletedSubcategory(user.uid, idCategory, idSubcategoryState);
-      removeUserHistory(user.uid, user.displayName!, idSubcategoryState);
+
+      // Garante que sempre tenha um nome de usuário, mesmo que displayName esteja vazio
+      const userName = user.displayName || user.email?.split('@')[0] || 'Usuário';
+      removeUserHistory(user.uid, userName, idSubcategoryState);
       goToQuizes(idSubcategoryState, titleSubcategoryState);
     }
   }, [user?.uid, idCategory, idSubcategoryState, titleSubcategoryState, handleBottomSheetClose]);

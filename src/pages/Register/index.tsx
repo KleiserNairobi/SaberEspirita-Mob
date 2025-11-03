@@ -116,10 +116,16 @@ export function Register() {
         inputs.password.trim()
       );
       if (result.user) {
+        // Aguarda a atualização do profile ser concluída
         await result.user.updateProfile({
           displayName: inputs.fullname.trim(),
           // Há outros dados que podem ser atualizados, como a foto do perfil
         });
+
+        // Recarrega o usuário para garantir que o displayName está atualizado
+        await result.user.reload();
+
+        // Agora faz o login com o usuário atualizado
         login();
       }
     } catch (error: any) {

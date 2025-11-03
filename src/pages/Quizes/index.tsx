@@ -170,7 +170,10 @@ export function Quizes() {
 
       if (user?.uid) {
         await saveUserCompletedSubcategories(user.uid, quiz.idCategory, quiz.idSubcategory);
-        await addUserHistory(userHistory, user.displayName!);
+
+        // Garante que sempre tenha um nome de usuário, mesmo que displayName esteja vazio
+        const userName = user.displayName || user.email?.split('@')[0] || 'Usuário';
+        await addUserHistory(userHistory, userName);
       }
 
       navigation.navigate('finish', {
