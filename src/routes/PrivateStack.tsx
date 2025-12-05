@@ -12,6 +12,7 @@ import { CreateQuiz } from '@/pages/Create';
 import { Answers } from '@/pages/Answers';
 import { Score } from '@/pages/Score';
 import { IUserAnswer } from '@/models/UserAnswer';
+import { Home } from '@/pages/Home';
 // import { EmotionalChatScreen } from '@/pages/EmotionalChat';
 
 export type PrivateStackParamList = {
@@ -52,6 +53,7 @@ export type PrivateStackParamList = {
     userAnswers: IUserAnswer[];
   };
   score: undefined;
+  home: undefined;
   // emotionalChat: undefined;
 };
 
@@ -72,6 +74,7 @@ export function PrivateStack() {
       <Screen name="create" component={CreateQuiz} />
       <Screen name="answers" component={Answers} />
       <Screen name="score" component={Score} />
+      <Screen name="home" component={Home} />
       {/* <Screen name="emotionalChat" component={EmotionalChatScreen} /> */}
     </Navigator>
   );
